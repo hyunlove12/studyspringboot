@@ -25,6 +25,9 @@ DROP TABLE IF EXISTS `TB_UNITY_GROUP` RESTRICT;
 -- 첨부 파일
 DROP TABLE IF EXISTS `TB_UNITY` RESTRICT;
 
+-- 스터디 묻고 답하기
+DROP TABLE IF EXISTS `TB_GROUP_QNA` RESTRICT;
+
 -- 회원
 CREATE TABLE `TB_MEMBER` (
 	`ID`       VARCHAR(20) NOT NULL COMMENT '회원ID', -- 회원ID
@@ -101,10 +104,11 @@ CREATE TABLE `TB_PROGRESS_SIT` (
 	`GROUP_ID`     INTEGER  NOT NULL COMMENT '그룹ID', -- 그룹ID
 	`SUBTITLE_ID`  INTEGER  NOT NULL COMMENT '소제목ID', -- 소제목ID
 	`ID`           VARCHAR(30)  NOT NULL COMMENT '회원ID', -- 회원ID
-	`PROGRESS_SIT` VARCHAR(1)   NULL     COMMENT '진행현황', -- 진행현황
+	`PROGRESS_SIT` VARCHAR(500)   NULL     COMMENT '진행현황', -- 진행현황
 	`UNITY_ID`     VARCHAR(100) NULL     COMMENT '첨부파일 GROUP ID', -- 첨부파일 GROUP ID
-	`CON_AT`       VARCHAR(1)   NULL     COMMENT '수행여부', -- 수행여부
-	`REG_DT`       VARCHAR(1)   NULL     COMMENT '등록일' -- 등록일
+	`PROGRESSING`       INTEGER   NULL     COMMENT '수행정도', -- 수행정도
+	`LIMITDATE`       VARCHAR(8)   NULL     COMMENT '완료일자', -- 완료일
+	`REG_DT`       VARCHAR(8)   NULL     COMMENT '등록일' -- 등록일
 )
 COMMENT '참가 인원 별 진행 현황';
 
@@ -182,4 +186,28 @@ ALTER TABLE `TB_UNITY`
 	ADD CONSTRAINT `PK_TB_UNITY` -- 첨부 파일 기본키
 		PRIMARY KEY (
 			`UNITY_ID` -- 첨부파일ID
+		);
+
+-- 스터디 묻고 답하기
+CREATE TABLE `TB_GROUP_QNA` (
+	`GROUP_ID` INT UNSIGNED NOT NULL COMMENT '그룹ID', -- 그룹ID
+	`QNA_ID`   INT UNSIGNED NOT NULL COMMENT '질문번호', -- 질문번호
+	`G_NO`     INTEGER      NOT NULL     COMMENT '그룹번호', -- 그룹번호
+	`TITLE`    VARCHAR(200) NULL     COMMENT '제목', -- 제목
+	`CONTENT`  VARCHAR(300) NULL     COMMENT '내용', -- 내용
+	`REG_DT` VARCHAR(8)   NULL     COMMENT '등록일', -- 등록일
+	`HIT`      INTEGER      NULL     COMMENT '조회수', -- 조회수
+	`O_NO`     INTEGER      NULL     COMMENT '순서', -- 순서
+	`DEPTH`    INTEGER      NULL     COMMENT '글깊이', -- 글깊이
+	`ID`       VARCHAR(30)  NULL     COMMENT '회원번호' -- 회원번호
+)
+COMMENT '스터디 묻고 답하기';
+
+-- 스터디 묻고 답하기
+ALTER TABLE `TB_GROUP_QNA`
+	ADD CONSTRAINT `PK_TB_GROUP_QNA` -- 스터디 묻고 답하기 기본키
+		PRIMARY KEY (
+			`GROUP_ID`, -- 그룹ID
+			`QNA_ID` ,   -- 질문번호
+			`G_NO`    -- 그룹번호
 		);

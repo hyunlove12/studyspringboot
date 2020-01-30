@@ -77,7 +77,7 @@
             <!-- start: Accordion -->
             <div class="accordion" id="accordion">
             
-            	<c:forEach items="${sublist }" var="r">
+            	<c:forEach items="${sublist }" var="r">            		
 	            	<div class="accordion-group">
 		                <div class="accordion-heading">
 		                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#${r.subtitleId }">
@@ -87,7 +87,7 @@
 		                  <div class="accordion-inner">
 			              <pre>${r.contents }
 			              </pre> 
-		                    <a href="#" class="align-right">들어가기</a>
+		                    <a href="/study/studyprocess/${groupId }/${r.subtitleId }" class="align-right">들어가기</a>
 		                    <a href="#" class="align-right">수정하기</a>
 		                  </div>
 		                </div>
@@ -158,68 +158,99 @@
 			<!-- 댓글달기 -->
             <div class="comment-area">
               <h4>4 Comments</h4>
-              <div class="media">
-                <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/img/avatar.png" alt="" class="img-circle" /></a>
-                <div class="media-body">
-                  <div class="media-content">
-                    <h6><span>March 12, 2013</span> Smith karlsen</h6>
-                    <p>
-                      미 참여시 벌금제도 운영하나요?
-                    </p>
-
-                    <a href="#" class="align-right">Reply</a>
-                  </div>
-                  
-                  <div class="media">
-                    <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/img/avatar.png" alt="" class="img-circle" /></a>
-                    <div class="media-body">
-                      <div class="media-content">
-                        <h6><span>June 22, 2013</span> Jay Moeller</h6>
-                        <p>
-                          아니요~~자율 참석이고 자유롭고 토론하며 진행합니다.
-                        </p>
-                        <a href="#" class="align-right">Reply</a>
-                      </div>
-                    </div>
-                  </div>
-                  
-                </div>
+              
+             <c:forEach var="r" items="${replist }">
+	             <div class="row">
+	             	<div class="comment-area">
+		             	<div class="media ${r.gNo == 2?'align-right':''}">
+			                <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/img/avatar.png" alt="" class="img-circle" /></a>
+			                <div class="media-body">
+			                  <div class="media-content">
+			                    <h6><span>${r.regDt }</span> ${r.id }</h6>
+			                    <p>
+			                      ${r.content }
+			                    </p>
+			                    <a href="#" class="align-right">Reply</a>
+			                  </div>                  
+			                </div>
+			              </div>		              
+		              </div>
+	              </div>
+              </c:forEach>
+              
+              <%-- <div class="row">
+              
+	              <div class="media">
+	                <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/img/avatar.png" alt="" class="img-circle" /></a>
+	                <div class="media-body">
+	                  <div class="media-content">
+	                    <h6><span>March 12, 2013</span> Smith karlsen</h6>
+	                    <p>
+	                      미 참여시 벌금제도 운영하나요?
+	                    </p>
+	
+	                    <a href="#" class="align-right">Reply</a>
+	                  </div>
+	                  
+	                  <div class="media">
+	                    <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/img/avatar.png" alt="" class="img-circle" /></a>
+	                    <div class="media-body">
+	                      <div class="media-content">
+	                        <h6><span>June 22, 2013</span> Jay Moeller</h6>
+	                        <p>
+	                          아니요~~자율 참석이고 자유롭고 토론하며 진행합니다.
+	                        </p>
+	                      </div>
+	                    </div>
+	                  </div>
+	                  
+	                </div>
+	              </div>
+	              
+	              
+	              <div class="media">
+	                <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/img/avatar.png" alt="" class="img-circle" /></a>
+	                <div class="media-body">
+	                  <div class="media-content">
+	                    <h6><span>March 12, 2013</span> Smith karlsen</h6>
+	                    <p>
+	                      미 참여시 벌금제도 운영하나요?
+	                    </p>
+	                    <a href="#" class="align-right">Reply</a>
+	                  </div>                  
+	                </div>
+	              </div>
+	              
+	              <div class="media align-right">
+	                <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/img/avatar.png" alt="" class="img-circle" /></a>
+	                <div class="media-body">
+	                  <div class="media-content">
+	                    <h6><span>March 12, 2013</span> Smith karlsen</h6>
+	                    <p>
+	                      미 참여시 벌금제도 운영하나요?
+	                    </p>
+	                    <a href="#" class="align-right">Reply</a>
+	                  </div>                  
+	                </div>
+	              </div>
+              
               </div>
-              <div class="media">
-                <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/img/avatar.png" alt="" class="img-circle" /></a>
-                <div class="media-body">
-                  <div class="media-content">
-                    <h6><span>June 24, 2013</span> Dean Zaloza</h6>
-                    <p>
-                      자리 남아있나요?
-                    </p>
+ --%>
 
-                    <a href="#" class="align-right">Reply</a>
-                  </div>
-                </div>
-              </div>
+
 
               <div class="marginbot30"></div>
-              <h4>Leave your comment</h4>
+              <h4>해당그룹에 질문하기!</h4>
 
-              <form id="commentform" action="#" method="post" name="comment-form">
+              <form id="commentform" action="/study/registqna" method="post" name="comment-form">
+               	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+              	<input type="hidden" name="groupId" value="${vo.groupId }"/>
                 <div class="row">
-                  <div class="span6">
-                    <input type="text" placeholder="* Enter your full name" />
-                  </div>
-                  <div class="span6">
-                    <input type="text" placeholder="* Enter your email address" />
+                  <div class="span12 margintop10">
+                    <input name="content" id="content" type="text" placeholder="질문을 입력하세요" />
                   </div>
                   <div class="span12 margintop10">
-                    <input type="text" placeholder="Enter your website" />
-                  </div>
-                  <div class="span12 margintop10">
-                    <p>
-                      <textarea rows="12" class="input-block-level" placeholder="*Your comment here"></textarea>
-                    </p>
-                    <p>
-                      <button class="btn btn-theme btn-medium margintop10" type="submit">Submit comment</button>
-                    </p>
+                      <button class="btn btn-theme btn-medium margintop10" type="submit">등록</button>
                   </div>
                 </div>
               </form>

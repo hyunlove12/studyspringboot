@@ -70,6 +70,19 @@
         WHERE GROUP_ID = #{groupId }
 	</select>
 	
+	<select id="processview" resultType="com.study.service.StudyVO">
+	    SELECT GROUP_ID AS groupId
+ 		     , SUBTITLE_ID AS subtitleId
+		     , SUBTITLE_NM AS subtitleNm
+		     , SUBTITLE_CREATER AS subtitleCreater
+		     , CONTENTS AS contents
+		     , UNITY_GROUP_ID AS unityGroupId
+		     , REG_DT AS regDt
+	      FROM TB_GROUP_DETAIL
+		 WHERE GROUP_ID = #{groupId }
+		   AND SUBTITLE_ID = #{subtitleId }
+	</select>
+	
 	<insert id="createstudydetail">
 		<selectKey resultType="string" keyProperty="subtitleId" order="BEFORE">
 		    SELECT MAX(IFNULL(GD.SUBTITLE_ID, 0)) + 1 
@@ -81,4 +94,61 @@
 		INSERT INTO TB_GROUP_DETAIL(GROUP_ID, SUBTITLE_ID, SUBTITLE_NM, SUBTITLE_CREATER, CONTENTS, UNITY_GROUP_ID, REG_DT) 
 	   VALUES( #{groupId}, #{subtitleId}, #{subtitleNm}, #{suserId }, #{contents }, #{unityGroupId }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
 	</insert>
+	
+	<insert id="registprogress">
+		INSERT INTO TB_PROGRESS_SIT(GROUP_ID, SUBTITLE_ID, ID, PROGRESS_SIT, UNITY_ID, PROGRESSING, LIMITDATE, REG_DT)
+	    VALUES(#{groupId }, #{subtitleId}, #{suserId }, #{progressSit }, #{unityId }, #{progressing}, #{limitDate}, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
+	</insert>
+	
+	<select id="progressbymember" resultType="com.study.service.StudyVO">	
+		SELECT GROUP_ID AS groupId
+ 			 , SUBTITLE_ID AS subtitleId
+			 , ID AS id
+			 , PROGRESS_SIT AS progressSit
+			 , UNITY_ID AS unityId
+			 , PROGRESSING AS progressing
+			 , LIMITDATE AS limitDate
+			 , REG_DT  AS regDt
+		  FROM TB_PROGRESS_SIT
+ 		 WHERE GROUP_ID = #{groupId }
+		   AND SUBTITLE_ID = #{subtitleId }	
+	</select>
+	
+	<insert id="registqna">
+		<selectKey resultType="string" keyProperty="qnaId" order="BEFORE">
+		    SELECT MAX(IFNULL(GQ.QNA_ID, 0)) + 1 
+			  FROM (SELECT 1 FROM DUAL) D
+			  LEFT OUTER JOIN TB_GROUP_QNA GQ
+   			    ON 1 = 1
+               AND GQ.GROUP_ID = #{groupId}   			    
+    	</selectKey>
+		INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
+		VALUES(#{groupId }, #{qnaId }, #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 1, 1, 1, #{suserId })
+	</insert>
+	
+	<select id="groupreply" resultType="com.study.service.StudyVO">	
+		SELECT GQ.GROUP_ID AS groupId
+ 			 , GQ.QNA_ID AS qnaId
+			 , GQ.TITLE AS title
+			 , GQ.CONTENT AS content
+			 , GQ.REG_DT AS regDt
+			 , GQ.HIT AS hit
+			 , GQ.G_NO AS gNo
+			 , GQ.O_NO AS oNo
+			 , GQ.DEPTH AS depth
+			 , GQ.ID AS id
+			 , GM.GROUP_ROLE AS groupRole 
+		  FROM TB_GROUP_QNA GQ
+		  LEFT OUTER JOIN TB_GROUP_MEMBER GM
+		    ON GQ.ID = GM.ID
+		   AND GQ.GROUP_ID = GM.GROUP_ID
+		 WHERE GQ.GROUP_ID = #{groupId }
+		 ORDER BY GQ.QNA_ID, GQ.G_NO
+	</select>
+	
+	<insert id="replygroup">
+		INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
+		VALUES(#{groupId }, #{qnaId }, #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 2, 2, 2, #{suserId })
+	</insert>
+	
 </mapper>

@@ -53,4 +53,29 @@ public class StudyServiceimpl extends ComServiceimpl<StudyServiceimpl, StudyMapp
 		return studyMapper.createstudydetail(vo);
 	}
 	
+	/* 스터디 그룹 소주제 상세보기 */
+	public StudyVO processview(String groupId, String subtitleId) {
+		return studyMapper.processview(groupId, subtitleId);
+	}
+	
+	/* 진행현황 등록 */
+	public int registprogress(StudyVO vo) {
+		return studyMapper.registprogress(vo);
+	}
+	
+	/* 멤버별 진행 상황 리스트 */
+	public List<StudyVO> progressbymember(String groupId, String subtitleId) {
+		return studyMapper.progressbymember(groupId, subtitleId);
+	}
+	
+	/* 그룹 별 질문하기 등록 */
+	public int registqna(StudyVO vo) {
+		return studyMapper.registqna(vo);
+	}
+	
+	/* 그룹 별 댓글 리스트 */
+	public List<StudyVO> groupreply(String groupId) {
+		return studyMapper.groupreply(groupId);
+	}
+	
 }

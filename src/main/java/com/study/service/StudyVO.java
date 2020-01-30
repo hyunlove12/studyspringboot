@@ -11,6 +11,7 @@ public class StudyVO extends ComVO implements Serializable{
 	 */
 	private static final long serialVersionUID = -1;	
 	
+	
 	private String groupId = "";	// 그룹 ID
 	private String groupNm = "";	// 그룹명
 	private String groupFounder = "";	// 그룹장
@@ -19,14 +20,58 @@ public class StudyVO extends ComVO implements Serializable{
 	private String total = "";	// 가입 가능 인원
 	private String useAt = "";		// 사용 여부
 	private String progressSit = ""; // 진행현황
-	private String conAt = "";	// 수행 여부	
 	private String subtitleId = "";	// 소제목 ID
 	private String subtitleNm = "";	// 소제목
 	private String contents = "";	// 내용
 	private String subtitleCreater = ""; // 소주제 등록자
 	private String groupCount = ""; // 현재 가입 인원
 	private String groupRole = ""; // 그룹 내 역할 - 관리자, 일반 회원
+	private String progressing = ""; // 진행 정도
+	private String limitDate = ""; // 예상 완료 일자
+	private String qnaId =""; // 그룹 내 질문 ID
+	private String title = ""; // 질문 제목
+	private String content = ""; // 질문 내용
+	private String gNo = ""; // 그룹 내 번호
+	private String oNo = ""; // 그룹 내 순서
+	private String depth = ""; // 깊이
 	
+	
+	public String getgNo() {
+		return gNo;
+	}
+	public void setgNo(String gNo) {
+		this.gNo = gNo;
+	}
+	public String getoNo() {
+		return oNo;
+	}
+	public void setoNo(String oNo) {
+		this.oNo = oNo;
+	}
+	public String getDepth() {
+		return depth;
+	}
+	public void setDepth(String depth) {
+		this.depth = depth;
+	}
+	public String getQnaId() {
+		return qnaId;
+	}
+	public void setQnaId(String qnaId) {
+		this.qnaId = qnaId;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}	
 	public String getGroupRole() {
 		return groupRole;
 	}
@@ -87,11 +132,17 @@ public class StudyVO extends ComVO implements Serializable{
 	public void setProgressSit(String progressSit) {
 		this.progressSit = progressSit;
 	}
-	public String getConAt() {
-		return conAt;
+	public String getProgressing() {
+		return progressing;
 	}
-	public void setConAt(String conAt) {
-		this.conAt = conAt;
+	public void setProgressing(String progressing) {
+		this.progressing = progressing;
+	}
+	public String getLimitDate() {
+		return limitDate;
+	}
+	public void setLimitDate(String limitDate) {
+		this.limitDate = limitDate;
 	}
 	public String getSubtitleId() {
 		return subtitleId;

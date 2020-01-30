@@ -70,31 +70,14 @@
             <div class="span12">
             <div class="post-heading">
             	<h4 class="title">
-	            	<strong>목차</strong>
-	            	<a href="${pageContext.request.contextPath }/study/createstudydetail/${vo.groupId}" class="align-right">등록하기</a>  
+	            	<strong>진행현황</strong>
+	            	<a href="#" class="align-right">등록하기</a>  
             	</h4>       	
             </div>            
             <!-- start: Accordion -->
-            <div class="accordion" id="accordion">
+            <div class="accordion" id="accordion2">
             
-            	<c:forEach items="${sublist }" var="r">
-	            	<div class="accordion-group">
-		                <div class="accordion-heading">
-		                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#${r.subtitleId }">
-										<i class="icon-plus"></i>${r.subtitleNm } </a>
-		                </div>
-		                <div id="${r.subtitleId }" class="accordion-body collapse">
-		                  <div class="accordion-inner">
-			              <pre>${r.contents }
-			              </pre> 
-		                    <a href="#" class="align-right">들어가기</a>
-		                    <a href="#" class="align-right">수정하기</a>
-		                  </div>
-		                </div>
-	                </div>		
-            	</c:forEach>
-            	
-              <!-- <div class="accordion-group">
+              <div class="accordion-group">
                 <div class="accordion-heading">
                   <a class="accordion-toggle active" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
 								<i class="icon-minus"></i>1주차 - 스프링 기본 개념 </a>
@@ -115,75 +98,62 @@
                 </div>
                 <div id="collapseTwo" class="accordion-body collapse">
                   <div class="accordion-inner">
-                    스프링을 설치합니다.
+                    스프링을 설치합니다.12222
+                     <a href="#" class="align-right">들어가기</a>
+                     <a href="#" class="align-right">수정하기</a>
+                  </div>
+                  <div class="accordion-inner">
+                    스프링을 설치합니다111
                      <a href="#" class="align-right">들어가기</a>
                      <a href="#" class="align-right">수정하기</a>
                   </div>
                 </div>
               </div>
-              
-               <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-								<i class="icon-plus"></i>1. 데이터 수집 </a>
-                </div>
-                <div id="collapseTwo" class="accordion-body collapse">
-                  <div class="accordion-inner">
-                    데이터 수집 후 주제 정하기
-                     <a href="#" class="align-right">들어가기</a>
-                     <a href="#" class="align-right">수정하기</a>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-								<i class="icon-plus"></i>2. 플랫폼 개발 </a>
-                </div>
-                <div id="collapseTwo" class="accordion-body collapse">
-                  <div class="accordion-inner">
-                    필요 기술 정한 후 개발일정 및 개발 진행
-                     <a href="#" class="align-right">들어가기</a>
-                     <a href="#" class="align-right">수정하기</a>
-                  </div>
-                </div>
-              </div> -->
-              
               </div>
               
             
             
 
-			<!-- 댓글달기 -->
+			<!-- 토론 -->
             <div class="comment-area">
-             
+              <h4>4 Comments</h4>
+              <div class="media">
+                <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/img/avatar.png" alt="" class="img-circle" /></a>
+                <div class="media-body">
+                  <div class="media-content">
+                    <h6><span>March 12, 2013</span> Smith karlsen</h6>
+                    <p>
+                      미 참여시 벌금제도 운영하나요?
+                    </p>
+                    <a href="#" class="align-right">Reply</a>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="media">
+                <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/img/avatar.png" alt="" class="img-circle" /></a>
+                <div class="media-body">
+                  <div class="media-content">
+                    <h6><span>June 24, 2013</span> Dean Zaloza</h6>
+                    <p>
+                      자리 남아있나요?
+                    </p>
+                    <a href="#" class="align-right">Reply</a>
+                  </div>
+                </div>
+              </div>
+
 
               <div class="marginbot30"></div>
-              <h4>소주제등록</h4>
-
-              <form id="commentform" action="/study/createstudydetail" method="post" name="comment-form">
-              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-              <input type="hidden" value="${vo.groupId }" name="groupId"  id="groupId" />
-                <div class="row">
+              <h4>Leave your comment</h4>
+              <form id="commentform" action="#" method="post" name="comment-form">
+                <div class="row">                  
                   <div class="span12 margintop10">
-                    <input id="subtitleNm" name="subtitleNm" type="text" placeholder="소제목" />
+                    <input type="text" placeholder="Enter your website" />
                   </div>
-                  <div class="span6">
-                    <input type="text" placeholder="기한" />
-                  </div>
-                  <div class="span6">
-                    <input type="text" placeholder="대상자" />
-                  </div>
-                  <div class="span12 form-group">
-                  	<input type="file" name="file" id="file" placeholder="첨부파일"  data-msg="Please enter a valid email" />
-                </div>
                   <div class="span12 margintop10">
                     <p>
-                      <textarea id="contents" name="contents" rows="12" class="input-block-level" placeholder="설명"></textarea>
-                    </p>
-                    <p>
-                      <button class="btn btn-theme btn-medium margintop10" type="submit">등록하기</button>
+                      <button class="btn btn-theme btn-medium margintop10" type="submit">글쓰기</button>
                     </p>
                   </div>
                 </div>
