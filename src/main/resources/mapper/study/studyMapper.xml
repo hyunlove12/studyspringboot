@@ -10,8 +10,8 @@
 			  LEFT OUTER JOIN TB_STUDY_GROUP G
 			    ON 1 = 1
     	</selectKey>
-			 INSERT INTO TB_STUDY_GROUP(GROUP_ID, GROUP_NM, GROUP_FOUNDER, GROUP_BRIEF, GROUP_EXPLAIN, TOTAL, REG_DT, USE_AT, UNITY_GROUP_ID)
-			VALUES (#{groupId }, #{groupNm }, #{suserId }, #{groupBrief }, #{groupExplain}, #{total }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 'Y', '')
+			 INSERT INTO TB_STUDY_GROUP(GROUP_ID, GROUP_NM, GROUP_FOUNDER, GROUP_BRIEF, GROUP_EXPLAIN, TOTAL, CURRENT_MEMBER, REG_DT, USE_AT, UNITY_GROUP_ID)
+			VALUES (#{groupId }, #{groupNm }, #{suserId }, #{groupBrief }, #{groupExplain}, #{total }, 1, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 'Y', '')
     </insert> 
     
     <insert id="joinstudygroup">
@@ -19,55 +19,80 @@
 	   VALUES( #{suserId }, #{groupId }, 'admin', (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL));
     </insert>
     
+    <insert id="joinrequest">
+    	INSERT INTO TB_STUDY_GROUP_REQUEST(ID, GROUP_ID, REG_DT) 
+        VALUES(#{suserId }, #{groupId }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
+    </insert>
+    
 	<select id="studylist" resultType="com.study.service.StudyVO">
 		 SELECT SG.GROUP_ID AS groupId
-				 , SG.GROUP_NM AS groupNm
-				 , SG.GROUP_FOUNDER AS groupFounder
-				 , SG.GROUP_BRIEF AS groupBrief
-				 , SG.GROUP_EXPLAIN AS groupExplain
-				 , SG.TOTAL AS total
-				 , SG.REG_DT AS regDt
-				 , SG.USE_AT AS useAt
-				 , GM.GROUP_COUNT AS groupCount
-		  FROM TB_STUDY_GROUP SG
-		    LEFT OUTER JOIN (
-		  									SELECT COUNT(ID) AS GROUP_COUNT
-		  									     , GROUP_ID
-		  									  FROM TB_GROUP_MEMBER
-		  									  GROUP BY GROUP_ID
-		  							) GM
-		     ON SG.GROUP_ID = GM.GROUP_ID
+			  , SG.GROUP_NM AS groupNm
+			  , SG.GROUP_FOUNDER AS groupFounder
+			  , SG.GROUP_BRIEF AS groupBrief
+			  , SG.GROUP_EXPLAIN AS groupExplain
+			  , SG.TOTAL AS total
+			  , SG.REG_DT AS regDt
+			  , SG.USE_AT AS useAt
+			  , GM.GROUP_COUNT AS groupCount
+		   FROM TB_STUDY_GROUP SG
+		   LEFT OUTER JOIN (
+							SELECT COUNT(ID) AS GROUP_COUNT
+							     , GROUP_ID
+							  FROM TB_GROUP_MEMBER
+							  GROUP BY GROUP_ID
+		  					) GM
+		    ON SG.GROUP_ID = GM.GROUP_ID
 	</select>
     
 	<insert id="join">
-		 INSERT INTO TB_GROUP_MEMBER(ID, GROUP_ID, REG_DT) 
-		VALUES(#{id }, #{groupId}. #{regDt })
+		INSERT INTO TB_GROUP_MEMBER(ID, GROUP_ID, GROUP_ROLE, REG_DT) 
+		VALUES(#{id }, #{groupId}, 'user', #{regDt })
     </insert> 
 
+	<update id="updatecount">
+		UPDATE TB_STUDY_GROUP 
+		   SET CURRENT_MEMBER = (
+									SELECT ( CURRENT_MEMBER + 1  )
+								      FROM TB_STUDY_GROUP
+								     WHERE GROUP_ID = #{groupId }
+	                             )
+	     WHERE GROUP_ID = #{groupId}
+	</update>
+	
+	<select id="checkmember" resultType="String">
+	<![CDATA[	
+	    SELECT CASE WHEN TOTAL > CURRENT_MEMBER THEN 'OK'
+                    WHEN TOTAL <= CURRENT_MEMBER THEN 'NOT' 
+                     END AS chekcMember 
+		       ]]>
+		  FROM TB_STUDY_GROUP
+		 WHERE GROUP_ID = #{groupId }
+	</select>
+	
 	<select id="view" resultType="com.study.service.StudyVO">
 		SELECT GROUP_ID AS groupId
-		        , GROUP_NM AS groupNm
-		        , GROUP_FOUNDER AS groupFounder
-		        , GROUP_BRIEF AS groupBrief
-		        , GROUP_EXPLAIN AS groupExplain
-		        , TOTAL AS total
-		        , REG_DT AS regDt
-		        , USE_AT AS useAt
-		        , UNITY_GROUP_ID AS unityGroupId
-		 FROM TB_STUDY_GROUP 
-		WHERE GROUP_ID = #{groupId }
+		     , GROUP_NM AS groupNm
+		     , GROUP_FOUNDER AS groupFounder
+		     , GROUP_BRIEF AS groupBrief
+		     , GROUP_EXPLAIN AS groupExplain
+		     , TOTAL AS total
+		     , REG_DT AS regDt
+		     , USE_AT AS useAt
+		     , UNITY_GROUP_ID AS unityGroupId
+		  FROM TB_STUDY_GROUP 
+		 WHERE GROUP_ID = #{groupId }
 	</select>
 	
 	<select id="detailview" resultType="com.study.service.StudyVO">
 		SELECT GROUP_ID AS groupId
-				, SUBTITLE_ID AS subtitleId
-				, SUBTITLE_NM AS subtitleNm
-				, SUBTITLE_CREATER AS subtitleCreater
-				, CONTENTS AS contents
-				, UNITY_GROUP_ID AS unityGroupId
-				, REG_DT AS regDt
-		 FROM TB_GROUP_DETAIL GD
-        WHERE GROUP_ID = #{groupId }
+			 , SUBTITLE_ID AS subtitleId
+			 , SUBTITLE_NM AS subtitleNm
+			 , SUBTITLE_CREATER AS subtitleCreater
+			 , CONTENTS AS contents
+			 , UNITY_GROUP_ID AS unityGroupId
+			 , REG_DT AS regDt
+		  FROM TB_GROUP_DETAIL GD
+         WHERE GROUP_ID = #{groupId }
 	</select>
 	
 	<select id="processview" resultType="com.study.service.StudyVO">

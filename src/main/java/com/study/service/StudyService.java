@@ -2,12 +2,13 @@ package com.study.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 public interface StudyService {
 	
+	/* 그룹 가입 요청 */
+	public int joinrequest(StudyVO vo);
+	
 	/* 그룹 가입 */	
-	public int join(StudyVO vo);
+	public int join(StudyVO vo);	
 	
 	/* 스터디 그룹 만들기*/
 	public int createstudy(StudyVO vo);

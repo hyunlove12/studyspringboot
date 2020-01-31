@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.controller.ComController;
@@ -169,5 +170,11 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 		studyService.registqna(vo);
 		return "redirect:/study/view/" + vo.getGroupId();
 	}
+	
+	/*
+	 * @PostMapping("/joinrequest") public @ResponseBody joinrequest(StudyVO vo) {
+	 * 
+	 * }
+	 */
 	
 }

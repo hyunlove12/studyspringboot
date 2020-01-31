@@ -28,6 +28,9 @@ DROP TABLE IF EXISTS `TB_UNITY` RESTRICT;
 -- 스터디 묻고 답하기
 DROP TABLE IF EXISTS `TB_GROUP_QNA` RESTRICT;
 
+-- 스터디 가입 요청
+DROP TABLE IF EXISTS `TB_STUDY_GROUP_REQUEST` RESTRICT;
+
 -- 회원
 CREATE TABLE `TB_MEMBER` (
 	`ID`       VARCHAR(20) NOT NULL COMMENT '회원ID', -- 회원ID
@@ -67,7 +70,8 @@ CREATE TABLE `TB_STUDY_GROUP` (
 	`GROUP_FOUNDER`  VARCHAR(30)  NULL     COMMENT '개설자', -- 개설자
 	`GROUP_BRIEF`  VARCHAR(30)  NULL     COMMENT '요약', -- 개설자
 	`GROUP_EXPLAIN`  VARCHAR(300)  NULL     COMMENT '설명', -- 개설자
-	`TOTAL`          INT(10)      NULL     COMMENT '총인원', -- 참가인원
+	`TOTAL`          INT(10)      NULL     COMMENT '총인원', -- 총인원
+	`CURRENT_MEMBER`          INT(10)      NULL     COMMENT '현재인원', -- 현재인원
 	`REG_DT`         VARCHAR(8)   NULL     COMMENT '개설일', -- 개설일
 	`USE_AT`         VARCHAR(1)   NULL     COMMENT '사용여부', -- 사용여부
 	`UNITY_GROUP_ID` VARCHAR(100) NULL     COMMENT '첨부파일 GROUP ID' -- 첨부파일 GROUP ID
@@ -211,3 +215,11 @@ ALTER TABLE `TB_GROUP_QNA`
 			`QNA_ID` ,   -- 질문번호
 			`G_NO`    -- 그룹번호
 		);
+
+-- 스터디 가입 요청
+CREATE TABLE `TB_STUDY_GROUP_REQUEST` (
+	`ID`       INT UNSIGNED NOT NULL COMMENT '회원ID', -- 회원ID
+	`GROUP_ID` INT UNSIGNED NOT NULL COMMENT '그룹ID', -- 그룹ID
+	`REG_DT`   VARCHAR(8)   NULL     COMMENT '요청일' -- 요청일
+)
+COMMENT '스터디 가입 요청';

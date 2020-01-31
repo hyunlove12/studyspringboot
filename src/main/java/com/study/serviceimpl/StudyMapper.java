@@ -8,8 +8,17 @@ import com.study.service.StudyVO;
 
 public interface StudyMapper {
 
+	/* 그룹 가입 요청 */
+	public int joinrequest(StudyVO vo);
+	
 	/* 그룹 가입 */	
 	public int join(StudyVO vo);
+	
+	/* 그룹 인원 업데이트 */
+	public int updatecount(StudyVO vo);
+	
+	/* 그룹 가입 인원 수 확인 */
+	public String checkmember(StudyVO vo);
 	
 	/* 스터디 그룹 만들기 */
 	public int createstudy(StudyVO vo);
