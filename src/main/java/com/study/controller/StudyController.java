@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.controller.ComController;
@@ -89,10 +90,15 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 		model.addObject("vo", vo);
 		model.addObject("sublist", sublist);
 		model.setViewName("study/studydetail");
+		// 그룹 내 댓글
+		List<StudyVO> replist = new ArrayList<StudyVO>();
+		replist = studyService.groupreply(groupId);
+		model.addObject("replist", replist);
 		return model;
 	}
+	
 	/**
-	 * 멤버별 진행상황 등록
+	 * 멤버별 진행상황 등록 페이지
 	 * @param model
 	 * @param groupId
 	 * @param subtitleId
@@ -100,14 +106,34 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 	 */
 	@GetMapping("/studyprocess/{groupId}/{subtitleId}")
 	public String studyprocess(ModelMap model, @PathVariable("groupId") String groupId, @PathVariable("subtitleId") String subtitleId) {
+		// 그룹 정보
 		StudyVO vo = studyService.view(groupId);
-		model.addAttribute("", "");
-		
+		model.addAttribute("vo",vo);	
+		// 선택된 소목차 정보
+		StudyVO processVO = new StudyVO();
+		processVO = studyService.processview(groupId, subtitleId);
+		model.addAttribute("processVO", processVO);
+		// 멤버별 진행상황 정보
+		List<StudyVO> list = new ArrayList<StudyVO>();
+		list = studyService.progressbymember(groupId, subtitleId);
+		model.addAttribute("list", list);
 		return "study/studyprocess";
 	} 	
 	
 	/**
-	 * 소주제 등록하기 form페이지
+	 * 멤버별 진행 현황 등록
+	 * @param map
+	 * @param vo
+	 * @return
+	 */
+	@PostMapping("/registprogress")
+	public String registprogress(ModelMap map, StudyVO vo) {
+		studyService.registprogress(vo);
+		return "redirect:/study/studyprocess/" + vo.getGroupId() + "/" + vo.getSubtitleId();
+	}
+	
+	/**
+	 * 소주제 등록 form페이지
 	 * @param model
 	 * @param groupId
 	 * @return
@@ -122,10 +148,33 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 		return "study/createstudydetail";
 	}
 	
+	/**
+	 * 	소주제등록하기
+	 * @param model
+	 * @param vo
+	 * @return
+	 */
 	@PostMapping("/createstudydetail")
 	public String createstudydetail(ModelMap model, StudyVO vo) {
 		studyService.createstudydetail(vo);
 		return "redirect:/study/view/" + vo.getGroupId();
 	}
+	
+	/**
+	 * 그룹별 질문 등록
+	 * @param vo
+	 * @return
+	 */
+	@PostMapping("/registqna")
+	public String registqna(StudyVO vo) {
+		studyService.registqna(vo);
+		return "redirect:/study/view/" + vo.getGroupId();
+	}
+	
+	/*
+	 * @PostMapping("/joinrequest") public @ResponseBody joinrequest(StudyVO vo) {
+	 * 
+	 * }
+	 */
 	
 }

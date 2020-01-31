@@ -54,79 +54,73 @@
                     </ul>
                   </div>
                  ${vo.groupExplain }
-
-
-
                 </div>
               </div>
             </article>
-
-            
-              
-            </div>
+         </div>      
             <!-- 토론하기  -->
             
             <!-- 소주제 -->
             <div class="span12">
             <div class="post-heading">
             	<h4 class="title">
-	            	<strong>진행현황</strong>
-	            	<a href="#" class="align-right">등록하기</a>  
+	            	<strong>목차</strong>
+	            	<a href="${pageContext.request.contextPath }/study/createstudydetail/${vo.groupId}" class="align-right">등록하기</a>  
             	</h4>       	
-            </div>            
-            <!-- start: Accordion -->
-            <div class="accordion" id="accordion2">
-            
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle active" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-								<i class="icon-minus"></i>1주차 - 스프링 기본 개념 </a>
-                </div>
-                <div id="collapseOne" class="accordion-body collapse in">
-                  <div class="accordion-inner">
-                   스프링에 대한 기본개념에 대하여 학습합니다.
-                    <a href="#" class="align-right">들어가기</a>
-                    <a href="#" class="align-right">수정하기</a>
-                  </div>
-                </div>
-              </div>
+            </div>  
+                   
+           
               
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-								<i class="icon-plus"></i>2주차 - 스프링 설치하기 </a>
-                </div>
-                <div id="collapseTwo" class="accordion-body collapse">
-                  <div class="accordion-inner">
-                    스프링을 설치합니다.12222
-                     <a href="#" class="align-right">들어가기</a>
-                     <a href="#" class="align-right">수정하기</a>
-                  </div>
-                  <div class="accordion-inner">
-                    스프링을 설치합니다111
-                     <a href="#" class="align-right">들어가기</a>
-                     <a href="#" class="align-right">수정하기</a>
-                  </div>
-                </div>
-              </div>
+              
+            <!-- start: Accordion -->
+            <div class="accordion" id="accordion">
+            	<div class="accordion-group">
+	                <div class="accordion-heading">
+	                  <a class="accordion-toggle active" data-toggle="collapse" data-parent="#accordion" href="#${processVO.subtitleId }">
+									<i class="icon-minus"></i>${processVO.subtitleNm } </a>
+	                </div>
+	                <div id="${processVO.subtitleId }" class="accordion-body collapse in">
+	                  <div class="accordion-inner">
+		              <pre>${processVO.contents }
+		              </pre> 
+	                    <a href="#" class="align-right">수정하기</a>
+	                  </div>
+	                </div>
+                </div>		 
               </div>
               
             
             
 
-			<!-- 토론 -->
+			<!-- 댓글달기 -->
             <div class="comment-area">
-              <h4>4 Comments</h4>
-              <div class="media">
+              <h4>2명 등록</h4>
+              <c:forEach var="r" items="${list }">
+	              <div class="media">
+	                <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/img/avatar.png" alt="" class="img-circle" /></a>
+	                <div class="media-body">
+	                  <div class="media-content">
+	                    <h6><span>${r.regDt }</span> ${r.id }</h6>
+	                    <pre>${r.progressSit }</pre>
+	                    <div class="progress progress-striped">
+		                  <div class="bar bar${r.progressing }"></div>
+		                </div>   
+	                </div>
+	              </div>
+	             </div>
+              </c:forEach>
+              
+              <%-- <div class="media">
                 <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/img/avatar.png" alt="" class="img-circle" /></a>
                 <div class="media-body">
                   <div class="media-content">
-                    <h6><span>March 12, 2013</span> Smith karlsen</h6>
-                    <p>
-                      미 참여시 벌금제도 운영하나요?
-                    </p>
-                    <a href="#" class="align-right">Reply</a>
-                  </div>
+                    <h6><span>March 12, 2013</span> hong</h6>
+                    <pre>
+                      수행완료~
+                    </pre>
+                    <div class="progress progress-striped bar-success">
+	                  <div class="progress-striped bar-success"></div>
+	                </div>   
                 </div>
               </div>
               
@@ -135,29 +129,47 @@
                 <div class="media-body">
                   <div class="media-content">
                     <h6><span>June 24, 2013</span> Dean Zaloza</h6>
-                    <p>
-                      자리 남아있나요?
-                    </p>
-                    <a href="#" class="align-right">Reply</a>
+                    <pre>
+                      제대로 못함..ㅠ
+                    </pre>
+                    
+                    <div class="progress progress-striped">
+	                  <div class="bar bar20"></div>
+	                </div>  
+	                  
                   </div>
                 </div>
-              </div>
+              </div> --%>
 
 
               <div class="marginbot30"></div>
-              <h4>Leave your comment</h4>
-              <form id="commentform" action="#" method="post" name="comment-form">
-                <div class="row">                  
+              <h4>수행현황 등록 / 수정</h4>
+
+              <form id="commentform" action="/study/registprogress" method="post" name="comment-form">
+              	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+              	<input type="hidden" name="groupId" value="${vo.groupId}" />
+              	<input type="hidden" name="subtitleId" value="${processVO.subtitleId }" />
+                <div class="row">
+                  <div class="span6">
+                    <input id="progressing" name="progressing" type="text" placeholder="진행도(0 ~ 100)" />
+                  </div>
+                  <div class="span6">
+                    <input id="limitDate" name="limitDate" type="text" placeholder="완료 예상 일정" />
+                  </div>
                   <div class="span12 margintop10">
-                    <input type="text" placeholder="Enter your website" />
+                    <input type="file" />
                   </div>
                   <div class="span12 margintop10">
                     <p>
-                      <button class="btn btn-theme btn-medium margintop10" type="submit">글쓰기</button>
+                      <textarea id="progressSit" name="progressSit" rows="12" class="input-block-level" placeholder="설명"></textarea>
+                    </p>
+                    <p>
+                      <button class="btn btn-theme btn-medium margintop10" type="submit">수행현황 등록</button>
                     </p>
                   </div>
                 </div>
               </form>
+              
             </div>
           </div>
 

@@ -61,22 +61,20 @@
               </div>
             </article>
 
-            
-              
-            </div>
             <!-- 토론하기  -->
+            <div class="comment-area">
             
             <!-- 소주제 -->
             <div class="span12">
             <div class="post-heading">
             	<h4 class="title">
 	            	<strong>목차</strong>
-	            	<a href="${pageContext.request.contextPath }/study/createstudydetail/${vo.groupId}" class="align-right">등록하기</a>  
             	</h4>       	
-            </div>            
+            </div>                 
+           
+          
             <!-- start: Accordion -->
-            <div class="accordion" id="accordion">
-            
+            <div class="accordion" id="accordion">            
             	<c:forEach items="${sublist }" var="r">
 	            	<div class="accordion-group">
 		                <div class="accordion-heading">
@@ -85,82 +83,20 @@
 		                </div>
 		                <div id="${r.subtitleId }" class="accordion-body collapse">
 		                  <div class="accordion-inner">
-			              <pre>${r.contents }
-			              </pre> 
+		                   ${r.contents }
 		                    <a href="#" class="align-right">들어가기</a>
 		                    <a href="#" class="align-right">수정하기</a>
 		                  </div>
 		                </div>
 	                </div>		
             	</c:forEach>
-            	
-              <!-- <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle active" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-								<i class="icon-minus"></i>1주차 - 스프링 기본 개념 </a>
-                </div>
-                <div id="collapseOne" class="accordion-body collapse in">
-                  <div class="accordion-inner">
-                   스프링에 대한 기본개념에 대하여 학습합니다.
-                    <a href="#" class="align-right">들어가기</a>
-                    <a href="#" class="align-right">수정하기</a>
-                  </div>
-                </div>
               </div>
               
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-								<i class="icon-plus"></i>2주차 - 스프링 설치하기 </a>
-                </div>
-                <div id="collapseTwo" class="accordion-body collapse">
-                  <div class="accordion-inner">
-                    스프링을 설치합니다.
-                     <a href="#" class="align-right">들어가기</a>
-                     <a href="#" class="align-right">수정하기</a>
-                  </div>
-                </div>
-              </div>
-              
-               <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-								<i class="icon-plus"></i>1. 데이터 수집 </a>
-                </div>
-                <div id="collapseTwo" class="accordion-body collapse">
-                  <div class="accordion-inner">
-                    데이터 수집 후 주제 정하기
-                     <a href="#" class="align-right">들어가기</a>
-                     <a href="#" class="align-right">수정하기</a>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-								<i class="icon-plus"></i>2. 플랫폼 개발 </a>
-                </div>
-                <div id="collapseTwo" class="accordion-body collapse">
-                  <div class="accordion-inner">
-                    필요 기술 정한 후 개발일정 및 개발 진행
-                     <a href="#" class="align-right">들어가기</a>
-                     <a href="#" class="align-right">수정하기</a>
-                  </div>
-                </div>
-              </div> -->
-              
-              </div>
               
             
-            
-
-			<!-- 댓글달기 -->
-            <div class="comment-area">
-             
-
+               
               <div class="marginbot30"></div>
-              <h4>소주제등록</h4>
+              <h4>소주제 등록</h4>
 
               <form id="commentform" action="/study/createstudydetail" method="post" name="comment-form">
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -189,6 +125,7 @@
                 </div>
               </form>
             </div>
+          </div>
           </div>
 
         </div>
