@@ -1,4 +1,4 @@
--- 회원
+﻿-- 회원
 DROP TABLE IF EXISTS `TB_MEMBER` RESTRICT;
 
 -- 회원 권한
@@ -218,8 +218,9 @@ ALTER TABLE `TB_GROUP_QNA`
 
 -- 스터디 가입 요청
 CREATE TABLE `TB_STUDY_GROUP_REQUEST` (
-	`ID`       INT UNSIGNED NOT NULL COMMENT '회원ID', -- 회원ID
-	`GROUP_ID` INT UNSIGNED NOT NULL COMMENT '그룹ID', -- 그룹ID
+	`ID`       VARCHAR(30) NOT NULL COMMENT '회원ID', -- 회원ID
+	`GROUP_ID` INTEGER  NOT NULL COMMENT '그룹ID', -- 그룹ID
+            `MESSAGE`   VARCHAR(100)   NULL     COMMENT '요청 메시지', -- 요청 메시지
 	`REG_DT`   VARCHAR(8)   NULL     COMMENT '요청일' -- 요청일
 )
 COMMENT '스터디 가입 요청';

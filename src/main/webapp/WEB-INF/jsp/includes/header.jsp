@@ -21,6 +21,7 @@
 				<sec:authorize access="isAuthenticated()">	
 	          		<li><a href="/chatmain" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 채팅하기</a></li>
 	          		<li><a href="/study/createstudy" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 그룹 만들기</a></li>
+	          		<li><a href="/study/groupadmin" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 그룹 관리</a></li>
 	          		<li><a href="/logout" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 로그아웃</a></li>	
 				</sec:authorize>
 	          <c:if test="${userId == null or empty userId or userId == 'anonymousUser' or userId == ''}">

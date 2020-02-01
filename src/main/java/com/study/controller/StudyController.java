@@ -171,10 +171,18 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 		return "redirect:/study/view/" + vo.getGroupId();
 	}
 	
-	/*
-	 * @PostMapping("/joinrequest") public @ResponseBody joinrequest(StudyVO vo) {
-	 * 
-	 * }
-	 */
+	
+	 @RequestMapping("/joinrequest") 
+	 public @ResponseBody String  joinrequest(StudyVO vo) {
+		 int val = studyService.joinrequest(vo);
+		 String result = "";
+		 if(val > 0) {
+			 result = "가입요청이 성공적으로 전송되었습니다.";
+		 } else {
+			 result = "가입요청에 실패하였습니다. 관리자에게 문의바랍니다.";
+		 }
+		 return result;	 
+	 }
+	
 	
 }

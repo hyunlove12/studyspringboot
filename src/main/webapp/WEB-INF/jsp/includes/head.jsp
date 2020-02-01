@@ -9,7 +9,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Your page description here" />
   <meta name="author" content="" />
-
+  
+  <meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
+  <!-- default header name is X-CSRF-TOKEN -->
+  <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
+  
   <!-- css -->
   <link type="text/css" media="screen" href="https://fonts.googleapis.com/css?family=Handlee|Open+Sans:300,400,600,700,800" rel="stylesheet">
   <link type="text/css" media="screen" href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet" />

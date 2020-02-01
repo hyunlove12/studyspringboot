@@ -20,8 +20,8 @@
     </insert>
     
     <insert id="joinrequest">
-    	INSERT INTO TB_STUDY_GROUP_REQUEST(ID, GROUP_ID, REG_DT) 
-        VALUES(#{suserId }, #{groupId }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
+    	INSERT INTO TB_STUDY_GROUP_REQUEST(ID, GROUP_ID, MESSAGE, REG_DT) 
+        VALUES(#{suserId }, #{groupId }, #{message }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
     </insert>
     
 	<select id="studylist" resultType="com.study.service.StudyVO">
