@@ -35,7 +35,15 @@ public class StudyVO extends ComVO implements Serializable{
 	private String oNo = ""; // 그룹 내 순서
 	private String depth = ""; // 깊이
 	private String message = ""; // 가입 요청 메시지
+	private String currentMember = ""; // 현재 가입 인원
 	
+	
+	public String getCurrentMember() {
+		return currentMember;
+	}
+	public void setCurrentMember(String currentMember) {
+		this.currentMember = currentMember;
+	}
 	public String getMessage() {
 		return message;
 	}

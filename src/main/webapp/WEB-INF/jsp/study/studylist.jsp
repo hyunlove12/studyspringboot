@@ -167,6 +167,7 @@
 	    	        },
 	    	        success : function(data){
 	    	            alert(data);
+	    	            $("#message").val("");
 	    	            $("#myModal").modal("hide");
 	    	        }         
 	    	    });

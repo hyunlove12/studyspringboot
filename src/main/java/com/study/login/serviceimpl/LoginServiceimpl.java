@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.study.login.service.LoginService;
 import com.study.login.service.LoginVO;
+import com.study.service.StudyVO;
 
 @Service("LoginService")
 public class LoginServiceimpl implements LoginService, UserDetailsService {
@@ -57,7 +58,11 @@ public class LoginServiceimpl implements LoginService, UserDetailsService {
 				.roles(roleListArray)				
 				.build();
 	}
-
+	
+	/* main리스트 */
+	public List<StudyVO> mainlist() {
+		return loginMapper.mainlist();
+	}
 
 	
 }

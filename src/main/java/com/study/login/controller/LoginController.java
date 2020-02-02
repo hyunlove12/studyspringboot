@@ -1,6 +1,8 @@
 package com.study.login.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +19,7 @@ import com.controller.ComController;
 import com.service.ComVO;
 import com.study.login.service.LoginVO;
 import com.study.login.serviceimpl.LoginServiceimpl;
+import com.study.service.StudyVO;
 
 @Controller
 @SessionAttributes(value="LoginVO")
@@ -35,7 +38,11 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 	public ModelAndView welcome(HttpServletResponse response, HttpServletRequest req, ModelAndView mv, LoginVO vo) {
 		String userId = ComVO.currentUserName();		
 		mv.addObject("userId", userId);
-		System.out.println("@@@1" + userId);
+		System.out.println("userId : " + userId);
+		// 메인의 스터디 리스트
+		List<StudyVO> list = new ArrayList<StudyVO>();
+		list = loginService.mainlist();
+		mv.addObject("list", list);
 		mv.setViewName("login/main");	
 		return mv; 
 	}
