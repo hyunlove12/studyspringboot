@@ -22,7 +22,7 @@
                 <li><a href="index.html">Home</a> <i class="icon-angle-right"></i></li>
                 <li class="active">그룹 만들기</li>
               </ul>
-              <h2>Get in touch</h2>
+              <h2>그룹 만들기</h2>
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@
                   <textarea id="groupExplain" name="groupExplain" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="스터디 그룹 설명"></textarea>
                   <div class="validation"></div>
                   <div class="text-center">
-                    <button class="btn btn-theme btn-medium margintop10" type="submit">Send a message</button>
+                    <button class="btn btn-theme btn-medium margintop10" type="submit">그룹 만들기</button>
                   </div>
                 </div>
               </div>
@@ -79,10 +79,11 @@
                 <h5 class="widgetheading">그룹 만들기 설명<span></span></h5>
 
                 <ul class="contact-info">
-                  <li><label>Address :</label> Tinggi sekali tower Jl.Kemacetan timur<br /> Jakarta selatan - Indonesia</li>
-                  <li><label>Phone :</label>+62 123 456 78 / +62 123 456 79</li>
-                  <li><label>Fax : </label>+62 123 456 10 / +62 123 456 11</li>
-                  <li><label>Email : </label> info@yourdomain.com</li>
+                  <li><label>그룹명 :</label> 스터디 명을 입력하세요.</li>
+                  <li><label>가입 가능 인원 :</label>그룹장 포함 가능한 가입 인원입니다.</li>
+                  <li><label>그룹 요약 : </label>그룹에 대한 요약입니다. - 메인화면에 노출됩니다.</li>
+                  <li><label>첨부파일 : </label> 필요한 파일을 첨부해주세요. 1개까지 가능합니다.</li>
+                  <li><label>그룹 설명 : </label> 그룹에대한 전반적인 규칙, 설명, 방법등에 대하여 적어주세요.</li>
                 </ul>
 
               </div>

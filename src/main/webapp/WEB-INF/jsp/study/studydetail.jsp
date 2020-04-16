@@ -20,9 +20,9 @@
             <div class="inner-heading">
               <ul class="breadcrumb">
                 <li><a href="index.html">Home</a> <i class="icon-angle-right"></i></li>
-                <li class="active">Post left sidebar</li>
+                <li class="active">스터디 상세보기</li>
               </ul>
-              <h2>Post left sidebar</h2>
+              <h2>스터디 상세보기</h2>
             </div>
           </div>
         </div>
@@ -242,11 +242,11 @@
               <div class="marginbot30"></div>
               <h4>해당그룹에 질문하기!</h4>
 
-              <form id="commentform" action="/study/registqna" method="post" name="comment-form">
+              <form id="commentform" class="contactForm" action="/study/registqna" method="post" name="comment-form">
                	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
               	<input type="hidden" name="groupId" value="${vo.groupId }"/>
                 <div class="row">
-                  <div class="span12 margintop10">
+                  <div class="span12 form-group">
                     <input name="content" id="content" type="text" placeholder="질문을 입력하세요" />
                   </div>
                   <div class="span12 margintop10">
