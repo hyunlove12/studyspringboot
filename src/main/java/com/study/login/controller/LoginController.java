@@ -47,7 +47,7 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 		return mv; 
 	}
 
-	@RequestMapping("/loginPage.do")
+	@RequestMapping("/loginPage")
 	public String loginPage(HttpServletResponse response, HttpServletRequest req, ModelAndView model, LoginVO vo) {			
 		return "login/login";
 	} 

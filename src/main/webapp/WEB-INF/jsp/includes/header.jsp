@@ -12,16 +12,18 @@
           <p class="topcontact"><i class="icon-phone"></i> hyunlove12@temp.co.kr</p>
         </div>
         <div class="span6">
-
+          <form method="post" action="/logout" id="hiddenCsrf">
+          	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+          </form>		  
           <ul class="social-network">
 	          <sec:authorize access="isAnonymous()">
-					<li><a href="/login" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 로그인</a></li>
+					<li><a href="/loginpage" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 로그인</a></li>
 	          		<li><a href="/join/join" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 회원가입</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">	
 	          		<li><a href="/chatmain" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 채팅하기</a></li>
 	          		<li><a href="/study/createstudy" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 그룹 만들기</a></li>	          		
-	          		<li><a href="/logout" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 로그아웃</a></li>	
+	          		<li><a href="javascript:fn_logout()" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 로그아웃</a></li>	
 				</sec:authorize>
 	          <c:if test="${userId == null or empty userId or userId == 'anonymousUser' or userId == ''}">
 	          </c:if>          
@@ -84,4 +86,25 @@
     </div>
   </div>
 </header>
+<script type="text/javascript">
+	function fn_logout() {
+		if(confirm('로그아웃 하시겠습니까?')){			
+			var csrf = $("#hiddenCsrf");		
+			var f = document.createElement("form"); // form 엘리멘트 생성 
+			// f.setAttribute("method","post"); // method 속성을 post로 설정
+			// f.setAttribute("action","/logout"); // submit했을 때 무슨 동작을 할 것인지 설정
+			document.body.appendChild(f); // 현재 페이지에 form 엘리멘트 추가 
+	
+			//	var i = document.createElement("input"); // input 엘리멘트 생성 
+			//	i.setAttribute("type","hidden"); // type 속성을 hidden으로 설정
+			//	i.setAttribute("name","m_nickname"); // name 속성을 'm_nickname'으로 설정 
+			//	i.setAttribute("value",neilong); // value 속성을 neilong에 담겨있는 값으로 설정 
+			//	f.appendChild(i); // form 엘리멘트에 input 엘리멘트 추가 
+	
+			csrf.submit(); // form 태그 서브밋 실행
+		}		
+	} 
+
+
+</script>
 <!-- end header -->
