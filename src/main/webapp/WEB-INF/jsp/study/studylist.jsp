@@ -67,26 +67,7 @@
 		                  <!-- End Item Project -->					
 					</c:forEach>
 
-                  <!-- Item Project and Filter Name -->
-                  <li class="item-thumbs span3 dev" data-id="id-1" data-type="dev">
-                    <div class="team-box thumbnail">
-                      <img src="img/dummies/team/2.jpg" alt="" />
-                      <div class="caption">
-                        <h5>David Clark</h5>
-                        <p>
-                          Web programmer
-                        </p>
-                        <ul class="social-network">
-                          <li><a href="#" title="Twitter"><i class="icon-circled icon-bgdark icon-twitter"></i></a></li>
-                          <li><a href="#" title="Google +"><i class="icon-circled icon-bgdark icon-google-plus"></i></a></li>
-                          <li><a href="#" title="Dribbble"><i class="icon-circled icon-bgdark icon-dribbble"></i></a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-                  <!-- End Item Project -->
-
-          
+                          
 
                 </ul>
               </section>

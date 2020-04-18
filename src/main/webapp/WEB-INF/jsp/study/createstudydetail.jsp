@@ -20,9 +20,9 @@
             <div class="inner-heading">
               <ul class="breadcrumb">
                 <li><a href="index.html">Home</a> <i class="icon-angle-right"></i></li>
-                <li class="active">Post left sidebar</li>
+                <li class="active">스터디 상세보기</li>
               </ul>
-              <h2>Post left sidebar</h2>
+              <h2>스터디 상세보기</h2>
             </div>
           </div>
         </div>
