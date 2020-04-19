@@ -55,13 +55,13 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 
 	
 //	@RequestMapping(value="/save.do", produces="text/plain;charset=UTF-8")
-	@PostMapping(value="/join/join")
+	@PostMapping(value="/join")
 	public String join(HttpServletResponse response, HttpServletRequest req, ModelAndView model, LoginVO vo) throws IOException {
 		loginService.join(vo);		
 		return "redirect:/main"; 
 	}
 	
-	@GetMapping("/join/join")
+	@GetMapping("/join/joinpage")
 	public String join(HttpServletResponse res, HttpServletRequest req) {			
 		return "login/join";
 	}

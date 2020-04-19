@@ -18,7 +18,7 @@
           <ul class="social-network">
 	          <sec:authorize access="isAnonymous()">
 					<li><a href="/loginpage" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 로그인</a></li>
-	          		<li><a href="/join/join" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 회원가입</a></li>
+	          		<li><a href="/join/joinpage" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 회원가입</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">	
 	          		<li><a href="/chatmain" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> 채팅하기</a></li>
