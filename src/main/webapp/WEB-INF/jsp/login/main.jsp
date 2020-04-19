@@ -208,9 +208,9 @@
 		                  </div>
 		                  <div class="pricing-action">
 		                   <!--  <a href="#" class="btn btn-medium btn-theme"><i class="icon-chevron-down"></i> Sign Up</a> -->	
-		                   	<c:if test={}>
+		                   <%-- 	<c:if test=${1==1}> --%>
 		                   		<a groupId="${r.groupId }" groupNm="${r.groupNm }"  class="muted joinRequest" ><i class="icon-laptop"></i> 가입요청 <i class="icon-angle-down"></i></a>
-		                   	</c:if>	   
+		                   	<%-- </c:if>	    --%>
 		                   	 <a class="muted" href="${pageContext.request.contextPath }/study/view/${r.groupId }"><i class="icon-home"></i> 상세보기 <i class="icon-angle-down"></i></a>
 		                  </div>
 		                </div>

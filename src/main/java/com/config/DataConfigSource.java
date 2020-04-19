@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 //**.* 로 하면 톰캣이 안올라간 -> 무거워서 그런가?
-@MapperScan(basePackages="com.study.**.*")
+@MapperScan(basePackages="com.dh.**.*")
 @EnableTransactionManagement
 public class DataConfigSource {
 
