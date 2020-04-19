@@ -183,6 +183,10 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 		 }
 		 return result;	 
 	 }
-	
+	 @RequestMapping("/test/test") 
+	 public @ResponseBody String  test(StudyVO vo) {
+		 System.out.println("test");
+		 return "success";	 
+	 }
 	
 }

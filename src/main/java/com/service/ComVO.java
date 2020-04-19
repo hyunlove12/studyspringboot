@@ -22,7 +22,7 @@ public class ComVO implements Serializable{
 	private String regDt = "";
 	private String unityGroupId = "";
 	private String unityId = "";
-	private String suserId = currentUserName();
+	private String suserId = this.currentUserName();
 	
 	public String getUnityGroupId() {
 		return unityGroupId;

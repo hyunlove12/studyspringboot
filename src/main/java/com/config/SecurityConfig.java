@@ -42,9 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		// .successForwardUrl("/main") -> 안적어주면 forarding이 안된다...
 		// 404도 무조건 로그인 페이지로 보낸다..?
 		// //.successForwardUrl("/main") -> success핸들러 작동안함.. 우선순위 문제?		
+		//.loginPage("/loginPage") -> successHandler의 redirect페이지가 undefined로 정의된다...
 		http.formLogin()			
 		    .successHandler(new LoginSuccessHandler("/main"))
-			.loginPage("/loginPage")
+			//.loginPage("/loginPage")
 			.loginProcessingUrl("/login")			
 			.usernameParameter("username")
 			.passwordParameter("password")

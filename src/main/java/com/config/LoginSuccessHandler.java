@@ -15,7 +15,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.stereotype.Component;
 
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         
@@ -40,6 +39,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	@Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication) throws IOException, ServletException {
+		
 		sendRedirect(request, response, authentication);
 		clearAuthenticationAttributes(request);
     }
@@ -47,9 +47,12 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	protected void sendRedirect(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication) throws IOException, ServletException {
 		
-		SavedRequest savedRequest = requestCache.getRequest(request, response);      
+		
+		SavedRequest savedRequest = requestCache.getRequest(request, response);   
+		System.out.println(request.getRequestURL());
 		String referer = request.getHeader("REFERER");
 		System.out.println(referer + "ddd");
+		
 		redirectStratgy.sendRedirect(request, response, defaultUrl);
         if(savedRequest!=null) {
             String targetUrl = savedRequest.getRedirectUrl();
