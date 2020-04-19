@@ -1,8 +1,5 @@
 package com.dh.study.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,7 +11,8 @@ import com.dh.study.service.StudyVO;
 import com.dh.study.serviceimpl.StudyServiceimpl;
 
 @Controller
-@RequestMapping("/study")
+// requestmapping 주소가 같으면 빈 생성 오류 발생 
+@RequestMapping("/studymanagement")
 public class StudyManageController extends ComController<StudyServiceimpl, StudyVO>{
 	//web-inf 밑의 jsp가 루트 경로
 	
@@ -25,15 +23,15 @@ public class StudyManageController extends ComController<StudyServiceimpl, Study
 	}
 	
 	/**
-	 * 그룹 목록
+	 * 관리 그룹 목록
 	 * @param model
 	 * @param vo
 	 * @return
 	 */
-	@GetMapping("/managementlist")
+	@GetMapping("/list")
 	public String managementlist(ModelMap model, StudyVO vo) {
 		System.out.println("리스트 호출");
-		return "study/studymanagementlist";
+		return "studymanagement/studymanagementlist";
 	} 
 	
 	

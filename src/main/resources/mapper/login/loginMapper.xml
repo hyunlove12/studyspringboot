@@ -14,7 +14,7 @@
     </insert>
     
     <!-- 유저 ID 비번 확인 -->
-	<select id="findByUsername" resultType="com.study.login.service.LoginVO">
+	<select id="findByUsername" resultType="com.dh.login.service.LoginVO">
         SELECT ID
 			    , PASSWORD
 			    , NAME
@@ -34,7 +34,7 @@
     </select>
     
 	<!-- 메인 화면 그룹 리스트 -->
-	<select id="mainlist" resultType="com.study.service.StudyVO">
+	<select id="mainlist" resultType="com.dh.study.service.StudyVO">
 		SELECT SG.GROUP_ID AS groupId
 		        , SG.GROUP_NM AS groupNm
 		        , SG.GROUP_FOUNDER AS groupFounder

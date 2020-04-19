@@ -2,6 +2,8 @@ package com.dh.common.serviceimpl;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.dh.login.service.LoginVO;
 
 public interface ComMapper {

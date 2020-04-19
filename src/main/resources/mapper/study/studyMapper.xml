@@ -3,7 +3,7 @@
 <mapper namespace="com.dh.study.serviceimpl.StudyMapper">
 
     
-    <insert id="createstudy" parameterType="com.study.service.StudyVO">
+    <insert id="createstudy" parameterType="com.dh.study.service.StudyVO">
     	<selectKey resultType="string" keyProperty="groupId" order="BEFORE">
 	    	SELECT MAX(IFNULL(G.GROUP_ID, 0)) + 1 
 			  FROM (SELECT 1 FROM DUAL) D
@@ -24,7 +24,7 @@
         VALUES(#{suserId }, #{groupId }, #{message }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
     </insert>
     
-	<select id="studylist" resultType="com.study.service.StudyVO">
+	<select id="studylist" resultType="com.dh.study.service.StudyVO">
 		 SELECT SG.GROUP_ID AS groupId
 			  , SG.GROUP_NM AS groupNm
 			  , SG.GROUP_FOUNDER AS groupFounder
@@ -69,7 +69,7 @@
 		 WHERE GROUP_ID = #{groupId }
 	</select>
 	
-	<select id="view" resultType="com.study.service.StudyVO">
+	<select id="view" resultType="com.dh.study.service.StudyVO">
 		SELECT GROUP_ID AS groupId
 		     , GROUP_NM AS groupNm
 		     , GROUP_FOUNDER AS groupFounder
@@ -83,7 +83,7 @@
 		 WHERE GROUP_ID = #{groupId }
 	</select>
 	
-	<select id="detailview" resultType="com.study.service.StudyVO">
+	<select id="detailview" resultType="com.dh.study.service.StudyVO">
 		SELECT GROUP_ID AS groupId
 			 , SUBTITLE_ID AS subtitleId
 			 , SUBTITLE_NM AS subtitleNm
@@ -95,7 +95,7 @@
          WHERE GROUP_ID = #{groupId }
 	</select>
 	
-	<select id="processview" resultType="com.study.service.StudyVO">
+	<select id="processview" resultType="com.dh.study.service.StudyVO">
 	    SELECT GROUP_ID AS groupId
  		     , SUBTITLE_ID AS subtitleId
 		     , SUBTITLE_NM AS subtitleNm
@@ -125,7 +125,7 @@
 	    VALUES(#{groupId }, #{subtitleId}, #{suserId }, #{progressSit }, #{unityId }, #{progressing}, #{limitDate}, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
 	</insert>
 	
-	<select id="progressbymember" resultType="com.study.service.StudyVO">	
+	<select id="progressbymember" resultType="com.dh.study.service.StudyVO">	
 		SELECT GROUP_ID AS groupId
  			 , SUBTITLE_ID AS subtitleId
 			 , ID AS id
@@ -151,7 +151,7 @@
 		VALUES(#{groupId }, #{qnaId }, #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 1, 1, 1, #{suserId })
 	</insert>
 	
-	<select id="groupreply" resultType="com.study.service.StudyVO">	
+	<select id="groupreply" resultType="com.dh.study.service.StudyVO">	
 		SELECT GQ.GROUP_ID AS groupId
  			 , GQ.QNA_ID AS qnaId
 			 , GQ.TITLE AS title
