@@ -34,21 +34,29 @@ public class StudyVO extends ComVO implements Serializable{
 	private String gNo = ""; // 그룹 내 번호
 	private String oNo = ""; // 그룹 내 순서
 	private String depth = ""; // 깊이
-	private String message = ""; // 가입 요청 메시지
-	private String currentMember = ""; // 현재 가입 인원
+	private String currentMember = ""; // 현재 가입 인원	
+	private String checkJoinId = ""; // 그룹 가입 여부 확인
+	private String requestCont = ""; // 가입 요청 메시지
 	
+	
+	
+	public String getRequestCont() {
+		return requestCont;
+	}
+	public void setRequestCont(String requestCont) {
+		this.requestCont = requestCont;
+	}
+	public String getCheckJoinId() {
+		return checkJoinId;
+	}
+	public void setCheckJoinId(String checkJoinId) {
+		this.checkJoinId = checkJoinId;	}
 	
 	public String getCurrentMember() {
 		return currentMember;
 	}
 	public void setCurrentMember(String currentMember) {
 		this.currentMember = currentMember;
-	}
-	public String getMessage() {
-		return message;
-	}
-	public void setMessage(String message) {
-		this.message = message;
 	}
 	public String getgNo() {
 		return gNo;

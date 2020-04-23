@@ -44,10 +44,17 @@
 		        , SG.CURRENT_MEMBER AS currentMember
 		        , SG.REG_DT AS regDt
 		        , M.EMAIL AS email
+		        , TGM.ID AS checkJoinId
 		 FROM TB_STUDY_GROUP SG
-		   LEFT OUTER JOIN TB_MEMBER M
-		    ON SG.GROUP_FOUNDER = M.ID
+		 LEFT OUTER JOIN TB_MEMBER M
+		   ON SG.GROUP_FOUNDER = M.ID  	     
+         LEFT OUTER JOIN (
+							SELECT ID , GROUP_ID 
+	                          FROM TB_GROUP_MEMBER GM
+							 WHERE ID = #{suserId }
+					    ) TGM
+ 	       ON SG.GROUP_ID = TGM.GROUP_ID
 		ORDER BY SG.REG_DT
-		  LIMIT 3
+	    LIMIT 4
 	</select>
 </mapper>

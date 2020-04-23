@@ -23,7 +23,7 @@
                 <li><a href="#">Pages</a> <i class="icon-angle-right"></i></li>
                 <li class="active">GroupList</li>
               </ul>
-              <h2>스터디 그룹 리스트</h2>
+              <h2>스터디 그룹 요청 리스트</h2>
             </div>
           </div>
         </div>
@@ -34,42 +34,75 @@
       <div class="container">
         <div class="row">
           <div class="span12">
-            <ul class="team-categ filter">
+            <!-- <ul class="team-categ filter">
               <li class="all active"><a href="#">전체</a></li>
               <li class="design"><a href="#" title="">개발</a></li>
-              <li class="marketing"><a href="#" title="">영어</a></li>
-              <li class="dev"><a href="#" title="">기타</a></li>
-            </ul>
+            </ul> -->
 
             <div class="clearfix"></div>
             <div class="row">
-              <section id="team">
-                <ul id="thumbs" class="team">
-					<c:forEach var="r" items="${list }"  varStatus="i">
-		                  <!-- Item Project and Filter Name -->
-		                  <li id="${r.groupId }" class="outer item-thumbs span3 design" data-id="id-0" data-type="design">
-		                    <div class="team-box thumbnail">
-		                      <%-- <img src="${pageContext.request.contextPath }/img/dummies/team/1.jpg" alt="" /> --%>
-		                      <div class="caption">
-		                        <h5>${r.groupNm }</h5>
-		                        <p>
-		                          ${r.groupBrief }
-		                        </p>
-		                        <ul class="social-network">
-		                          <li><a href="/main" title="Twitter">쪽지</a></li>
-		                          <!-- <li><a href="/study/joinrequest" title="Google +">가입요청</a></li> -->
-		                          <li><a href="#myModal"  groupId="${r.groupId }" groupNm="${r.groupNm }" class="noClick" rel="modal:open" data-toggle="modal">가입요청</a></li>		                          
-		                          <li><a href="#" title="Dribbble">비밀<!-- <i class="icon-circled icon-bgdark icon-dribbble"></i> --></a></li>
-		                        </ul>
-		                      </div>
-		                    </div>
-		                  </li>
-		                  <!-- End Item Project -->					
-					</c:forEach>
-
-                          
-
-                </ul>
+              <section id="team">	
+			                <h4 class="title"><strong>그룹 가입 요청 리스트</strong> <span></span></h4>
+			                <table class="table" style="table-layout:fixed;">
+				                <colgroup>
+									<col width="10%">
+									<col width="10%">
+									<col width="30%">
+									<col width="10%">
+									<col width="10%">
+									<col width="10%">
+								</colgroup>
+			                  <thead>
+			                    <tr>
+			                      <th>
+			                        번호
+			                      </th>
+			                      <th>
+			                        요청 대상 그룹
+			                      </th>
+			                      <th>
+			                        요청내용
+			                      </th>
+			                      <th>
+			                        요청자
+			                      </th>
+			                      <th>
+			                        요청일
+			                      </th>
+			                      <th>
+			                        승인/거부
+			                      </th>
+			                    </tr>
+			                  </thead>
+			                  <tbody>
+			                  	<c:forEach var="r" items="${list }"  varStatus="i">
+				                    <tr onclick="javascript:openContent(${i.index + 1 })">
+				                      <td>
+				                        ${i.index + 1 }
+				                      </td>
+				                      <td>
+				                        ${r.groupNm }
+				                      </td>
+				                      <td style="overflow:hidden;text-overflow:ellipsis;">
+				                      	${r.requestCont }
+				                      </td>
+				                      <td>
+				                        ${r.name }
+				                      </td>
+				                      <td>
+				                        ${r.regDt }
+				                      </td>
+				                      <td>
+				                        <a href="javascript:void();" class="noRequestContent btn btn-primary">승인 / 거부</a>
+				                      </td>
+				                    </tr>
+				                    <tr id="requestContent${i.index + 1 }" class="hide" >
+				                    	<td class="accordion-inner" colspan="6">${r.requestCont }</td>
+				                    </tr>
+			                    </c:forEach>      
+			                  </tbody>
+			                </table>	
+					           
               </section>
 
             </div>
@@ -78,7 +111,7 @@
       </div>
     </section>
     
-    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog"	aria-labelledby="myModalLabel" aria-hidden="true">
+    <div id="myModal1" class="modal hide fade" tabindex="-1" role="dialog"	aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			<h3 id="myModalLabel"></h3>
@@ -103,7 +136,23 @@
 			<button class="btn btn-primary">가입요청</button>
 		</div> -->
 	</div>
+	
+	
+	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+       <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+         <h3 id="myModalLabel">Modal header</h3>
+       </div>
+       <div class="modal-body">
+         <p>One fine body…</p>
+       </div>
+       <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+         <button class="btn btn-primary">Save changes</button>
+       </div>
+     </div>
 
+	
 	<c:import url="/WEB-INF/jsp/includes/footer.jsp" /> 
   </div>
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
@@ -154,6 +203,13 @@
 	    	    });
 	       	});
        		
+       		$(".noRequestContent").click(function(event) {
+       			
+       			console.log(event);
+       			$("#myModal").modal("show");
+       			setNoClick(event);
+       		});
+       		
        	});
        
        function setNoClick(event){
@@ -162,7 +218,17 @@
     		} else {		// ie8
     			event.cancelBubble = true;
     		}
-    	}
+       }
+       
+       function openContent(index){
+    	   var disAttr = $("#requestContent"+index).css("display");
+    	   if(disAttr == 'none') {
+    		   $("#requestContent"+index).removeClass("hide"); 
+    	   } else {
+    		   $("#requestContent"+index).addClass("hide"); 
+    	   }
+    	   
+       }
 	</script>
 
 </body>

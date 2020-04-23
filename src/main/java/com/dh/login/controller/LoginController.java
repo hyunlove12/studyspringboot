@@ -37,9 +37,10 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 		String userId = ComVO.currentUserName();		
 		mv.addObject("userId", userId);
 		System.out.println("userId : " + userId);
+		System.out.println(vo.getSuserId() + "1231231");
 		// 메인의 스터디 리스트
 		List<StudyVO> list = new ArrayList<StudyVO>();
-		list = loginService.mainlist();
+		list = loginService.mainlist(vo);
 		mv.addObject("list", list);
 		mv.setViewName("login/main");	
 		return mv; 

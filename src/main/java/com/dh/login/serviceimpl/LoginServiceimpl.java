@@ -10,11 +10,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dh.login.service.LoginService;
 import com.dh.login.service.LoginVO;
 import com.dh.study.service.StudyVO;
 
+@Transactional
 @Service("LoginService")
 public class LoginServiceimpl implements LoginService, UserDetailsService {
 	
@@ -60,8 +62,8 @@ public class LoginServiceimpl implements LoginService, UserDetailsService {
 	}
 	
 	/* main리스트 */
-	public List<StudyVO> mainlist() {
-		return loginMapper.mainlist();
+	public List<StudyVO> mainlist(LoginVO vo) {
+		return loginMapper.mainlist(vo);
 	}
 
 	

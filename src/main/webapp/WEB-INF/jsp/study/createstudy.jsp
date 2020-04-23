@@ -58,7 +58,7 @@
                   <div class="validation"></div>
                 </div>
                 <div class="span4 form-group">
-                  <input type="file" name="file" id="file" placeholder="첨부파일"  data-msg="Please enter a valid email" />
+                  <input type="file" name="files" id="files" placeholder="첨부파일"  data-msg="Please enter a valid email" />
                   <div class="validation"></div>
                 </div>
                 <div class="span8 form-group">

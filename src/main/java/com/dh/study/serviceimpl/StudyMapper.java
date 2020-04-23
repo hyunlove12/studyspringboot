@@ -2,10 +2,12 @@ package com.dh.study.serviceimpl;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.dh.study.service.StudyVO;
 
+@Mapper
 public interface StudyMapper {
 
 	/* 그룹 가입 요청 */

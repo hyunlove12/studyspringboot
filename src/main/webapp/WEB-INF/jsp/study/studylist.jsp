@@ -58,7 +58,9 @@
 		                        <ul class="social-network">
 		                          <li><a href="/main" title="Twitter">쪽지</a></li>
 		                          <!-- <li><a href="/study/joinrequest" title="Google +">가입요청</a></li> -->
-		                          <li><a href="#myModal"  groupId="${r.groupId }" groupNm="${r.groupNm }" class="noClick" rel="modal:open" data-toggle="modal">가입요청</a></li>		                          
+		                          <c:if test="${r.suserId ne r.checkJoinId}">
+		                          	<li><a href="#myModal" groupId="${r.groupId }" groupNm="${r.groupNm }" class="noClick" rel="modal:open" data-toggle="modal">가입요청</a></li>		                          
+		                          </c:if>
 		                          <li><a href="#" title="Dribbble">비밀<!-- <i class="icon-circled icon-bgdark icon-dribbble"></i> --></a></li>
 		                        </ul>
 		                      </div>
@@ -109,7 +111,14 @@
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
   <script type="text/javascript">
        $(function(){
-    	   
+    	   let result = ${result};
+    	   if(result > 0) {
+    		   alert('생성에 성공하였습니다.');
+    	   } else if(result == 0) {
+    		   alert("생성에 실패하였습니다.");
+    	   } else {
+    		   result = -1;
+    	   }
     	   var token = $("meta[name='_csrf']").attr("content");
     	   var header = $("meta[name='_csrf_header']").attr("content");
     	   $(function() {

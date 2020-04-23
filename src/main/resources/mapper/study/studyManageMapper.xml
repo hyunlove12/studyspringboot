@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dh.study.serviceimpl.StudyManageMapper">
+
+    
+    <select id="list" resultType="com.dh.study.service.StudyVO">		
+		SELECT GR.ID AS id
+		     , GR.GROUP_ID AS groupId
+		     , GR.REG_DT AS regDt
+		     , GR.REQUEST_CONT AS requestCont
+		     , SG.GROUP_NM AS groupNm
+		     , TM.NAME AS name
+		  FROM TB_STUDY_GROUP_REQUEST GR
+		 INNER JOIN (
+				     SELECT GROUP_ID
+					   FROM TB_GROUP_MEMBER GM
+					  WHERE GM.ID = #{suserId }
+					    AND GROUP_ROLE = 'admin'
+                    )GM
+            ON GR.GROUP_ID = GM.GROUP_ID
+          LEFT OUTER JOIN TB_STUDY_GROUP SG
+		    ON GR.GROUP_ID = SG.GROUP_ID   
+		  LEFT OUTER JOIN TB_MEMBER TM
+		    ON GR.ID = TM.ID           
+    </select>
+	
+</mapper>

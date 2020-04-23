@@ -8,5 +8,5 @@ public interface LoginService {
 	public boolean join(LoginVO vo);
 	
 	/* main리스트 */
-	public List<StudyVO> mainlist();
+	public List<StudyVO> mainlist(LoginVO vo);
 }

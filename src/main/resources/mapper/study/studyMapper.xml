@@ -20,8 +20,8 @@
     </insert>
     
     <insert id="joinrequest">
-    	INSERT INTO TB_STUDY_GROUP_REQUEST(ID, GROUP_ID, MESSAGE, REG_DT) 
-        VALUES(#{suserId }, #{groupId }, #{message }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
+    	INSERT INTO TB_STUDY_GROUP_REQUEST(ID, GROUP_ID, REQUEST_CONT, REG_DT) 
+        VALUES(#{suserId }, #{groupId }, #{requestCont }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
     </insert>
     
 	<select id="studylist" resultType="com.dh.study.service.StudyVO">
@@ -33,15 +33,22 @@
 			  , SG.TOTAL AS total
 			  , SG.REG_DT AS regDt
 			  , SG.USE_AT AS useAt
-			  , GM.GROUP_COUNT AS groupCount
+			  , GMS.GROUP_COUNT AS groupCount
+              , TGM.ID AS CHECK_JOIN_ID
 		   FROM TB_STUDY_GROUP SG
 		   LEFT OUTER JOIN (
 							SELECT COUNT(ID) AS GROUP_COUNT
 							     , GROUP_ID
 							  FROM TB_GROUP_MEMBER
 							  GROUP BY GROUP_ID
-		  					) GM
-		    ON SG.GROUP_ID = GM.GROUP_ID
+		  					) GMS
+		     ON SG.GROUP_ID = GMS.GROUP_ID
+           LEFT OUTER JOIN (
+							SELECT ID , GROUP_ID 
+	                          FROM TB_GROUP_MEMBER GM
+							 WHERE ID = #{suserId }
+						   ) TGM
+             ON SG.GROUP_ID = TGM.GROUP_ID
 	</select>
     
 	<insert id="join">

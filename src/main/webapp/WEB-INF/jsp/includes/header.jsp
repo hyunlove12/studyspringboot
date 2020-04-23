@@ -9,7 +9,7 @@
     <div class="container">
       <div class="row">
         <div class="span6">
-          <p class="topcontact"><i class="icon-phone"></i> hyunlove12@temp.co.kr</p>
+          <p class="topcontact"><i class="icon-envelope-alt"></i> hyunlove12345@naver.com</p>
         </div>
         <div class="span6">
           <form method="post" action="/logout" id="hiddenCsrf">
@@ -58,7 +58,7 @@
           <div class="navigation">
             <nav>
               <ul class="nav topnav">
-                <li><a href="/study/studylist">그룹 리스트</a></li>
+                <li><a href="${pageContext.request.contextPath }/study/studylist">그룹 리스트</a></li>
                 <sec:authorize access="isAuthenticated()">	
 		          	<li class="dropdown">
 	                  <a href="#">그룹관리 <i class="icon-angle-down"></i></a>
@@ -68,7 +68,7 @@
 	                  </ul>
 	                </li>	
 	                <li class="dropdown">
-	                  <a href="#">요청 메시지 </a>                 
+	                  <a href="${pageContext.request.contextPath }/studymanagement/list">요청 메시지 </a>                 
 	                </li>
 	                <li class="dropdown">
 	                  <a href="#">요청그룹 </a>                 

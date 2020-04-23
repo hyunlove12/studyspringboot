@@ -2,6 +2,8 @@ package com.dh.study.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface StudyService {
 	
 	/* 그룹 가입 요청 */
@@ -11,7 +13,7 @@ public interface StudyService {
 	public int join(StudyVO vo);	
 	
 	/* 스터디 그룹 만들기*/
-	public int createstudy(StudyVO vo);
+	public int createstudy(StudyVO vo, MultipartFile files);
 	
 	/* 스터디 목록 */
 	public List<StudyVO> studylist(StudyVO vo);

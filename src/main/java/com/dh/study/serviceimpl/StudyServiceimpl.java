@@ -5,18 +5,22 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dh.common.serviceimpl.ComServiceimpl;
 import com.dh.study.service.StudyService;
 import com.dh.study.service.StudyVO;
+import com.dh.util.FileUpload;
 
-
+@Transactional
 @Service
 public class StudyServiceimpl extends ComServiceimpl<StudyServiceimpl, StudyMapper> implements StudyService {
 	
 	@Autowired
 	StudyMapper studyMapper;
 	
+	/* 스터디 리스트 */
 	public List<StudyVO> studylist(StudyVO vo) {
 		List<StudyVO> list = new ArrayList<StudyVO>();
 		list = studyMapper.studylist(vo);
@@ -29,13 +33,27 @@ public class StudyServiceimpl extends ComServiceimpl<StudyServiceimpl, StudyMapp
 	}
 	
 	/* 최초 스터디 그룹 만들기 */
-	public int createstudy(StudyVO vo) {
+	public int createstudy(StudyVO vo, MultipartFile files) {
 		// 파라미터로 던져준 vo에 selectKey의 값이 저장된다.
 		int result = 0;
-		vo.setGroupRole("admin");
-		result += studyMapper.createstudy(vo);
-		result += studyMapper.joinstudygroup(vo);
-		return result;
+		int fileResult = 0;
+		try {			
+			vo.setGroupRole("admin");
+			result += studyMapper.createstudy(vo);		
+			result += studyMapper.joinstudygroup(vo);
+			if(files != null) {
+				FileUpload fileUpload = new FileUpload();
+				fileResult = fileUpload.fileSave(files);				
+				if(fileResult == 0) {
+					throw new Exception();
+				}
+			}
+		} catch(Exception e) {
+			result = 0;
+			System.out.println("오류");
+			e.printStackTrace();
+		}
+		return result; 
 	}
 	
 	public int join(StudyVO vo) {

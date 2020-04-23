@@ -16,5 +16,5 @@ public interface LoginMapper {
     public List<String> findByRoleList(String username);
     
     /* main리스트 */
-	public List<StudyVO> mainlist();
+	public List<StudyVO> mainlist(LoginVO vo);
 }

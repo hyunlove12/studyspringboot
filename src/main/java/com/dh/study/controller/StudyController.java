@@ -2,6 +2,9 @@ package com.dh.study.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,8 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.dh.common.controller.ComController;
 import com.dh.study.service.StudyVO;
@@ -35,10 +42,16 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 	 * @return
 	 */
 	@GetMapping("/studylist")
-	public String join(ModelMap model, StudyVO vo) {
+	public String studylist(HttpServletRequest request, ModelMap model, StudyVO vo) {
+		String result = "-1";
+		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+		if(flashMap != null && flashMap.get("result") != null ) {
+			result = flashMap.get("result").toString();
+		}
 		List<StudyVO> list = new ArrayList<StudyVO>();
-		list = studyService.studylist(vo);
+		list = studyService.studylist(vo);		
 		model.addAttribute("list", list);
+		model.addAttribute("result", result);
 		return "study/studylist";
 	} 
 	
@@ -54,14 +67,20 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 	} 
 	
 	/**
+	 * 
 	 * 스터디 만들기 jsp 페이지 포워딩
+	 * @param files
 	 * @param model
 	 * @param vo
+	 * @param redirectAttributes
 	 * @return
 	 */
 	@PostMapping("/createstudy")
-	public String creatstudy(ModelAndView model, StudyVO vo) {
-		studyService.createstudy(vo);
+	public String creatstudy(@RequestPart MultipartFile files, ModelAndView model, StudyVO vo, RedirectAttributes rttr) {		
+        int result = studyService.createstudy(vo, files);
+        // get방식으로 붙어서 전달된다.
+        // redirectAttributes.addAttribute("result", result);	
+        rttr.addFlashAttribute("result", result);	
 		return "redirect:/study/studylist";
 	} 
 	
