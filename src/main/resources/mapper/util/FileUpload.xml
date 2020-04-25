@@ -3,7 +3,7 @@
 <mapper namespace="com.dh.util.FileMapper">
 	
 	<insert id="insertUnityId">
-		INSERT INTO TB_UNITY(UNITY_ID, NAME, REG_DT) VALUES(#{unityId }, #{name }, NOW())
+		INSERT INTO TB_UNITY(UNITY_ID, NAME, REG_DT) VALUES(#{unityId }, #{name },  (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
 	</insert>
 	
 	<insert id="insertUnityGroup">

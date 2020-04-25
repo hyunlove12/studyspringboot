@@ -17,7 +17,7 @@ import com.dh.login.service.LoginVO;
 import com.dh.study.service.StudyVO;
 
 @Transactional
-@Service("LoginService")
+@Service
 public class LoginServiceimpl implements LoginService, UserDetailsService {
 	
 	@Autowired

@@ -43,7 +43,7 @@
                     <div class="post-heading">
                       <h3><a href="#">${vo.groupNm }</a></h3>
                     </div>
-                    <img src="${pageContext.request.contextPath }/img/dummies/blog/img1.jpg" alt="" />
+                    <img src="${pageContext.request.contextPath }/upload/img/${vo.unityId }" alt="" />
                   </div>
                   <div class="meta-post">
                     <ul>
@@ -93,62 +93,7 @@
 		                </div>
 	                </div>		
             	</c:forEach>
-            	
-              <!-- <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle active" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-								<i class="icon-minus"></i>1주차 - 스프링 기본 개념 </a>
-                </div>
-                <div id="collapseOne" class="accordion-body collapse in">
-                  <div class="accordion-inner">
-                   스프링에 대한 기본개념에 대하여 학습합니다.
-                    <a href="#" class="align-right">들어가기</a>
-                    <a href="#" class="align-right">수정하기</a>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-								<i class="icon-plus"></i>2주차 - 스프링 설치하기 </a>
-                </div>
-                <div id="collapseTwo" class="accordion-body collapse">
-                  <div class="accordion-inner">
-                    스프링을 설치합니다.
-                     <a href="#" class="align-right">들어가기</a>
-                     <a href="#" class="align-right">수정하기</a>
-                  </div>
-                </div>
-              </div>
-              
-               <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-								<i class="icon-plus"></i>1. 데이터 수집 </a>
-                </div>
-                <div id="collapseTwo" class="accordion-body collapse">
-                  <div class="accordion-inner">
-                    데이터 수집 후 주제 정하기
-                     <a href="#" class="align-right">들어가기</a>
-                     <a href="#" class="align-right">수정하기</a>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-								<i class="icon-plus"></i>2. 플랫폼 개발 </a>
-                </div>
-                <div id="collapseTwo" class="accordion-body collapse">
-                  <div class="accordion-inner">
-                    필요 기술 정한 후 개발일정 및 개발 진행
-                     <a href="#" class="align-right">들어가기</a>
-                     <a href="#" class="align-right">수정하기</a>
-                  </div>
-                </div>
-              </div> -->
+     
               
               </div>
               

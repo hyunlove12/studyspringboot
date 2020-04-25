@@ -1,4 +1,4 @@
-package com.config;
+package com.securityconfig;
 
 import java.io.IOException;
 
@@ -47,21 +47,17 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	protected void sendRedirect(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication) throws IOException, ServletException {
 		
-		
 		SavedRequest savedRequest = requestCache.getRequest(request, response);   
-		System.out.println(request.getRequestURL());
-		String referer = request.getHeader("REFERER");
-		System.out.println(referer + "ddd");
-		
-		redirectStratgy.sendRedirect(request, response, defaultUrl);
         if(savedRequest!=null) {
+        	// undefined?1587715325346 주소가 뜨는 이유...
             String targetUrl = savedRequest.getRedirectUrl();
             System.out.println("url1" + targetUrl);
-           // redirectStratgy.sendRedirect(request, response, targetUrl);
+          //  redirectStratgy.sendRedirect(request, response, targetUrl);
         } else {
             System.out.println("url" + defaultUrl);
-            redirectStratgy.sendRedirect(request, response, defaultUrl);            
+           // redirectStratgy.sendRedirect(request, response, defaultUrl);            
         }
+        redirectStratgy.sendRedirect(request, response, "/main");
 	}
 	
 	protected void clearAuthenticationAttributes(HttpServletRequest request) {

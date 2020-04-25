@@ -1,4 +1,6 @@
-package com.config;
+package com.securityconfig;
+
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		//http 각각 설정해도 된다.
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.POST, "/join").permitAll()
-			.antMatchers("/css/**", "/js/**", "/images/**", "/fonts/**", "/color/**", "/ico/**", "/img/**", "/loginPage", "/login").permitAll()
+			.antMatchers("/css/**", "/js/**", "/images/**", "/fonts/**", "/color/**", "/ico/**", "/img/**", "/loginpage", "/login").permitAll()
 			.mvcMatchers("/", "/info", "/account/**", "/join/**", "/main").permitAll()
 			//.mvcMatchers("/admin").hasRole("ADMIN") // admin은 ADMIN권한 필요
 			.anyRequest().authenticated(); //그 외 어떠한 요청은 인증만 하면 된다.			
@@ -40,14 +42,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		// .successForwardUrl("/main") -> 안적어주면 forarding이 안된다...
 		// 404도 무조건 로그인 페이지로 보낸다..?
 		// //.successForwardUrl("/main") -> success핸들러 작동안함.. 우선순위 문제?		
-		//.loginPage("/loginPage") -> successHandler의 redirect페이지가 undefined로 정의된다...
+		//.loginPage("/loginPage") -> successHandler의 redirect페이지가 undefined로 정의된다... cached에 기록 안됨..always default url??
 		http.formLogin()			
-		    .successHandler(new LoginSuccessHandler("/main"))
-			//.loginPage("/loginPage")
+			.loginPage("/loginpage")
 			.loginProcessingUrl("/login")			
 			.usernameParameter("username")
 			.passwordParameter("password")
-			//.successForwardUrl("/main")			 
+			.successHandler(new LoginSuccessHandler("/main"))
+			// .successForwardUrl("/main")			 
 			.permitAll(); 
 		// http.csrf().disable();
 		
@@ -57,7 +59,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		 // .addLogoutHandler()
 		    //.logoutSuccessHandler() // 성공 핸들러
 		    .invalidateHttpSession(true); // session제거
-		
 		 // .deleteCookies("cookiename") // 쿠키 사용로그인시 해당 쿠키 제거
 		http.httpBasic(); //httpbasic사용		
 	}
@@ -72,4 +73,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(loginServiceimpl);	//bean으로 등록만 되어 있으면 사용 가능	
 	}
+	
+
 }

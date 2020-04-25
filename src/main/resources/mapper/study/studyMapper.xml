@@ -11,7 +11,7 @@
 			    ON 1 = 1
     	</selectKey>
 			 INSERT INTO TB_STUDY_GROUP(GROUP_ID, GROUP_NM, GROUP_FOUNDER, GROUP_BRIEF, GROUP_EXPLAIN, TOTAL, CURRENT_MEMBER, REG_DT, USE_AT, UNITY_GROUP_ID)
-			VALUES (#{groupId }, #{groupNm }, #{suserId }, #{groupBrief }, #{groupExplain}, #{total }, 1, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 'Y', '')
+			VALUES (#{groupId }, #{groupNm }, #{suserId }, #{groupBrief }, #{groupExplain}, #{total }, 1, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 'Y', #{unityGroupId })
     </insert> 
     
     <insert id="joinstudygroup">
@@ -77,16 +77,19 @@
 	</select>
 	
 	<select id="view" resultType="com.dh.study.service.StudyVO">
-		SELECT GROUP_ID AS groupId
-		     , GROUP_NM AS groupNm
-		     , GROUP_FOUNDER AS groupFounder
-		     , GROUP_BRIEF AS groupBrief
-		     , GROUP_EXPLAIN AS groupExplain
-		     , TOTAL AS total
-		     , REG_DT AS regDt
-		     , USE_AT AS useAt
-		     , UNITY_GROUP_ID AS unityGroupId
-		  FROM TB_STUDY_GROUP 
+		SELECT SG.GROUP_ID AS groupId
+		     , SG.GROUP_NM AS groupNm
+		     , SG.GROUP_FOUNDER AS groupFounder
+		     , SG.GROUP_BRIEF AS groupBrief
+		     , SG.GROUP_EXPLAIN AS groupExplain
+		     , SG.TOTAL AS total
+		     , SG.REG_DT AS regDt
+		     , SG.USE_AT AS useAt
+		     , SG.UNITY_GROUP_ID AS unityGroupId
+		     , UG.UNITY_ID AS unityId
+		  FROM TB_STUDY_GROUP SG
+		  LEFT OUTER JOIN TB_UNITY_GROUP UG
+            ON SG.UNITY_GROUP_ID = UG.UNITY_GROUP_ID
 		 WHERE GROUP_ID = #{groupId }
 	</select>
 	

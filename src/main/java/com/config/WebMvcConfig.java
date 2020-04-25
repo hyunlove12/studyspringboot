@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-
+@EnableWebMvc
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
@@ -26,7 +28,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				//.excludePathPatterns("/main.do");
 				//.excludePathPatterns("static/**/*")
 	}
-
+    @Override
+    public void configureContentNegotiation (ContentNegotiationConfigurer configurer) {
+      configurer.defaultContentTypeStrategy(new CustomContentNegotiationStrategy());
+    }
+	/*@Bean
+	public FilterRegistrationBean getFilterRegistrationBean() {
+		FilterRegistrationBean registrationBean = new FilterRegistrationBean(new UrlFilter());
+		registrationBean.setOrder(Integer.MIN_VALUE);
+		registrationBean.setUrlPatterns(Arrays.asList("/*"));
+		return registrationBean;
+	}*/
 	/*
 	 * @Override public void addResourceHandlers(ResourceHandlerRegistry registry) {
 	 * registry .addResourceHandler("/**") .addResourceLocations(RESOURCE_LOCATIONS)
