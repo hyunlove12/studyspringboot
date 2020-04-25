@@ -28,10 +28,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				//.excludePathPatterns("/main.do");
 				//.excludePathPatterns("static/**/*")
 	}
-    @Override
-    public void configureContentNegotiation (ContentNegotiationConfigurer configurer) {
-      configurer.defaultContentTypeStrategy(new CustomContentNegotiationStrategy());
-    }
 	/*@Bean
 	public FilterRegistrationBean getFilterRegistrationBean() {
 		FilterRegistrationBean registrationBean = new FilterRegistrationBean(new UrlFilter());
