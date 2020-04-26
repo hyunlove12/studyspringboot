@@ -73,5 +73,5 @@ server:
 custom:
   oauth2:
     kakao:
-      client-id: 264f1be3f2a2472c78c3fed7a78f2abb
+      client-id: --------
         
