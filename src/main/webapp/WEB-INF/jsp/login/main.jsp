@@ -69,7 +69,8 @@
             		<input type="hidden" value=''  id="tempUserId"/>
             	</sec:authorize>
             	<sec:authorize access="isAuthenticated()">
-	            	<input type="hidden" value='<sec:authentication property="principal.username"/>'  id="tempUserId"/>
+	            	<%-- <input type="hidden" value='<sec:authentication property="principal.username"/>'  id="tempUserId"/> --%>
+	            	<input type="hidden" value='<sec:authentication property="principal"/>'  id="tempUserId"/>
 	            </sec:authorize>
 				<c:forEach items="${list }" var="r">
 					<div class="span3">

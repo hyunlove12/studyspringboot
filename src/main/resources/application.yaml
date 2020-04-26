@@ -3,6 +3,16 @@ application:
    title: boot-security
     
 spring:
+   security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 881218558153-ndr868i68rlofoo4l2gb488ksabi5q23.apps.googleusercontent.com
+            client-secret: kq6zIo0myJotHK5_0irhtYnW
+          facebook:
+            client-id: 465358593799840
+            client-secret: a37286e3dae00dcdce628f40dfe363f5
    mvc:
     view:
      prefix: /WEB-INF/jsp/
@@ -52,8 +62,16 @@ server:
   jsp-servlet: 
    init-parameters:
     development: true
+    
   error:
    path: log/
   tomcat:
    accesslog:
     enabled: true
+    
+    
+custom:
+  oauth2:
+    kakao:
+      client-id: 264f1be3f2a2472c78c3fed7a78f2abb
+        

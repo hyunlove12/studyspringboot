@@ -9,12 +9,15 @@ import java.util.Calendar;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dh.common.service.ComVO;
 
+
 @Transactional
+@Component
 public class FileUpload {
 	
 	@Autowired
@@ -22,7 +25,7 @@ public class FileUpload {
 	
 	private String unityGroupId = "";
 	
-	public static String makeTimeStamp() {
+	public String makeTimeStamp() {
 		SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
 		Calendar cal = Calendar.getInstance();
 		String today = null;
@@ -36,7 +39,7 @@ public class FileUpload {
 		return unityGroupId;
 	}
 	
-	public int fileSave(MultipartFile files) {		
+	public int fileSave(MultipartFile files, String unityGroupId) {		
 		int result = 0;
 		try {
 			String sourceFileName = files.getOriginalFilename(); 
@@ -45,14 +48,13 @@ public class FileUpload {
 			String destinationFileName;
 			System.out.println(fileMapper);
 			// 상대경로로 적어주면 톰캣의 basedir로 저장된다.
-			String fileUrl = "D:/springProject/studyspringboot/upload/img/";
+			String fileUrl = "D:/springProject/studyspringboot/src/main/resources/static/upload/img/";
 			// String fileUrl = "./upload/img/";
 			// List<ComVO> list = new ArrayList<ComVO>();
-			String unityGroupId = makeUnityGroupId(); 
-			// String unityGroupId = RandomStringUtils.randomAlphanumeric(32) + "_createstudy";		
+			// String unityGroupId = makeUnityGroupId(); 
 			do { 
 				// destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + sourceFileNameExtension; 
-				destinationFileName = RandomStringUtils.randomAlphanumeric(16) + makeTimeStamp() + "." + sourceFileNameExtension; 
+				destinationFileName = RandomStringUtils.randomAlphanumeric(16) + "." + sourceFileNameExtension; 
 				destinationFile = new File(fileUrl + destinationFileName); 
 				// file 업로드와 디비 저장을 구분해야 하는 것 아닌지?
 				ComVO fileVO = new ComVO();

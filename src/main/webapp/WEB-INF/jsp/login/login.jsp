@@ -51,7 +51,8 @@
                   <div class="validation"></div>
                 </div>
                 <div class="span8 form-group">
-                  <div class="text-center">
+                  <div class="text-center"> 
+                    <button class="btn btn-theme btn-medium margintop10" type="button" id="kakaoLogin">카카오톡</button>
                     <button class="btn btn-theme btn-medium margintop10" type="submit">로그인</button>
                     <button class="btn btn-theme btn-medium margintop10" type="submit">ID 찾기</button>
                     <button class="btn btn-theme btn-medium margintop10" type="submit">비밀번호 찾기</button>
@@ -154,7 +155,19 @@
   <c:import url="/WEB-INF/jsp/includes/footer.jsp" /> 
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
 
- 
+   <script type="text/javascript">
+        $(function(){           
+        	
+        	$("#kakaoLogin").click(function(){
+            	alert('카카오로그인');
+	   			location.href="/oauth2/authorization/kakao";
+	       	});
+        	 
+        	 
+        	 
+        });
+        
+    </script>
 
 
 </body>

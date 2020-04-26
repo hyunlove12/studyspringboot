@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,8 @@ import com.dh.common.service.ComVO;
 import com.dh.login.service.LoginVO;
 import com.dh.login.serviceimpl.LoginServiceimpl;
 import com.dh.study.service.StudyVO;
+import com.securityconfig.SocialUser;
+import com.securityconfig.User;
 
 @Controller
 @SessionAttributes(value="LoginVO")
@@ -37,7 +41,6 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 		String userId = ComVO.currentUserName();		
 		mv.addObject("userId", userId);
 		System.out.println("userId : " + userId);
-		System.out.println(vo.getSuserId() + "1231231");
 		// 메인의 스터디 리스트
 		List<StudyVO> list = new ArrayList<StudyVO>();
 		list = loginService.mainlist(vo);
@@ -46,8 +49,11 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 		return mv; 
 	}
 
-	@RequestMapping("/loginpage")
-	public String loginPage(ModelAndView model, LoginVO vo) {			
+	@GetMapping("/loginpage")
+	public String loginPage(HttpServletRequest request) {		
+		String referrer = request.getHeader("Referer");
+	    request.getSession().setAttribute("prevPage", referrer);
+	    System.out.println("2" + referrer);
 		return "login/login";
 	} 
 	
@@ -64,4 +70,11 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 	public String join() {			
 		return "login/join";
 	}
+	
+	@GetMapping("/loginSuccess")
+	public String loginSuccess(@SocialUser User user) {			
+		System.out.println(user.getEmail() + "email");
+		return "login/main";
+	}
+	
 }

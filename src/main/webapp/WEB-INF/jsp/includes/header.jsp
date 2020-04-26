@@ -36,7 +36,7 @@
           
           <ul class="social-network">
           	<sec:authorize access="isAuthenticated()">	
-          		<li style="color:white"><sec:authentication property="principal.username"/>님 환영합니다!</li>
+          		<li style="color:white"><%-- <sec:authentication property="principal.username"/> --%>님 환영합니다!</li>
           	</sec:authorize>	
           </ul>
 

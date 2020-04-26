@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dh.login.service.LoginVO;
 import com.dh.study.service.StudyVO;
+import com.securityconfig.User;
 
 public interface LoginMapper {
 	// 회원 가입
@@ -17,4 +18,7 @@ public interface LoginMapper {
     
     /* main리스트 */
 	public List<StudyVO> mainlist(LoginVO vo);
+	
+	/* oauth user 검색 */
+	public User findByEmail(String email);
 }

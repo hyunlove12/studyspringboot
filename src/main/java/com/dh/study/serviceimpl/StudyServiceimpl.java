@@ -3,6 +3,7 @@ package com.dh.study.serviceimpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,9 @@ public class StudyServiceimpl extends ComServiceimpl<StudyServiceimpl, StudyMapp
 	
 	@Autowired
 	StudyMapper studyMapper;
+	
+	@Autowired
+	FileUpload fileUpload; 
 	
 	/* 스터디 리스트 */
 	public List<StudyVO> studylist(StudyVO vo) {
@@ -38,12 +42,13 @@ public class StudyServiceimpl extends ComServiceimpl<StudyServiceimpl, StudyMapp
 		int result = 0;
 		int fileResult = 0;
 		try {			
+			String unityGroupId = RandomStringUtils.randomAlphanumeric(16);
 			vo.setGroupRole("admin");
+			vo.setUnityGroupId(unityGroupId);
 			result += studyMapper.createstudy(vo);		
 			result += studyMapper.joinstudygroup(vo);
 			if(files != null) {
-				FileUpload fileUpload = new FileUpload();
-				fileResult = fileUpload.fileSave(files);				
+				fileResult = fileUpload.fileSave(files, unityGroupId);				
 				if(fileResult == 0) {
 					throw new Exception();
 				}

@@ -16,6 +16,7 @@ import com.dh.login.service.LoginService;
 import com.dh.login.service.LoginVO;
 import com.dh.study.service.StudyVO;
 
+
 @Transactional
 @Service("LoginService")
 public class LoginServiceimpl implements LoginService, UserDetailsService {
@@ -65,6 +66,11 @@ public class LoginServiceimpl implements LoginService, UserDetailsService {
 	public List<StudyVO> mainlist(LoginVO vo) {
 		return loginMapper.mainlist(vo);
 	}
-
+	
+	public com.securityconfig.User findByEmail(String email) {
+		com.securityconfig.User user = new com.securityconfig.User();
+		user = loginMapper.findByEmail(email);
+		return user;
+	}
 	
 }
