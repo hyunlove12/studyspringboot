@@ -3,6 +3,10 @@ application:
    title: boot-security
     
 spring:
+   servlet:
+    multipart: 
+      max-file-size: 10240KB
+      max-request-size: 10240KB
    security:
     oauth2:
       client:
@@ -28,12 +32,12 @@ spring:
     # 운영 서버
     #url: jdbc:mariadb://203.245.44.21:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
     # url: jdbc:mysql://203.245.44.21:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
-    url: jdbc:mysql://192.168.25.12:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
-    username: donghyun1224
-   # username: webdb
-    #password: qweasd123
-    password: 1234
-   #  password: webdb
+    
+    # url: jdbc:mysql://192.168.25.12:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://:3306/study?useUnicode=true&characterEncoding=UTF-8
+    username: 
+    # password: 1234
+    password: -
          
    devtools:
     livereload:
@@ -71,7 +75,11 @@ server:
     
     
 custom:
+  upload:
+    path: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/img/
   oauth2:
     kakao:
-      client-id: --------
+      client-id: -
+      
+
         

@@ -9,6 +9,7 @@ import java.util.Calendar;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +23,8 @@ public class FileUpload {
 	
 	@Autowired
 	FileMapper fileMapper;
+	
+	@Value("${custom.upload.path}") String fileUrl;
 	
 	private String unityGroupId = "";
 	
@@ -48,8 +51,8 @@ public class FileUpload {
 			String destinationFileName;
 			System.out.println(fileMapper);
 			// 상대경로로 적어주면 톰캣의 basedir로 저장된다.
-			String fileUrl = "D:/springProject/studyspringboot/src/main/resources/static/upload/img/";
-			// String fileUrl = "./upload/img/";
+			// String fileUrl = "D:/springProject/studyspringboot/src/main/resources/static/upload/img/";
+			
 			// List<ComVO> list = new ArrayList<ComVO>();
 			// String unityGroupId = makeUnityGroupId(); 
 			do { 

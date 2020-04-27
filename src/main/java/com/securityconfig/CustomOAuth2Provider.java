@@ -21,8 +21,8 @@ public enum CustomOAuth2Provider {
 			return builder; 
 			} 
 		};
-
-    private static final String DEFAULT_LOGIN_REDIRECT_URL = "{baseUrl}/login/oauth2/code/{registrationId}";
+	// {baseUrl}/login/oauth2/code/{registrationId}
+    private static final String DEFAULT_LOGIN_REDIRECT_URL = "http://175.125.92.167:8080/login/oauth2/code/{registrationId}";
 
     protected final ClientRegistration.Builder getBuilder(String registrationId, ClientAuthenticationMethod method, String redirectUri) {
         ClientRegistration.Builder builder = ClientRegistration.withRegistrationId(registrationId);
