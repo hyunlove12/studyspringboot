@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import com.dh.common.service.ComVO;
  
 @Component
 public class LoginInterceptor extends HandlerInterceptorAdapter{
@@ -26,7 +28,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
-        // TODO Auto-generated method stub
+    	ComVO vo = new ComVO();
+    	String userId = vo.getSuserId();
+    	modelAndView.addObject("suserId", userId);
+    	System.out.println("suserId" + userId);
         super.postHandle(request, response, handler, modelAndView);
     }
  

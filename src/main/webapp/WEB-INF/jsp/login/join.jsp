@@ -58,7 +58,7 @@
                     </div>
                     <div class="span3 control-group">
                       <label>email</label>
-                      <input type="text" id="text" name="text" maxlength="100" class="span3">
+                      <input type="text" id="email" name="email" maxlength="100" class="span3">
                     </div>
                   </div>
                   <div class="row controls">

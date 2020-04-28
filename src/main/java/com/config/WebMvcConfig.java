@@ -18,7 +18,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	
 	private static final String[] RESOURCE_LOCATIONS = {
-			"classpath:/static/"
+			"classpath:/static/**/*",
+			"/css/**", "/js/**", "/images/**", "/fonts/**", "/color/**", "/ico/**", "/img/**", "/upload/**"
 	};
 	@Autowired
 	@Qualifier(value = "loginInterceptor")
@@ -26,9 +27,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(interceptor);
-				//.excludePathPatterns("/main.do");
-				//.excludePathPatterns("static/**/*")
+		registry.addInterceptor(interceptor)
+				.excludePathPatterns(RESOURCE_LOCATIONS);
 	}
 	
 	/*@Bean

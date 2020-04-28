@@ -6,6 +6,7 @@ http://175.125.92.167:8080
 - mysql 5.7
 - openjdk 1.8
 - https 통신 위해 cacerts교체
+- tomcat 9.0
 
 1. 스프링부트
 - 세부 설정 필요

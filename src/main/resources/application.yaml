@@ -34,10 +34,10 @@ spring:
     # url: jdbc:mysql://203.245.44.21:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
     
     # url: jdbc:mysql://192.168.25.12:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
-    url: jdbc:mysql://:3306/study?useUnicode=true&characterEncoding=UTF-8
-    username: 
+    url: jdbc:mysql://175.125.92.167:3306/study?useUnicode=true&characterEncoding=UTF-8
+    username: donghyun1224
     # password: 1234
-    password: -
+    password: Test1234!
          
    devtools:
     livereload:
@@ -79,7 +79,7 @@ custom:
     path: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/img/
   oauth2:
     kakao:
-      client-id: -
+      client-id: 264f1be3f2a2472c78c3fed7a78f2abb
       
 
         

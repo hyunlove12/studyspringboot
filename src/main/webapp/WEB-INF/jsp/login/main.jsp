@@ -70,13 +70,14 @@
             	</sec:authorize>
             	<sec:authorize access="isAuthenticated()">
 	            	<%-- <input type="hidden" value='<sec:authentication property="principal.username"/>'  id="tempUserId"/> --%>
-	            	<input type="hidden" value='<sec:authentication property="principal"/>'  id="tempUserId"/>
+	            	<!-- property="principal 객체 -->
+	            	<input type="hidden" value='${suserId }'  id="tempUserId"/>
 	            </sec:authorize>
 				<c:forEach items="${list }" var="r">
 					<div class="span3">
 		                <div class="pricing-box-wrap animated-fast flyIn">
 		                  <div class="pricing-heading">
-		                    <h3><strong>${r.groupNm }</strong></h3>
+		                    <h3><strong>${r.groupNm } </strong></h3>
 		                  </div>
 		                  <div class="pricing-terms">
 		                    <h6>${r.groupBrief }</h6>

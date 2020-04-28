@@ -36,11 +36,8 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 	
 
 	@RequestMapping("/main") 
-	public ModelAndView welcome(ModelAndView mv, LoginVO vo) {
+	public ModelAndView welcome(ModelAndView mv, LoginVO vo) {		
 		
-		String userId = ComVO.currentUserName();		
-		mv.addObject("userId", userId);
-		System.out.println("userId : " + userId);
 		// 메인의 스터디 리스트
 		List<StudyVO> list = new ArrayList<StudyVO>();
 		list = loginService.mainlist(vo);
