@@ -113,66 +113,11 @@
   </div>
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
 	<script type="text/javascript">
-	// bind, unbind, on, off, removeEventListener 등 이벤트 할당에 대한 공부...
-	let checkId = document.getElementById('idCheck');
-	let checkedEvent = function(){
-		alert('중복체크를 초기화합니다.');
-   		$("#idCheck").val('중복체크');
-   		$("#idCheck").removeClass('idChecked');
-   		$("#idCheck").addClass('noCheck');
-   		$("#id").removeAttr('disabled');
-   		$("#idCheck").one('click', noCheckEvent);
-   	//	checkId.removeEventListener('click', this.checkedEvent);
-      // $(document).on('click',"#idCheck", noCheckEvent);
-	}
-	// 동적 이벤트 할당
-	let noCheckEvent = function() {
-		if($("#id").val() == ''){
-			alert('id를 입력해 주세요!');
-			$("#idCheck").one('click', noCheckEvent);
-			return
-		}
-		// 스크립트 조작 방지에 대한 대책 필요?            	
-   		$.ajax({
-	        type : "get", //전송방식을 지정한다 (POST,GET)
-	        url : "${pageContext.request.contextPath }/join/checkId",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
-	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
-	        data : {
-	        	      "groupId" : $("#id").val()
-	        	     },
-	        error : function(data){
-				alert('요청에 실패했습니다.');
-	            console.log(data);
-	        },
-	        success : function(data){
-	            if(data == 'true') {
-	            	alert('사용가능한 ID입니다.');
-	            	$("#idCheck").removeClass('noCheck');
-	            	$("#idCheck").addClass('idChecked');
-					$("#id").attr('disabled','disabled');
-	            	$("#idCheck").val('체크 완료! - 초기화');
-	    	    } else {
-					alert('중복 된 아이디 입니다.')
-		    	}
-	            $("#idCheck").one('click', checkedEvent);
-	      //      checkId.removeEventListener('click', this.noCheckEvent);
-	         //   $(document).on('click',"#idCheck", checkedEvent);
-	        }         
-	    });   
-	}
-
-	let emailCheck = function(){
-		alert('준비중입니다.')
-	}
-	$("#idCheck").one('click', noCheckEvent);
-
-	$("#emailCheck").on('click', emailCheck);
-//	$(document).on('click',"#idCheck", noCheckEvent);	
-	
-	
-/* 	$(document).on('click', 'input.noCheck', (function(){  
+	jQuery(document).ready(function ($) {
+		  "use strict";
+	$(function(){        
 			//.idCheck -> 포함된 것 찾는것?
-        	$("input.noCheck").click(function(){
+        	$(".noCheck").click(function(){
             	// 스크립트 조작 방지에 대한 대책 필요?            	
 	       		$.ajax({
 	    	        type : "get", //전송방식을 지정한다 (POST,GET)
@@ -195,28 +140,19 @@
 			    	    } else {
 							alert('중복 된 아이디 입니다.')
 				    	}
-	    	            $("input.noCheck").removeEventListener('click');
 	    	        }         
 	    	    });       		
 	       	});     
-       })); */
-     /*   $("input.idChecked").off("click").on("click", function(){  
-    		alert('중복체크를 초기화합니다.');
-       		$("#idCheck").val('중복체크');
-       		$("#idCheck").removeClass('idChecked');
-       		$("#idCheck").addClass('noCheck');
-       		$("#id").removeAttr('disabled');   
-  		}); */
- 		
-		// 이벤트 동적 할당        	
-       /* 	$(document).on('click', 'input.idChecked', (function(){  
-           	alert('중복체크를 초기화합니다.');
-       		$("#idCheck").val('중복체크');
-       		$("#idCheck").removeClass('idChecked');
-       		$("#idCheck").addClass('noCheck');
-       		$("#id").removeAttr('disabled');
-       	})); */	 
-	    
+	       	
+        	$("input.idChecked").click(function(){  
+            	alert('중복체크를 초기화합니다.');
+        		$("#idCheck").val('중복체크');
+        		$("#idCheck").removeClass('idChecked');
+        		$("#idCheck").addClass('noCheck');
+        		$("#id").removeAttr('disabled');
+        	});	
+        });
+	  });   
     </script>
 </body>
 

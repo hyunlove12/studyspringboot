@@ -53,7 +53,8 @@
                       <li>Tags: <a href="#">Design</a>, <a href="#">Blog</a></li>
                     </ul>
                   </div>
-                  <pre>${vo.groupExplain }</pre>
+                 ${vo.groupExplain }
+
 
 
                 </div>
@@ -101,7 +102,7 @@
 
 			<!-- 댓글달기 -->
             <div class="comment-area">
-              <h4>${repleCount } Comments</h4>
+              <h4>4 Comments</h4>
               
              <c:forEach var="r" items="${replist }">
 	             <div class="row">
@@ -114,7 +115,7 @@
 			                    <p>
 			                      ${r.content }
 			                    </p>
-			                    <a href="#" id="" class="align-right">Reply</a>
+			                    <a href="#" class="align-right">Reply</a>
 			                  </div>                  
 			                </div>
 			              </div>		              
@@ -181,28 +182,9 @@
               </div>
  --%>
 
-			<div class="span12">
-                <h4 class="title">문의하기</h4>
 
-                <p>비가입자도 질문 가능합니다!</p>
-                <form action="/study/registqna" method="post">                 
-                  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-              	  <input type="hidden" name="groupId" value="${vo.groupId }"/>
-                  <div class="row controls">
-                    <div class="span12 control-group">
-                      <input name="content" class="span12" maxlength="100" type="text" placeholder="질문을 입력하세요" />
-                    </div>
-                  </div>
-                  <div class="btn-toolbar">
-                    <button class="btn btn-theme btn-medium margintop10" type="submit">등록</button>
-                  </div>
-                </form>
-              </div>
-				
-			  
-				
-				
-              <%-- <div class="marginbot30"></div>
+
+              <div class="marginbot30"></div>
               <h4>해당그룹에 질문하기!</h4>
 
               <form id="commentform" class="contactForm" action="/study/registqna" method="post" name="comment-form">
@@ -216,9 +198,7 @@
                       <button class="btn btn-theme btn-medium margintop10" type="submit">등록</button>
                   </div>
                 </div>
-              </form> --%>
-              
-              
+              </form>
             </div>
           </div>
 

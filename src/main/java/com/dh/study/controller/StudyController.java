@@ -113,6 +113,9 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 		List<StudyVO> replist = new ArrayList<StudyVO>();
 		replist = studyService.groupreply(groupId);
 		model.addObject("replist", replist);
+		// 댓글 개수
+		int repleCount = replist.size();
+		model.addObject("repleCount", repleCount);
 		return model;
 	}
 	
@@ -190,18 +193,22 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 		return "redirect:/study/view/" + vo.getGroupId();
 	}
 	
-	
-	 @RequestMapping("/joinrequest") 
-	 public @ResponseBody String joinrequest(StudyVO vo) {
-		 int val = studyService.joinrequest(vo);
-		 String result = "";
-		 if(val > 0) {
-			 result = "가입요청이 성공적으로 전송되었습니다.";
-		 } else {
-			 result = "가입요청에 실패하였습니다. 관리자에게 문의바랍니다.";
-		 }
-		 return result;	 
-	 }
+	/**
+	 * 그룹 가입 요청
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping("/joinrequest") 
+	public @ResponseBody String joinrequest(StudyVO vo) {
+		int val = studyService.joinrequest(vo);
+		String result = "";
+		if(val > 0) {
+				result = "가입요청이 성공적으로 전송되었습니다.";
+		} else {
+				result = "가입요청에 실패하였습니다. 관리자에게 문의바랍니다.";
+		}
+		return result;	 
+	}
 	 
 	 /**
 	  * 요청 중복 여부 확인

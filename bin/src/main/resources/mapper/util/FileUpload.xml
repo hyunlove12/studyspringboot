@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dh.util.FileMapper">
+	
+	<insert id="insertUnityId">
+		INSERT INTO TB_UNITY(UNITY_ID, NAME, REG_DT) VALUES(#{unityId }, #{name },  (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
+	</insert>
+	
+	<insert id="insertUnityGroup">
+		INSERT INTO TB_UNITY_GROUP(UNITY_GROUP_ID, UNITY_ID) VALUES(#{unityGroupId }, #{unityId})	
+	</insert>
+	
+</mapper>

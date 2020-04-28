@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dh.study.serviceimpl.StudyMapper">
+
+    
+    <insert id="createstudy" parameterType="com.dh.study.service.StudyVO">
+    	<selectKey resultType="string" keyProperty="groupId" order="BEFORE">
+	    	SELECT MAX(IFNULL(G.GROUP_ID, 0)) + 1 
+			  FROM (SELECT 1 FROM DUAL) D
+			  LEFT OUTER JOIN TB_STUDY_GROUP G
+			    ON 1 = 1
+    	</selectKey>
+			 INSERT INTO TB_STUDY_GROUP(GROUP_ID, GROUP_NM, GROUP_FOUNDER, GROUP_BRIEF, GROUP_EXPLAIN, TOTAL, CURRENT_MEMBER, REG_DT, USE_AT, UNITY_GROUP_ID)
+			VALUES (#{groupId }, #{groupNm }, #{suserId }, #{groupBrief }, #{groupExplain}, #{total }, 1, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 'Y', #{unityGroupId })
+    </insert> 
+    
+    <insert id="joinstudygroup">
+	    INSERT INTO TB_GROUP_MEMBER(ID, GROUP_ID, GROUP_ROLE, REG_DT) 
+	   VALUES( #{suserId }, #{groupId }, 'admin', (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL));
+    </insert>
+    
+    <insert id="joinrequest">
+    	INSERT INTO TB_STUDY_GROUP_REQUEST(ID, GROUP_ID, REQUEST_CONT, REG_DT) 
+        VALUES(#{suserId }, #{groupId }, #{requestCont }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
+    </insert>
+    
+	<select id="studylist" resultType="com.dh.study.service.StudyVO">
+		 SELECT SG.GROUP_ID AS groupId
+			  , SG.GROUP_NM AS groupNm
+			  , SG.GROUP_FOUNDER AS groupFounder
+			  , SG.GROUP_BRIEF AS groupBrief
+			  , SG.GROUP_EXPLAIN AS groupExplain
+			  , SG.TOTAL AS total
+			  , SG.REG_DT AS regDt
+			  , SG.USE_AT AS useAt
+			  , GMS.GROUP_COUNT AS groupCount
+              , TGM.ID AS CHECK_JOIN_ID
+		   FROM TB_STUDY_GROUP SG
+		   LEFT OUTER JOIN (
+							SELECT COUNT(ID) AS GROUP_COUNT
+							     , GROUP_ID
+							  FROM TB_GROUP_MEMBER
+							  GROUP BY GROUP_ID
+		  					) GMS
+		     ON SG.GROUP_ID = GMS.GROUP_ID
+           LEFT OUTER JOIN (
+							SELECT ID , GROUP_ID 
+	                          FROM TB_GROUP_MEMBER GM
+							 WHERE ID = #{suserId }
+						   ) TGM
+             ON SG.GROUP_ID = TGM.GROUP_ID
+	</select>
+    
+	<insert id="join">
+		INSERT INTO TB_GROUP_MEMBER(ID, GROUP_ID, GROUP_ROLE, REG_DT) 
+		VALUES(#{id }, #{groupId}, 'user', #{regDt })
+    </insert> 
+
+	<update id="updatecount">
+		UPDATE TB_STUDY_GROUP 
+		   SET CURRENT_MEMBER = (
+									SELECT ( CURRENT_MEMBER + 1  )
+								      FROM TB_STUDY_GROUP
+								     WHERE GROUP_ID = #{groupId }
+	                             )
+	     WHERE GROUP_ID = #{groupId}
+	</update>
+	
+	<select id="checkmember" resultType="String">
+	<![CDATA[	
+	    SELECT CASE WHEN TOTAL > CURRENT_MEMBER THEN 'OK'
+                    WHEN TOTAL <= CURRENT_MEMBER THEN 'NOT' 
+                     END AS chekcMember 
+		       ]]>
+		  FROM TB_STUDY_GROUP
+		 WHERE GROUP_ID = #{groupId }
+	</select>
+	
+	<select id="view" resultType="com.dh.study.service.StudyVO">
+		SELECT SG.GROUP_ID AS groupId
+		     , SG.GROUP_NM AS groupNm
+		     , SG.GROUP_FOUNDER AS groupFounder
+		     , SG.GROUP_BRIEF AS groupBrief
+		     , SG.GROUP_EXPLAIN AS groupExplain
+		     , SG.TOTAL AS total
+		     , SG.REG_DT AS regDt
+		     , SG.USE_AT AS useAt
+		     , SG.UNITY_GROUP_ID AS unityGroupId
+		     , UG.UNITY_ID AS unityId
+		  FROM TB_STUDY_GROUP SG
+		  LEFT OUTER JOIN TB_UNITY_GROUP UG
+            ON SG.UNITY_GROUP_ID = UG.UNITY_GROUP_ID
+		 WHERE GROUP_ID = #{groupId }
+	</select>
+	
+	<select id="detailview" resultType="com.dh.study.service.StudyVO">
+		SELECT GROUP_ID AS groupId
+			 , SUBTITLE_ID AS subtitleId
+			 , SUBTITLE_NM AS subtitleNm
+			 , SUBTITLE_CREATER AS subtitleCreater
+			 , CONTENTS AS contents
+			 , UNITY_GROUP_ID AS unityGroupId
+			 , REG_DT AS regDt
+		  FROM TB_GROUP_DETAIL GD
+         WHERE GROUP_ID = #{groupId }
+	</select>
+	
+	<select id="processview" resultType="com.dh.study.service.StudyVO">
+	    SELECT GROUP_ID AS groupId
+ 		     , SUBTITLE_ID AS subtitleId
+		     , SUBTITLE_NM AS subtitleNm
+		     , SUBTITLE_CREATER AS subtitleCreater
+		     , CONTENTS AS contents
+		     , UNITY_GROUP_ID AS unityGroupId
+		     , REG_DT AS regDt
+	      FROM TB_GROUP_DETAIL
+		 WHERE GROUP_ID = #{groupId }
+		   AND SUBTITLE_ID = #{subtitleId }
+	</select>
+	
+	<insert id="createstudydetail">
+		<selectKey resultType="string" keyProperty="subtitleId" order="BEFORE">
+		    SELECT MAX(IFNULL(GD.SUBTITLE_ID, 0)) + 1 
+			 FROM (SELECT 1 FROM DUAL) D
+			   LEFT OUTER JOIN TB_GROUP_DETAIL GD
+   			    ON 1 = 1
+              AND GD.GROUP_ID = #{groupId}   			    
+    	</selectKey>
+		INSERT INTO TB_GROUP_DETAIL(GROUP_ID, SUBTITLE_ID, SUBTITLE_NM, SUBTITLE_CREATER, CONTENTS, UNITY_GROUP_ID, REG_DT) 
+	   VALUES( #{groupId}, #{subtitleId}, #{subtitleNm}, #{suserId }, #{contents }, #{unityGroupId }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
+	</insert>
+	
+	<insert id="registprogress">
+		INSERT INTO TB_PROGRESS_SIT(GROUP_ID, SUBTITLE_ID, ID, PROGRESS_SIT, UNITY_ID, PROGRESSING, LIMITDATE, REG_DT)
+	    VALUES(#{groupId }, #{subtitleId}, #{suserId }, #{progressSit }, #{unityId }, #{progressing}, #{limitDate}, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
+	</insert>
+	
+	<select id="progressbymember" resultType="com.dh.study.service.StudyVO">	
+		SELECT GROUP_ID AS groupId
+ 			 , SUBTITLE_ID AS subtitleId
+			 , ID AS id
+			 , PROGRESS_SIT AS progressSit
+			 , UNITY_ID AS unityId
+			 , PROGRESSING AS progressing
+			 , LIMITDATE AS limitDate
+			 , REG_DT  AS regDt
+		  FROM TB_PROGRESS_SIT
+ 		 WHERE GROUP_ID = #{groupId }
+		   AND SUBTITLE_ID = #{subtitleId }	
+	</select>
+	
+	<insert id="registqna">
+		<selectKey resultType="string" keyProperty="qnaId" order="BEFORE">
+		    SELECT MAX(IFNULL(GQ.QNA_ID, 0)) + 1 
+			  FROM (SELECT 1 FROM DUAL) D
+			  LEFT OUTER JOIN TB_GROUP_QNA GQ
+   			    ON 1 = 1
+               AND GQ.GROUP_ID = #{groupId}   			    
+    	</selectKey>
+		INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
+		VALUES(#{groupId }, #{qnaId }, #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 1, 1, 1, #{suserId })
+	</insert>
+	
+	<select id="groupreply" resultType="com.dh.study.service.StudyVO">	
+		SELECT GQ.GROUP_ID AS groupId
+ 			 , GQ.QNA_ID AS qnaId
+			 , GQ.TITLE AS title
+			 , GQ.CONTENT AS content
+			 , GQ.REG_DT AS regDt
+			 , GQ.HIT AS hit
+			 , GQ.G_NO AS gNo
+			 , GQ.O_NO AS oNo
+			 , GQ.DEPTH AS depth
+			 , GQ.ID AS id
+			 , GM.GROUP_ROLE AS groupRole 
+		  FROM TB_GROUP_QNA GQ
+		  LEFT OUTER JOIN TB_GROUP_MEMBER GM
+		    ON GQ.ID = GM.ID
+		   AND GQ.GROUP_ID = GM.GROUP_ID
+		 WHERE GQ.GROUP_ID = #{groupId }
+		 ORDER BY GQ.QNA_ID, GQ.G_NO
+	</select>
+	
+	<insert id="replygroup">
+		INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
+		VALUES(#{groupId }, #{qnaId }, #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 2, 2, 2, #{suserId })
+	</insert>
+	
+	<select id="checkrequestjoin" resultType="String">
+		SELECT COUNT(ID) AS requestCount 
+		  FROM TB_STUDY_GROUP_REQUEST 
+		 WHERE ID = #{suserId } AND GROUP_ID = #{groupId }	
+	</select>
+	
+</mapper>

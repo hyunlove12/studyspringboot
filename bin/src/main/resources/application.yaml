@@ -1,0 +1,85 @@
+application:
+   version: v1.0.0
+   title: boot-security
+    
+spring:
+   servlet:
+    multipart: 
+      max-file-size: 10240KB
+      max-request-size: 10240KB
+   security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 881218558153-ndr868i68rlofoo4l2gb488ksabi5q23.apps.googleusercontent.com
+            client-secret: kq6zIo0myJotHK5_0irhtYnW
+          facebook:
+            client-id: 465358593799840
+            client-secret: a37286e3dae00dcdce628f40dfe363f5
+   mvc:
+    view:
+     prefix: /WEB-INF/jsp/
+     suffix: .jsp 
+   datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    #driver-class-name: org.mariadb.jdbc.Driver
+ ## initialization-mode 옵션: never, always (어플리케이션 실행시 sql파일 실행할지 안할지 여부 선택)
+    initialization-mode: always
+ ## sql 파일 경로
+    #schema: classpath:init.sql
+    # url: jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8
+    # 운영 서버
+    #url: jdbc:mariadb://203.245.44.21:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
+    # url: jdbc:mysql://203.245.44.21:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
+    
+    # url: jdbc:mysql://192.168.25.12:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://175.125.92.167:3306/study?useUnicode=true&characterEncoding=UTF-8
+    username: donghyun1224
+    # password: 1234
+    password: Test1234!
+         
+   devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+   resources:
+      static-locations: classpath:/resources/,classpath:/static/           
+       
+   #thymeleaf:
+   #   cache: false
+   #   mode: HTML
+       
+## 마이바티스 sql.xml 경로      
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml
+  
+logging:
+   file:
+    path: log/
+   level:
+    jdbc.sqlonly: DEBUG
+    org.springframework.web: DEBUG
+     
+server:
+  jsp-servlet: 
+   init-parameters:
+    development: true
+    
+  error:
+   path: log/
+  tomcat:
+   accesslog:
+    enabled: true
+    
+    
+custom:
+  upload:
+    path: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/img/
+  oauth2:
+    kakao:
+      client-id: 264f1be3f2a2472c78c3fed7a78f2abb
+      
+
+        
