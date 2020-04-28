@@ -21,4 +21,7 @@ public interface LoginMapper {
 	
 	/* oauth user 검색 */
 	public User findByEmail(String email);
+	
+	/* id중복 체크 */
+	public String checkId(LoginVO vo);
 }

@@ -192,7 +192,7 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 	
 	
 	 @RequestMapping("/joinrequest") 
-	 public @ResponseBody String  joinrequest(StudyVO vo) {
+	 public @ResponseBody String joinrequest(StudyVO vo) {
 		 int val = studyService.joinrequest(vo);
 		 String result = "";
 		 if(val > 0) {
@@ -201,5 +201,17 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 			 result = "가입요청에 실패하였습니다. 관리자에게 문의바랍니다.";
 		 }
 		 return result;	 
+	 }
+	 
+	 /**
+	  * 요청 중복 여부 확인
+	  * @param vo
+	  * @return
+	  */
+	 @GetMapping("/checkrequestjoin")
+	 public @ResponseBody Boolean checkrequestjoin(StudyVO vo) {
+		 Boolean boo = true;
+		 boo = studyService.checkrequestjoin(vo);
+		 return boo;
 	 }
 }

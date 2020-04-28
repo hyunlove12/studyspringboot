@@ -55,5 +55,7 @@ public interface StudyMapper {
 	/* 그룹 별 댓글 리스트 */
 	public List<StudyVO> groupreply(@Param("groupId") String groupId);
 	
+	/* 로그인 가입 요청 체크 */
+	public String checkrequestjoin(StudyVO vo);
 	
 }

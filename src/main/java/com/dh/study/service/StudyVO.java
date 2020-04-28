@@ -37,9 +37,15 @@ public class StudyVO extends ComVO implements Serializable{
 	private String currentMember = ""; // 현재 가입 인원	
 	private String checkJoinId = ""; // 그룹 가입 여부 확인
 	private String requestCont = ""; // 가입 요청 메시지
+	private String requestCount = ""; // 그룹 요청 확인 변수 
 	
 	
-	
+	public String getRequestCount() {
+		return requestCount;
+	}
+	public void setRequestCount(String requestCount) {
+		this.requestCount = requestCount;
+	}
 	public String getRequestCont() {
 		return requestCont;
 	}

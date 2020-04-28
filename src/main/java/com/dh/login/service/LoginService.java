@@ -9,4 +9,8 @@ public interface LoginService {
 	
 	/* main리스트 */
 	public List<StudyVO> mainlist(LoginVO vo);
+	
+	/* id중복 체크 */
+	public Boolean checkId(LoginVO vo);
+	
 }

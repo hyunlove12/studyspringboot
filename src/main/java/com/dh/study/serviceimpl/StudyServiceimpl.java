@@ -114,4 +114,15 @@ public class StudyServiceimpl extends ComServiceimpl<StudyServiceimpl, StudyMapp
 		return studyMapper.groupreply(groupId);
 	}
 	
+	/* 로그인 가입 요청 체크 */
+	public Boolean checkrequestjoin(StudyVO vo) {
+		String result =  studyMapper.checkrequestjoin(vo);
+		Boolean boo = true;
+		if("0".equals(result)) {
+			
+		} else {
+			boo = false;
+		}
+		return boo;
+	}
 }

@@ -7,6 +7,4 @@ import com.dh.common.service.ComVO;
 public class LoginVO extends ComVO implements Serializable{
 
 		
-	
-	
 }

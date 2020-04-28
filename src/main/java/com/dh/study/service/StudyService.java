@@ -42,4 +42,7 @@ public interface StudyService {
 	/* 그룹 별 댓글 리스트 */
 	public List<StudyVO> groupreply(String groupId);
 	
+	/* 로그인 가입 요청 체크 */
+	public Boolean checkrequestjoin(StudyVO vo);
+	
 }

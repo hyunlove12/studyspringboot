@@ -73,4 +73,16 @@ public class LoginServiceimpl implements LoginService, UserDetailsService {
 		return user;
 	}
 	
+	/* id중복 체크 */
+	public Boolean checkId(LoginVO vo) {
+		String result = loginMapper.checkId(vo);
+		Boolean boo = true;
+		if("0".equals(result)) {
+		
+		} else {
+			boo = false;
+		}
+		return boo;
+	}
+	
 }

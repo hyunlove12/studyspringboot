@@ -154,11 +154,13 @@
       	           xhr.setRequestHeader(header, token);
       	       });
       	    });
+      	    
         	$("a.joinRequest").click(function(event) {
         		if($("#tempUserId").val() == "anonymousUser" || $("#tempUserId").val() == "" || $("#tempUserId").val() == null){
         			alert("로그인이 필요합니다!");
         			return;
         		}
+        		
        			var groupNm = $(this).attr("groupNm") + ' 가입요청';
        			var groupId = $(this).attr("groupId");
        			$("#tempGroupId").val(groupId);
@@ -166,24 +168,53 @@
        			$("#myModalLabel").append(groupNm);
        			$("#myModal").modal("show");
        		});
+
+       		let boo = true;
         	$("#requestbutton").click(function(){
-	       		$.ajax({
-	    	        type : "post", //전송방식을 지정한다 (POST,GET)
-	    	        url : "${pageContext.request.contextPath }/study/joinrequest",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
-	    	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
-	    	        data : {
-	    	        	      "groupId" : $("#tempGroupId").val()
-	    	        	    , "requestCont" : $("#message").val()
-	    	        	     },
-	    	        error : function(data){
-	    	          alert(data);
-	    	        },
-	    	        success : function(data){
-	    	            alert(data);
-	    	            $("#message").val("");
-	    	            $("#myModal").modal("hide");
-	    	        }         
+            	// 재선언이 되는것?
+            	// let boo = true;
+        		// 요청 여부 확인
+        		$.ajax({
+		    	        type : "get", //전송방식을 지정한다 (POST,GET)
+		    	        url : "${pageContext.request.contextPath }/study/checkrequestjoin",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
+		    	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
+		    	        data : {
+		    	        	      "groupId" : $("#tempGroupId").val()
+		    	        	     },
+		    	        error : function(data){
+			    	        alert('요청에 실패했습니다.');
+			    	        boo = false;
+		    	            console.log(data);
+		    	        },
+		    	        success : function(data){
+		    	            boo = data;
+		    	        }         
 	    	    });
+	    	    
+	       		if(boo == 'true') {
+	        		// 가입 요청
+		       		$.ajax({
+		    	        type : "post", //전송방식을 지정한다 (POST,GET)
+		    	        url : "${pageContext.request.contextPath }/study/joinrequest",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
+		    	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
+		    	        data : {
+		    	        	      "groupId" : $("#tempGroupId").val()
+		    	        	    , "requestCont" : $("#message").val()
+		    	        	     },
+		    	        error : function(data){
+		    	        	alert('요청에 실패했습니다.');
+		    	            console.log(data);
+		    	        },
+		    	        success : function(data){
+		    	            alert(data);
+		    	            $("#message").val("");
+		    	            $("#myModal").modal("hide");
+		    	        }         
+		    	    });
+	          	} else {
+					alert('이미 요청된 그룹 입니다!');	
+	          	}
+           		
 	       	});
         	 
         	 

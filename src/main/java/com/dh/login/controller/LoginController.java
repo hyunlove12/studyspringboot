@@ -11,11 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dh.common.controller.ComController;
-import com.dh.common.service.ComVO;
 import com.dh.login.service.LoginVO;
 import com.dh.login.serviceimpl.LoginServiceimpl;
 import com.dh.study.service.StudyVO;
@@ -72,6 +72,19 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 	public String loginSuccess(@SocialUser User user) {			
 		System.out.println(user.getEmail() + "email");
 		return "login/main";
+	}
+	
+	/**
+	 * 
+	 * 중복 아이디 체크
+	 * @param vo
+	 * @return
+	 */
+	@GetMapping("/join/checkId")
+	public @ResponseBody Boolean checkId(LoginVO vo) {
+		Boolean boo = true;
+		boo = loginService.checkId(vo);
+		return boo; 
 	}
 	
 }

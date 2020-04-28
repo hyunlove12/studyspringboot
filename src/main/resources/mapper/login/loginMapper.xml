@@ -67,4 +67,10 @@
 		 FROM TB_MEMBER
 		WHERE email = #{email }
 	</select>
+	
+	<select id="checkId" resultType="String">
+	    SELECT COUNT(ID) AS idCheck 
+	      FROM TB_MEMBER 
+	     WHERE ID = #{id }
+	</select>
 </mapper>

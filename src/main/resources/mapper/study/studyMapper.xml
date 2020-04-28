@@ -186,4 +186,10 @@
 		VALUES(#{groupId }, #{qnaId }, #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 2, 2, 2, #{suserId })
 	</insert>
 	
+	<select id="checkrequestjoin" resultType="String">
+		SELECT COUNT(ID) AS requestCount 
+		  FROM TB_STUDY_GROUP_REQUEST 
+		 WHERE ID = #{suserId } AND GROUP_ID = #{groupId }	
+	</select>
+	
 </mapper>

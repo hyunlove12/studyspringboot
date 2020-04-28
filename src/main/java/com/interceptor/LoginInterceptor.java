@@ -28,10 +28,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
-    	ComVO vo = new ComVO();
-    	String userId = vo.getSuserId();
-    	modelAndView.addObject("suserId", userId);
-    	System.out.println("suserId" + userId);
+    	if(modelAndView != null) {
+    		ComVO vo = new ComVO();
+    		String userId = vo.getSuserId();
+    		modelAndView.addObject("suserId", userId);
+    		System.out.println("suserId" + userId);    		
+    	}
         super.postHandle(request, response, handler, modelAndView);
     }
  
