@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dh.common.controller.ComController;
 import com.dh.study.service.StudyVO;
@@ -40,5 +42,25 @@ public class StudyManageController extends ComController<StudyServiceimpl, Study
 		return "studymanage/studymanagelist";
 	} 
 	
-	
+	 /**
+	  * 
+	  * 회원 가입 요청 승인 / 거부
+	  * @param vo
+	  * @return
+	  */
+	 @PostMapping("/joinMember")
+	 public @ResponseBody String joinMember(StudyVO vo) {
+		 int resultInsert = studyManageService.joinMember(vo);
+		 String result = "";
+		 if(resultInsert >= 3) {
+			 if(("refuse").equals(vo.getGroupRole())) {			 
+				 result = "가입 요청을 거부하였습니다.";				 
+			 } else {
+				 result = "가입 요청을 승인하였습니다.";				 
+			 }
+		 } else {
+			 result = "가입 요청 승인 / 거부에 실패했습니다.";
+		 }
+		 return result;
+	 }
 }

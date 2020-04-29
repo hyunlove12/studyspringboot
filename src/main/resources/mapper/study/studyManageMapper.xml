@@ -10,13 +10,14 @@
 		     , GR.REQUEST_CONT AS requestCont
 		     , SG.GROUP_NM AS groupNm
 		     , TM.NAME AS name
+		     , CONFIRM_AT AS confirmAt
 		  FROM TB_STUDY_GROUP_REQUEST GR
 		 INNER JOIN (
 				     SELECT GROUP_ID
 					   FROM TB_GROUP_MEMBER GM
 					  WHERE GM.ID = #{suserId }
 					    AND GROUP_ROLE = 'admin'
-                    )GM
+                    ) GM
             ON GR.GROUP_ID = GM.GROUP_ID
           LEFT OUTER JOIN TB_STUDY_GROUP SG
 		    ON GR.GROUP_ID = SG.GROUP_ID   
@@ -24,4 +25,20 @@
 		    ON GR.ID = TM.ID           
     </select>
 	
+	<insert id="joinMember">
+		INSERT TB_GROUP_MEMBER(ID, GROUP_ID, GROUP_ROLE, REG_DT) 
+		VALUES (#{id }, #{groupId }, #{groupRole }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
+	</insert>
+	
+	<insert id="requestResult">
+		INSERT INTO TB_STUDY_GROUP_REQUEST_RESULT(ID, GROUP_ID, GROUP_ROLE, CONFIRMER, CONFIRM_AT, REG_DT, CONFIRM_CONT)  
+		VALUES(#{id }, #{groupId }, #{groupRole }, #{suserId }, #{confirmAt}, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), #{confirmCont})
+	</insert>
+	
+	<update id="confirmUpdate">
+		UPDATE TB_STUDY_GROUP_REQUEST 
+		   SET CONFIRM_AT = #{confirmAt }
+		 WHERE ID = #{id }
+		   AND GROUP_ID = #{groupId }
+	</update>
 </mapper>

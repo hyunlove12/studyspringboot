@@ -58,4 +58,11 @@ public interface StudyMapper {
 	/* 로그인 가입 요청 체크 */
 	public String checkrequestjoin(StudyVO vo);
 	
+	/* 해당 그룹내 권한 체크 */
+	public String groupRole(StudyVO vo);
+	
+	/* 댓글에 답글 달기 */
+	public int replygroup(StudyVO vo);
+	
+	
 }

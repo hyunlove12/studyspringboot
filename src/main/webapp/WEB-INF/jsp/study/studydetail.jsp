@@ -70,7 +70,9 @@
             <div class="post-heading">
             	<h4 class="title">
 	            	<strong>목차</strong>
-	            	<a href="${pageContext.request.contextPath }/study/createstudydetail/${vo.groupId}" class="align-right">등록하기</a>  
+	            	<c:if test="${groupRole == 'admin'}">
+	            		<a href="${pageContext.request.contextPath }/study/createstudydetail/${vo.groupId}" class="align-right">등록하기</a>  
+	            	</c:if>
             	</h4>       	
             </div>            
             <!-- start: Accordion -->
@@ -86,8 +88,12 @@
 		                  <div class="accordion-inner">
 			              <pre>${r.contents }
 			              </pre> 
-		                    <a href="/study/studyprocess/${groupId }/${r.subtitleId }" class="align-right">들어가기</a>
-		                    <a href="#" class="align-right">수정하기</a>
+			              	<c:if test="${groupRole == 'admin' or groupRole == 'user'}">
+		                    	<a href="/study/studyprocess/${groupId }/${r.subtitleId }" class="align-right">들어가기</a>
+		                    </c:if>
+		                    <c:if test="${groupRole == 'admin'}">
+		                    	<a href="#" class="align-right">수정하기</a>
+		                  	</c:if>
 		                  </div>
 		                </div>
 	                </div>		
@@ -114,7 +120,16 @@
 			                    <p>
 			                      ${r.content }
 			                    </p>
-			                    <a href="#" id="" class="align-right">Reply</a>
+								<c:if test="${groupRole == 'admin' and r.gNo == 1}">
+									<!-- align-right라 오른쪽 기준으로 먼저온 것이 보이는 것? -->
+									<p><a href="javascript:fn_del(${r.qnaId }, ${r.groupId })" class="align-right reply">원 댓글 삭제하기</a></p>
+				                    <p><a href="javascript:fn_reply(${r.qnaId }, ${r.groupId })" class="align-right reply">답글달기</a></p>
+				                    <p><input name="content" id="re_${r.groupId }" class="align-right" maxlength="200" type="text" placeholder="답글을 달아주세요." /></p>
+			                    </c:if>
+			                    <c:if test="${groupRole == 'admin' and r.gNo == 2}">
+									<!-- align-right라 오른쪽 기준으로 먼저온 것이 보이는 것? -->
+				                    <p><a href="javascript:fn_del(${r.qnaId }, ${r.groupId })" class="align-right reply">삭제하기</a></p>
+			                    </c:if>
 			                  </div>                  
 			                </div>
 			              </div>		              
@@ -181,7 +196,7 @@
               </div>
  --%>
 
-			<div class="span12">
+			<div class="comment-area">
                 <h4 class="title">문의하기</h4>
 
                 <p>비가입자도 질문 가능합니다!</p>
@@ -229,8 +244,60 @@
     <c:import url="/WEB-INF/jsp/includes/footer.jsp" /> 
   </div>
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
-
-
+  <script type="text/javascript">
+	  var token = $("meta[name='_csrf']").attr("content");
+	    var header = $("meta[name='_csrf_header']").attr("content");
+	    $(function() {
+	       $(document).ajaxSend(function(e, xhr, options) {
+	           xhr.setRequestHeader(header, token);
+	       });
+	    });
+       function fn_reply(qnaId, groupId){
+           let content = $("#re_" + groupId).val();
+    	   $.ajax({
+	   	        type : "post", //전송방식을 지정한다 (POST,GET)
+	   	        url : "${pageContext.request.contextPath }/study/replygroup",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
+	   	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
+	   	        data : {
+	   	        	      "qnaId" : qnaId
+	   	        	    , "groupId" : groupId
+	   	        	    , "content" : content
+	   	        	     },
+	   	        error : function(data){
+	   	          alert('댓글달기에 실패했습니다.');
+	   	          //console.log(data);
+	   	        },
+	   	        success : function(data){
+	   	            alert(data);
+	   	            location.href = location.href;
+	   	        }         
+ 	      });  	      
+       }
+       
+       function fn_del(qnaId, groupId){
+           let content = $("#re_" + groupId).val();
+    	   $.ajax({
+	   	        type : "post", //전송방식을 지정한다 (POST,GET)
+	   	        url : "${pageContext.request.contextPath }/study/replydel",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
+	   	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
+	   	        data : {
+	   	        	      "qnaId" : qnaId
+	   	        	    , "groupId" : groupId
+	   	        	    , "content" : content
+	   	        	     },
+	   	        error : function(data){
+	   	          alert('댓글달기에 실패했습니다.');
+	   	          //console.log(data);
+	   	        },
+	   	        success : function(data){
+	   	            alert(data);
+	   	            location.href = location.href;
+	   	        }         
+ 	      });  	      
+       }
+       
+	</script>
+	
 </body>
 
 </html>

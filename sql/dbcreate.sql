@@ -122,7 +122,8 @@ CREATE TABLE tb_study_group (
 CREATE TABLE tb_study_group_request (
   ID varchar(20) NOT NULL COMMENT '회원ID',
   GROUP_ID varchar(20) NOT NULL COMMENT '그룹ID',
-  REG_DT varchar(8) DEFAULT NULL COMMENT '요청일',
+  REG_DT varchar(8)  NOT NULL COMMENT '요청일',
+  CONFIRM_AT varchar(2) COMMENT '승인 여부',
   REQUEST_CONT varchar(200) DEFAULT NULL COMMENT '요청내',
   PRIMARY KEY (ID,GROUP_ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='스터디 가입 요청'
@@ -139,3 +140,14 @@ CREATE TABLE tb_unity_group (
   UNITY_ID varchar(300) NOT NULL COMMENT '첨부파일ID',
   PRIMARY KEY (UNITY_GROUP_ID,UNITY_ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='첨부 파일 그룹';
+
+CREATE TABLE tb_study_group_request_result (
+  ID varchar(20) NOT NULL COMMENT '회원ID',
+  GROUP_ID varchar(20) NOT NULL COMMENT '그룹ID',
+  GROUP_ROLE varchar(20) NOT NULL COMMENT '그룹 내 권한',
+  CONFIRMER varchar(20) NOT NULL COMMENT '승인, 거부자',
+  CONFIRM_AT varchar(2) COMMENT '승인 여부',
+  REG_DT varchar(8)  NOT NULL COMMENT '요청일',
+  CONFIRM_CONT varchar(200) DEFAULT NULL COMMENT '승인 / 거부 내용',
+  PRIMARY KEY (ID,GROUP_ID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='스터디 가입 요청 승인/거부';

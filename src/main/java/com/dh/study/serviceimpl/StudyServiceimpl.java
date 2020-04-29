@@ -125,4 +125,15 @@ public class StudyServiceimpl extends ComServiceimpl<StudyServiceimpl, StudyMapp
 		}
 		return boo;
 	}
+	
+	/* 해당 그룹내 권한 체크 */
+	public String groupRole(StudyVO vo) {
+		return studyMapper.groupRole(vo);
+	}
+	
+	/* 답글에 댓글달기 */
+	public int replygroup(StudyVO vo) {
+		return studyMapper.replygroup(vo);
+	}
+	
 }

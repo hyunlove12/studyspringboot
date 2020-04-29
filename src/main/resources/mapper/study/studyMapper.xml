@@ -183,13 +183,22 @@
 	
 	<insert id="replygroup">
 		INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
-		VALUES(#{groupId }, #{qnaId }, #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 2, 2, 2, #{suserId })
+		VALUES (#{groupId }, #{qnaId }, #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 2, 2, 2, #{suserId })
 	</insert>
 	
 	<select id="checkrequestjoin" resultType="String">
 		SELECT COUNT(ID) AS requestCount 
 		  FROM TB_STUDY_GROUP_REQUEST 
-		 WHERE ID = #{suserId } AND GROUP_ID = #{groupId }	
+		 WHERE ID = #{suserId } 
+		   AND GROUP_ID = #{groupId }	
 	</select>
+	
+	<select id="groupRole" resultType="String">
+		SELECT GROUP_ROLE AS groupRole 
+		  FROM TB_GROUP_MEMBER 
+		 WHERE GROUP_ID = #{groupId } 
+		   AND ID = #{suserId }
+	</select>
+
 	
 </mapper>

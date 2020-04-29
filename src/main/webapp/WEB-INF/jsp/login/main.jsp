@@ -188,33 +188,33 @@
 		    	        },
 		    	        success : function(data){
 		    	            boo = data;
+		    	            // ajax라 밖에 선언하면 값이 이상하게 될 가능성
+		    	            if(boo == 'true') {
+		    	        		// 가입 요청
+		    		       		$.ajax({
+		    		    	        type : "post", //전송방식을 지정한다 (POST,GET)
+		    		    	        url : "${pageContext.request.contextPath }/study/joinrequest",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
+		    		    	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
+		    		    	        data : {
+		    		    	        	      "groupId" : $("#tempGroupId").val()
+		    		    	        	    , "requestCont" : $("#message").val()
+		    		    	        	     },
+		    		    	        error : function(data){
+		    		    	        	alert('요청에 실패했습니다.');
+		    		    	            console.log(data);
+		    		    	        },
+		    		    	        success : function(data){
+		    		    	            alert(data);
+		    		    	            $("#message").val("");
+		    		    	            $("#myModal").modal("hide");
+		    		    	        }         
+		    		    	    });
+		    	          	} else {
+		    					alert('이미 요청된 그룹 입니다!');	
+		    	          	}
 		    	        }         
 	    	    });
-	    	    
-	       		if(boo == 'true') {
-	        		// 가입 요청
-		       		$.ajax({
-		    	        type : "post", //전송방식을 지정한다 (POST,GET)
-		    	        url : "${pageContext.request.contextPath }/study/joinrequest",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
-		    	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
-		    	        data : {
-		    	        	      "groupId" : $("#tempGroupId").val()
-		    	        	    , "requestCont" : $("#message").val()
-		    	        	     },
-		    	        error : function(data){
-		    	        	alert('요청에 실패했습니다.');
-		    	            console.log(data);
-		    	        },
-		    	        success : function(data){
-		    	            alert(data);
-		    	            $("#message").val("");
-		    	            $("#myModal").modal("hide");
-		    	        }         
-		    	    });
-	          	} else {
-					alert('이미 요청된 그룹 입니다!');	
-	          	}
-           		
+	          		
 	       	});
         	 
         	 

@@ -116,6 +116,9 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 		// 댓글 개수
 		int repleCount = replist.size();
 		model.addObject("repleCount", repleCount);
+		// 해당 페이지 권한
+		String groupRole = studyService.groupRole(vo);
+		model.addObject("groupRole", groupRole);
 		return model;
 	}
 	
@@ -221,4 +224,23 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 		 boo = studyService.checkrequestjoin(vo);
 		 return boo;
 	 }
+	 
+	 /**
+	  * 
+	  * 그룹 내 질문에 답글 달기
+	  * @param vo
+	  * @return
+	  */
+	 @PostMapping("/replygroup")
+	 public @ResponseBody String replygroup(StudyVO vo) {
+		 int resultInsert = studyService.replygroup(vo);
+		 String result = "";
+		 if(resultInsert > 0) {
+			 result = "답글을 달았습니다.";
+		 } else {
+			 result = "실패했습니다.";
+		 }
+		 return result;
+	 }
+	 
 }

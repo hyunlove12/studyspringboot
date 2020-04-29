@@ -93,7 +93,12 @@
 				                        ${r.regDt }
 				                      </td>
 				                      <td>
-				                        <a href="javascript:void();" class="noRequestContent btn btn-primary">승인 / 거부</a>
+				                      	<c:if test="${r.confirmAt == '' or  empty r.confirmAt}">
+					                        <a href="javascript:openModal('${r.groupId }', '${r.id }');" class="requestConfirm btn btn-primary">승인 / 거부</a>
+				                      	</c:if>
+				                      	<c:if test="${r.confirmAt != '' and  !empty r.confirmAt}">
+					                        <a href="javascript:void();" class="requestConfirm btn btn-primary">승인 / 거부 내역 보기</a>
+				                      	</c:if>
 				                      </td>
 				                    </tr>
 				                    <tr id="requestContent${i.index + 1 }" class="hide" >
@@ -110,50 +115,39 @@
         </div>
       </div>
     </section>
-    
-    <div id="myModal1" class="modal hide fade" tabindex="-1" role="dialog"	aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			<h3 id="myModalLabel"></h3>
-		</div>
-		<form >
-			<div class="row controls">
-		        <div class="span6 control-group">
-		        	<label>요청내용</label>
-		      	  <textarea id="message"  rows="4" class="span4"></textarea>
-		        </div>
-	        </div>
-	        <div class="btn-toolbar">
-	        	<input id="requestbutton" type="button" value="가입요청" class="btn btn-primary">
-	        	<input type="hidden" id="tempGroupId"/>	        	
-	        </div>
-		</form>
-		<!-- <div class="modal-body">
-			<p>One fine body…</p>
-		</div>
-		<div class="modal-footer">
-			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-			<button class="btn btn-primary">가입요청</button>
-		</div> -->
-	</div>
-	
 	
 	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
        <div class="modal-header">
          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-         <h3 id="myModalLabel">Modal header</h3>
+         <h3 id="myModalLabel">요청 승인 / 거부</h3>
        </div>
-       <div class="modal-body">
-         <p>One fine body…</p>
-       </div>
-       <div class="modal-footer">
-         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-         <button class="btn btn-primary">Save changes</button>
-       </div>
+       <form>
+	       <div class="modal-body">
+	       		<div class="span12">
+		       		<div class="row controls">
+				        <div class="span6 control-group">
+				        	<label>내용</label>
+				      	  <textarea id="confirmCont"  rows="4" class="span4"></textarea>
+				        </div>
+			        </div>
+		        </div>
+	       </div>
+	       <div class="modal-footer">
+	       	 <select id="confirmRole">
+	       	 	<option value="">승인 / 거부 선택</option>	
+	       	 	<option value="admin">관리자</option>
+                <option value="user">일반</option>
+                <option value="refuse">가입 거부</option>
+	       	 </select>
+	         <input id="requestbutton" type="button" value="확인" class="btn btn-primary">
+		     <input type="hidden" id="tempGroupId"/>	
+		     <input type="hidden" id="tempId"/>  
+	       </div>
+       </form>
      </div>
 
-	
 	<c:import url="/WEB-INF/jsp/includes/footer.jsp" /> 
+	
   </div>
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
   <script type="text/javascript">
@@ -166,49 +160,51 @@
     	           xhr.setRequestHeader(header, token);
     	       });
     	   });
+
     	   
-       		$("li.outer").click(function(){
-       			var id = $(this).attr("id");
-       			window.location.href = '${pageContext.request.contextPath }/study/view/' + id;
-	       	});
-       		
-       		$(".noClick").click(function(event) {
-       			var groupNm = $(this).attr("groupNm") + ' 가입요청';
-       			var groupId = $(this).attr("groupId");
-       			$("#tempGroupId").val(groupId);
-       			$("#myModalLabel").empty();
-       			$("#myModalLabel").append(groupNm);
-       			$("#myModal").modal("show");
-       			setNoClick(event);
-       		});
-       		
-       		$("#requestbutton").click(function(){
+       	   $("#requestbutton").click(function(){
+           	   if($("#confirmRole").val() == '') {
+					alert('승인 여부를 확인하세요!');
+					return;
+               }
+               alert($("#tempId").val());
+               alert($("#tempGroupId").val());
+               alert($("#confirmRole").val());
+               alert($("#confirmCont").val());
 	       		$.ajax({
 	    	        type : "post", //전송방식을 지정한다 (POST,GET)
-	    	        url : "${pageContext.request.contextPath }/study/joinrequest",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
+	    	        url : "${pageContext.request.contextPath }/studymanagement/joinMember",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
 	    	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
 	    	        data : {
-	    	        	      "groupId" : $("#tempGroupId").val()
-	    	        	    , "message" : $("#message").val()
+	    	        	      "id" : $("#tempId").val()
+	    	        	    , "groupId" : $("#tempGroupId").val()
+	    	        	    , "groupRole" : $("#confirmRole").val()
+	    	        	    , "confirmCont" : $("#confirmCont").val()
 	    	        	     },
 	    	        error : function(data){
+	    	          $("#confirmCont").val("");
+	    	          $("#tempId").val("");
+	    	          $("#tempGroupId").val("");
+	    	          $("#confirmRole").find('option:first').attr('selected', 'selected');
 	    	          alert(data);
 	    	          //console.log(data);
 	    	        },
 	    	        success : function(data){
 	    	            alert(data);
-	    	            $("#message").val("");
+	    	            $("#confirmCont").val("");
+	    	            $("#tempId").val("");
+	    	            $("#tempGroupId").val("");
+	    	            $("#confirmRole").find('option:first').attr('selected', 'selected');
 	    	            $("#myModal").modal("hide");
+	    	            location.href = location.href;
 	    	        }         
 	    	    });
 	       	});
        		
-       		$(".noRequestContent").click(function(event) {
-       			
+       		$(".requestConfirm").click(function(event) {
        			console.log(event);
-       			$("#myModal").modal("show");
        			setNoClick(event);
-       		});
+       		}); 
        		
        	});
        
@@ -226,8 +222,16 @@
     		   $("#requestContent"+index).removeClass("hide"); 
     	   } else {
     		   $("#requestContent"+index).addClass("hide"); 
-    	   }
-    	   
+    	   }  	   
+       }
+
+       
+       function openModal(groupId, id){
+    	   // setNoClick(this.event)
+           $("#tempGroupId").val(groupId);
+           $("#tempId").val(id);
+    	   $("#myModal").modal("show");
+  		   // setNoClick(event);   
        }
 	</script>
 

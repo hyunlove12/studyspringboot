@@ -38,8 +38,28 @@ public class StudyVO extends ComVO implements Serializable{
 	private String checkJoinId = ""; // 그룹 가입 여부 확인
 	private String requestCont = ""; // 가입 요청 메시지
 	private String requestCount = ""; // 그룹 요청 확인 변수 
+	private String confirmer = ""; // 가입 요청 승인자
+	private String confirmCont = ""; // 가입 요청 내용		
+	private String confirmAt = ""; // 승인/ 거부 여부
 	
-	
+	public String getConfirmAt() {
+		return confirmAt;
+	}
+	public void setConfirmAt(String confirmAt) {
+		this.confirmAt = confirmAt;
+	}
+	public String getConfirmer() {
+		return confirmer;
+	}
+	public void setConfirmer(String confirmer) {
+		this.confirmer = confirmer;
+	}
+	public String getConfirmCont() {
+		return confirmCont;
+	}
+	public void setConfirmCont(String confirmCont) {
+		this.confirmCont = confirmCont;
+	}
 	public String getRequestCount() {
 		return requestCount;
 	}
