@@ -40,7 +40,7 @@
             <div id="sendmessage">Your message has been sent. Thank you!</div>
             <div id="errormessage"></div>            
             
-            <form action="/join" method="post" enctype="multipart/form-data" role="form" accept-charset="UTF-8">                  
+            <form action="/join" method="post" role="form" accept-charset="UTF-8">                  
             	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             	  <div class="row controls">
                     <div class="span4 control-group">
@@ -82,15 +82,6 @@
                     <div class="span6 control-group">
                       <label>Comment </label>
                       <textarea maxlength="5000" rows="4" class="span6"></textarea>
-                    </div>
-                  </div>
-                  <div class="row controls">
-                  	<div class="span3 control-group">
-                  	  <label>프로필 이미지 </label>
-	                  <input type="file" name="files" id="files" placeholder="프로필 이미지"  data-msg="Please enter a valid email" onchange="loadImg(this)"/>
-	                </div>
-	                <div class="span3 control-group">
-	                  <img id="fileupload" class="img-circle"></img>
                     </div>
                   </div>
                   <div class="btn-toolbar">
@@ -177,16 +168,6 @@
 	$("#idCheck").one('click', noCheckEvent);
 
 	$("#emailCheck").on('click', emailCheck);
-
-	function loadImg(file){
-		if(file.files && file.files[0]) {
-			let render = new FileReader();
-			render.onload = function(e) {
-				$("#fileupload").attr("src", e.target.result);
-			}
-			render.readAsDataURL(file.files[0]);
-		}
-	}
 //	$(document).on('click',"#idCheck", noCheckEvent);	
 	
 	

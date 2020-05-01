@@ -10,4 +10,10 @@ public interface StudyManageService {
 	/* 그룹에 회원 가입 */
 	public int joinMember(StudyVO vo);
 	
+	/* 가입 그룹 목록 */
+	public List<StudyVO> joinStudyList(StudyVO vo);
+	
+	/* 가입 요청 보낸 메시지 */
+	public List<StudyVO> sendRequestList(StudyVO vo);
+	
 }

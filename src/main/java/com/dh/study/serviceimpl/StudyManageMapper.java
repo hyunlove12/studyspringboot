@@ -17,4 +17,11 @@ public interface StudyManageMapper {
 	
 	/* 요청 승인 / 거부 업데이트 */
 	public int confirmUpdate(StudyVO vo);
+	
+	/* 가입 그룹 목록 */
+	public List<StudyVO> joinStudyList(StudyVO vo);
+	
+	/* 가입 요청 보낸 메시지 */
+	public List<StudyVO> sendRequestList(StudyVO vo);
+	
 }

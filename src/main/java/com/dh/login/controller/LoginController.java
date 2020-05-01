@@ -11,9 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dh.common.controller.ComController;
 import com.dh.login.service.LoginVO;
@@ -50,7 +53,7 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 	public String loginPage(HttpServletRequest request) {		
 		String referrer = request.getHeader("Referer");
 	    request.getSession().setAttribute("prevPage", referrer);
-	    System.out.println("2" + referrer);
+	    System.out.println("loginpage :" + referrer);
 		return "login/login";
 	} 
 	
@@ -58,8 +61,8 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 	
 //	@RequestMapping(value="/save.do", produces="text/plain;charset=UTF-8")
 	@PostMapping(value="/join")
-	public String join(ModelAndView model, LoginVO vo) throws IOException {
-		loginService.join(vo);		
+	public String join(@RequestPart MultipartFile files, ModelAndView model, LoginVO vo, RedirectAttributes rttr) throws IOException {
+		loginService.join(vo, files);		
 		return "redirect:/main"; 
 	}
 	

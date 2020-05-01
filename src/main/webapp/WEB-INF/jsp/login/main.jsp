@@ -29,12 +29,12 @@
                   <p class="animated fadeInUp"> 나만의 스터디 그룹을 만들어서 사람들과 같이 공부하고 일정관리를 해보세요!</p>
                   <p class="animated fadeInUp"> 일정관리를 위한 캘린더, 엑셀다운 등 다양한 기능을 제공합니다.</p>
                   <p class="animated fadeInUp"> 학교 팀프로젝트로 더이상 스트레스 받지 마세요!</p>
-                  <a href="#" class="btn btn-success btn-large animated fadeInUp">
+                  <!-- <a href="#" class="btn btn-success btn-large animated fadeInUp">
 											<i class="icon-link"></i> Read more
-										</a>
-                  <a href="#" class="btn btn-theme btn-large animated fadeInUp">
+										</a> -->
+                  <!-- <a href="#" class="btn btn-theme btn-large animated fadeInUp">
 											<i class="icon-download"></i> Download
-										</a>
+										</a> -->
                 </div>
               </div>
             </div>

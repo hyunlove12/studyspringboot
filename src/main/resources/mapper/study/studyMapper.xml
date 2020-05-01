@@ -157,8 +157,8 @@
    			    ON 1 = 1
                AND GQ.GROUP_ID = #{groupId}   			    
     	</selectKey>
-		INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
-		VALUES(#{groupId }, #{qnaId }, #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 1, 1, 1, #{suserId })
+		INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, NEXT_REPLY_AT, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
+		VALUES(#{groupId }, #{qnaId }, 'N', #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 1, 1, 1, #{suserId })
 	</insert>
 	
 	<select id="groupreply" resultType="com.dh.study.service.StudyVO">	
@@ -172,18 +172,30 @@
 			 , GQ.O_NO AS oNo
 			 , GQ.DEPTH AS depth
 			 , GQ.ID AS id
+			 , GQ.NEXT_REPLY_AT nextReplyAt
 			 , GM.GROUP_ROLE AS groupRole 
+             , TM.UNITY_ID AS unityId
 		  FROM TB_GROUP_QNA GQ
 		  LEFT OUTER JOIN TB_GROUP_MEMBER GM
 		    ON GQ.ID = GM.ID
 		   AND GQ.GROUP_ID = GM.GROUP_ID
+           LEFT OUTER JOIN TB_MEMBER TM
+			ON GQ.ID = TM.ID
 		 WHERE GQ.GROUP_ID = #{groupId }
 		 ORDER BY GQ.QNA_ID, GQ.G_NO
 	</select>
 	
 	<insert id="replygroup">
-		INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
-		VALUES (#{groupId }, #{qnaId }, #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 2, 2, 2, #{suserId })
+		BEGIN
+			UPDATE TB_GROUP_QNA
+		   	   SET NEXT_REPLY_AT = 'Y'
+		 	 WHERE GROUP_ID = #{groupId }
+		   	   AND QNA_ID = #{qnaId }
+		   	   AND G_NO = 1;
+		   
+			INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, NEXT_REPLY_AT, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
+			VALUES (#{groupId }, #{qnaId }, 'N', #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 2, 2, 2, #{suserId });
+		 END;
 	</insert>
 	
 	<select id="checkrequestjoin" resultType="String">
@@ -200,5 +212,11 @@
 		   AND ID = #{suserId }
 	</select>
 
-	
+	<select id="checkGroup" resultType="com.dh.study.service.StudyVO">	
+		SELECT GROUP_Id AS groupId
+		     , GROUP_ROLE AS groupRole
+		  FROM TB_GROUP_MEMBER 
+		 WHERE ID = #{suserId }
+		   AND GROUP_ID = #{groupId };
+	</select>
 </mapper>

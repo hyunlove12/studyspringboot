@@ -36,4 +36,14 @@ public class StudyManageServiceimpl extends ComServiceimpl<StudyManageServiceimp
 		result += studyManageMapper.requestResult(vo);
 		return result;		
 	}
+	
+	/* 가입 그룹 목록 */
+	public List<StudyVO> joinStudyList(StudyVO vo) {
+		return studyManageMapper.joinStudyList(vo);
+	}
+	
+	/* 가입 요청 보낸 메시지 */
+	public List<StudyVO> sendRequestList(StudyVO vo) {
+		return studyManageMapper.sendRequestList(vo);
+	}
 }

@@ -42,12 +42,14 @@
             <div class="clearfix"></div>
             <div class="row">
               <section id="team">	
-			                <h4 class="title"><strong>그룹 가입 요청 리스트</strong> <span></span></h4>
+			                <h4 class="title"><strong>가입 그룹 리스트</strong> <span></span></h4>
 			                <table class="table" style="table-layout:fixed;">
 				                <colgroup>
 									<col width="10%">
-									<col width="10%">
+									<col width="20%">
 									<col width="30%">
+									<col width="10%">
+									<col width="10%">
 									<col width="10%">
 									<col width="10%">
 									<col width="10%">
@@ -58,25 +60,31 @@
 			                        번호
 			                      </th>
 			                      <th>
-			                        요청 대상 그룹
+			                        그룹명
 			                      </th>
 			                      <th>
-			                        요청내용
+			                        그룹 요약
 			                      </th>
 			                      <th>
-			                        요청자
+			                        가입 인원
 			                      </th>
 			                      <th>
-			                        요청일
+			                        권한
 			                      </th>
 			                      <th>
-			                        승인/거부
+			                        가입일
+			                      </th>
+			                      <th>
+			                        탈퇴
+			                      </th>
+			                      <th>
+			                        그룹 삭제
 			                      </th>
 			                    </tr>
 			                  </thead>
-			                  <tbody id="requestTable">
-			                  	<c:forEach var="r" items="${list }"  varStatus="i">
-				                    <tr class="requestlist" onclick="javascript:openContent(${i.index + 1 })">
+			                  <tbody>
+			                  	<c:forEach var="r" items="${joinStudyList }"  varStatus="i">
+				                    <tr onclick="javascript:openContent(${i.index + 1 })">
 				                      <td>
 				                        ${i.index + 1 }
 				                      </td>
@@ -84,25 +92,31 @@
 				                        ${r.groupNm }
 				                      </td>
 				                      <td style="overflow:hidden;text-overflow:ellipsis;">
-				                      	${r.requestCont }
+				                      	${r.groupBrief }
 				                      </td>
 				                      <td>
-				                        ${r.name }
+				                        ${r.currentMember} / ${r.total }
 				                      </td>
 				                      <td>
-				                        ${r.regDt }
+				                        ${r.groupRole }
 				                      </td>
 				                      <td>
-				                      	<c:if test="${r.confirmAt == '' or  empty r.confirmAt}">
-					                        <a href="javascript:openModal('${r.groupId }', '${r.id }');" class="requestConfirm btn btn-primary">승인 / 거부</a>
+				                      	${r.regDt }
+				                      </td>
+				                      <td>
+				                      	<a href="javascript:void();" class="requestConfirm btn btn-primary">탈퇴</a>
+				                      </td>
+				                      <td>
+				                      	<c:if test="${r.groupRole == 'admin'}">
+					                      	<a href="javascript:void();" class="requestConfirm btn btn-primary">그룹 삭제</a>
 				                      	</c:if>
-				                      	<c:if test="${r.confirmAt != '' and  !empty r.confirmAt}">
-					                        <a href="javascript:void();" class="requestConfirm btn btn-primary">승인 / 거부 내역 보기</a>
+				                      	<c:if test="${r.groupRole != 'admin'}">
+				                      		권한 없음
 				                      	</c:if>
 				                      </td>
 				                    </tr>
 				                    <tr id="requestContent${i.index + 1 }" class="hide" >
-				                    	<td class="accordion-inner" colspan="6">${r.requestCont }</td>
+				                    	<td class="accordion-inner" colspan="8"><pre>${r.groupExplain }</pre></td>
 				                    </tr>
 			                    </c:forEach>      
 			                  </tbody>
@@ -152,7 +166,6 @@
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
   <script type="text/javascript">
        $(function(){
-    	   checkTable();
     	   
     	   var token = $("meta[name='_csrf']").attr("content");
     	   var header = $("meta[name='_csrf_header']").attr("content");
@@ -233,14 +246,6 @@
            $("#tempId").val(id);
     	   $("#myModal").modal("show");
   		   // setNoClick(event);   
-       }
-
-       function checkTable(id, class_, colsapn){
-			let requestListCount = $(".requestlist").length
-			if(requestListCount == 0) {
-				let element = "<tr><td colspan='6'>받은 요청이 없습니다.</td></tr>"
-				$("#requestTable").html(element);
-			}
        }
 	</script>
 

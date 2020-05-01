@@ -65,7 +65,9 @@
             <div class="post-heading">
             	<h4 class="title">
 	            	<strong>목차</strong>
-	            	<a href="${pageContext.request.contextPath }/study/createstudydetail/${vo.groupId}" class="align-right">등록하기</a>  
+	            	<c:if test="${groupRole == 'admin'}">
+	            		<a href="${pageContext.request.contextPath }/study/createstudydetail/${vo.groupId}" class="align-right">등록하기</a>  
+            		</c:if>
             	</h4>       	
             </div>  
                    
@@ -83,7 +85,7 @@
 	                  <div class="accordion-inner">
 		              <pre>${processVO.contents }
 		              </pre> 
-	                    <a href="#" class="align-right">수정하기</a>
+	                    <c:if test="${groupRole == 'admin'}"><a href="#" class="align-right">수정하기</a></c:if>
 	                  </div>
 	                </div>
                 </div>		 
@@ -104,6 +106,7 @@
 	                    <pre>${r.progressSit }</pre>
 	                    <div class="progress progress-striped">
 		                  <div class="bar bar${r.progressing }"></div>
+		                 
 		                </div>   
 	                </div>
 	              </div>

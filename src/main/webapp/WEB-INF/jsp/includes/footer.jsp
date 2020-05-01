@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <footer>
-	<div class="container">
+	<!-- <div class="container">
 		<div class="row">
 			<div class="span4">
 				<div class="widget">
@@ -46,8 +46,8 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div id="sub-footer">
+	</div> -->
+	<!-- <div id="sub-footer"> -->
 		<div class="container">
 			<div class="row">
 				<div class="span6">
@@ -72,7 +72,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	<!-- </div> -->
 </footer>
 
  <!-- javascript

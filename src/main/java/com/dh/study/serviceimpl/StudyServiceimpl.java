@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,8 @@ public class StudyServiceimpl extends ComServiceimpl<StudyServiceimpl, StudyMapp
 	
 	@Autowired
 	FileUpload fileUpload; 
+	
+	@Value("${custom.upload.studyimgpath}") String fileUrl;
 	
 	/* 스터디 리스트 */
 	public List<StudyVO> studylist(StudyVO vo) {
@@ -47,8 +50,8 @@ public class StudyServiceimpl extends ComServiceimpl<StudyServiceimpl, StudyMapp
 			vo.setUnityGroupId(unityGroupId);
 			result += studyMapper.createstudy(vo);		
 			result += studyMapper.joinstudygroup(vo);
-			if(files != null) {
-				fileResult = fileUpload.fileSave(files, unityGroupId);				
+			if(files != null && !files.isEmpty()) {
+				fileResult = fileUpload.fileSave(files, unityGroupId, fileUrl);				
 				if(fileResult == 0) {
 					throw new Exception();
 				}

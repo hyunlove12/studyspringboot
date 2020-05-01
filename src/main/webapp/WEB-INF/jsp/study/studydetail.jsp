@@ -71,7 +71,7 @@
             	<h4 class="title">
 	            	<strong>목차</strong>
 	            	<c:if test="${groupRole == 'admin'}">
-	            		<a href="${pageContext.request.contextPath }/study/createstudydetail/${vo.groupId}" class="align-right">등록하기</a>  
+	            		<a href="${pageContext.request.contextPath }/study/createstudydetail?groupId=${vo.groupId}" class="align-right">등록하기</a>  
 	            	</c:if>
             	</h4>       	
             </div>            
@@ -89,7 +89,7 @@
 			              <pre>${r.contents }
 			              </pre> 
 			              	<c:if test="${groupRole == 'admin' or groupRole == 'user'}">
-		                    	<a href="/study/studyprocess/${groupId }/${r.subtitleId }" class="align-right">들어가기</a>
+		                    	<a href="/study/studyprocess/${r.subtitleId }?groupId=${groupId }" class="align-right">들어가기</a>
 		                    </c:if>
 		                    <c:if test="${groupRole == 'admin'}">
 		                    	<a href="#" class="align-right">수정하기</a>
@@ -113,7 +113,7 @@
 	             <div class="row">
 	             	<div class="comment-area">
 		             	<div class="media ${r.gNo == 2?'align-right':''}">
-			                <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/img/avatar.png" alt="" class="img-circle" /></a>
+			                <a href="#" class="pull-left"><img style="height:50px; width:50px;" src="${pageContext.request.contextPath }/upload/profile/${r.unityId }" alt="" class="reply img-circle" /></a>
 			                <div class="media-body">
 			                  <div class="media-content">
 			                    <h6><span>${r.regDt }</span> ${r.id }</h6>
@@ -123,7 +123,9 @@
 								<c:if test="${groupRole == 'admin' and r.gNo == 1}">
 									<!-- align-right라 오른쪽 기준으로 먼저온 것이 보이는 것? -->
 									<p><a href="javascript:fn_del(${r.qnaId }, ${r.groupId })" class="align-right reply">원 댓글 삭제하기</a></p>
-				                    <p><a href="javascript:fn_reply(${r.qnaId }, ${r.groupId })" class="align-right reply">답글달기</a></p>
+				                    <c:if test="${r.nextReplyAt == 'N'}">
+				                    	<p><a href="javascript:fn_reply(${r.qnaId }, ${r.groupId })" class="align-right reply">답글달기</a></p>
+				                    </c:if>
 				                    <p><input name="content" id="re_${r.groupId }" class="align-right" maxlength="200" type="text" placeholder="답글을 달아주세요." /></p>
 			                    </c:if>
 			                    <c:if test="${groupRole == 'admin' and r.gNo == 2}">

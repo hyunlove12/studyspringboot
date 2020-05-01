@@ -1,9 +1,13 @@
 package com.dh.login.serviceimpl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,10 +15,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dh.login.service.LoginService;
 import com.dh.login.service.LoginVO;
 import com.dh.study.service.StudyVO;
+import com.dh.util.FileUpload;
 
 
 @Transactional
@@ -27,15 +33,37 @@ public class LoginServiceimpl implements LoginService, UserDetailsService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	FileUpload fileUpload; 
+	
+	@Value("${custom.upload.profilepath}") String fileUrl;
+	
 	@Override
-	public boolean join(LoginVO vo) {
+	public boolean join(LoginVO vo, MultipartFile files) {
 		boolean boo = false;
 		int result = 0;
-		vo.encodePassword(passwordEncoder);
-		result += loginMapper.join(vo);
-		result += loginMapper.roleRegist(vo);
-		if(result >= 2) {
-			boo = true;
+		int fileResult = 0;	
+		try {		
+			List list = new ArrayList();
+			if(files != null && !("").equals(files.getOriginalFilename())) {
+				System.out.println("호출!");
+				list = fileUpload.fileSave(files, "", fileUrl, 0);				
+				fileResult = (int) list.get(0);
+				vo.setUnityId(list.get(1).toString());
+				if(fileResult == 0) {
+					throw new SQLException();
+				}
+			}
+			vo.encodePassword(passwordEncoder);
+			result += loginMapper.join(vo);
+			result += loginMapper.roleRegist(vo);
+			if(result >= 2) {
+				boo = true;
+			}
+		} catch(Exception e) {
+			result = 0;
+			System.out.println("오류");
+			e.printStackTrace();
 		}
 		return boo;
 	}	

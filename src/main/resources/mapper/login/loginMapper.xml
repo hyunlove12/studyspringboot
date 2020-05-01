@@ -4,8 +4,8 @@
 
     
     <insert id="join">
-		 INSERT INTO TB_MEMBER(ID, PASSWORD, NAME, EMAIL, REG_DT) 
-		VALUES(#{id }, #{password }, #{name }, #{email },  (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))	
+		 INSERT INTO TB_MEMBER(ID, PASSWORD, NAME, EMAIL, UNITY_ID, REG_DT) 
+		VALUES(#{id }, #{password }, #{name }, #{email }, #{unityId }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))	
     </insert> 
     
     <insert id="roleRegist">    		   

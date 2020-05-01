@@ -2,15 +2,13 @@ package com.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.interceptor.AuthInterceptor;
 
 
 @Configuration
@@ -21,6 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			"classpath:/static/**/*",
 			"/css/**", "/js/**", "/images/**", "/fonts/**", "/color/**", "/ico/**", "/img/**", "/upload/**"
 	};
+	
 	@Autowired
 	@Qualifier(value = "loginInterceptor")
 	private HandlerInterceptor interceptor;
@@ -29,6 +28,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(interceptor)
 				.excludePathPatterns(RESOURCE_LOCATIONS);
+		registry.addInterceptor(authInterceptor())
+				.excludePathPatterns(RESOURCE_LOCATIONS);
+	}
+	
+	@Bean
+	public AuthInterceptor authInterceptor() {
+		return new AuthInterceptor();
 	}
 	
 	/*@Bean

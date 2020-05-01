@@ -41,4 +41,40 @@
 		 WHERE ID = #{id }
 		   AND GROUP_ID = #{groupId }
 	</update>
+	
+	<select id="joinStudyList" resultType="com.dh.study.service.StudyVO">		
+		SELECT SG.GROUP_ID AS groupID
+		     , SG.GROUP_NM AS groupNm
+		     , SG.GROUP_FOUNDER AS groupFounder
+		     , SG.GROUP_BRIEF AS groupBrief
+		     , SG.GROUP_EXPLAIN AS groupExplain
+		     , SG.TOTAL AS total
+		     , SG.CURRENT_MEMBER AS currentMember
+		     , SG.REG_DT AS regDt
+		     , GM.ID AS id
+		     , GM.GROUP_ROLE AS groupRole
+		  FROM TB_STUDY_GROUP SG
+		  LEFT OUTER JOIN TB_GROUP_MEMBER GM
+		    ON SG.GROUP_Id = GM.GROUP_ID
+		   AND GM.ID = #{suserId }
+	</select>
+	
+	<select id="sendRequestList" resultType="com.dh.study.service.StudyVO">		
+		SELECT GR.ID AS id
+		     , GR.GROUP_ID AS groupId
+		     , GR.REG_DT AS regDt
+		     , GR.REQUEST_CONT AS requestCont
+		     , SG.GROUP_NM AS groupNm
+		     , TM.NAME AS name
+		     , CASE WHEN CONFIRM_AT = 'Y' THEN '가입 승인' 
+		            WHEN CONFIRM_AT = 'N' THEN '가입 거부'
+		            ELSE '대기 중' 
+		             END AS confirmAt
+		  FROM TB_STUDY_GROUP_REQUEST GR
+          LEFT OUTER JOIN TB_STUDY_GROUP SG
+		    ON GR.GROUP_ID = SG.GROUP_ID   
+		  LEFT OUTER JOIN TB_MEMBER TM
+		    ON GR.ID = TM.ID     
+         WHERE GR.ID = #{suserId }
+    </select>
 </mapper>

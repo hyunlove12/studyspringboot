@@ -41,7 +41,15 @@ public class StudyVO extends ComVO implements Serializable{
 	private String confirmer = ""; // 가입 요청 승인자
 	private String confirmCont = ""; // 가입 요청 내용		
 	private String confirmAt = ""; // 승인/ 거부 여부
+	private String nextReplyAt = ""; // 다음 댓글 여부 -> 임시 컬럼 // 댓글을 하나만 달게 하기 위한 조치
 	
+	
+	public String getNextReplyAt() {
+		return nextReplyAt;
+	}
+	public void setNextReplyAt(String nextReplyAt) {
+		this.nextReplyAt = nextReplyAt;
+	}
 	public String getConfirmAt() {
 		return confirmAt;
 	}

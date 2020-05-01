@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.annotation.Auth;
 import com.dh.common.controller.ComController;
 import com.dh.study.service.StudyVO;
 import com.dh.study.serviceimpl.StudyManageServiceimpl;
@@ -42,12 +43,43 @@ public class StudyManageController extends ComController<StudyServiceimpl, Study
 		return "studymanage/studymanagelist";
 	} 
 	
+	/**
+	 * 
+	 * 그룹 가입 요청 메시지 리슽
+	 * @param model
+	 * @param vo
+	 * @return
+	 */
+	@GetMapping("/sendrequestlist")
+	public String sendRequestList(ModelMap model, StudyVO vo) {
+		List<StudyVO> sendrequestlist = new ArrayList<StudyVO>();
+		sendrequestlist = studyManageService.sendRequestList(vo);
+		model.addAttribute("sendrequestlist", sendrequestlist);
+		return "studymanage/sendrequestlist";
+	} 
+	
+	/**
+	 * 
+	 * 가입한 그룹 목록
+	 * @param model
+	 * @param vo
+	 * @return
+	 */
+	@GetMapping("/joinstudylist")
+	public String joinStudyList(ModelMap model, StudyVO vo) {
+		List<StudyVO> joinStudyList = new ArrayList<StudyVO>();
+		joinStudyList = studyManageService.joinStudyList(vo);
+		model.addAttribute("joinStudyList", joinStudyList);
+		return "studymanage/joinstudylist";
+	} 
+	
 	 /**
 	  * 
 	  * 회원 가입 요청 승인 / 거부
 	  * @param vo
 	  * @return
 	  */
+	 @Auth(flag="admin")
 	 @PostMapping("/joinMember")
 	 public @ResponseBody String joinMember(StudyVO vo) {
 		 int resultInsert = studyManageService.joinMember(vo);

@@ -4,12 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,9 +24,7 @@ public class FileUpload {
 	
 	@Autowired
 	FileMapper fileMapper;
-	
-	@Value("${custom.upload.path}") String fileUrl;
-	
+
 	private String unityGroupId = "";
 	
 	public String makeTimeStamp() {
@@ -42,7 +41,7 @@ public class FileUpload {
 		return unityGroupId;
 	}
 	
-	public int fileSave(MultipartFile files, String unityGroupId) {		
+	public int fileSave(MultipartFile files, String unityGroupId, String fileUrl) {		
 		int result = 0;
 		try {
 			String sourceFileName = files.getOriginalFilename(); 
@@ -80,6 +79,43 @@ public class FileUpload {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	// flag -> 단일 업로드, 멀티 업로드 구분 
+	public List<?> fileSave(MultipartFile files, String unityId, String fileUrl, int flag) {		
+		int result = 0;
+		List list = new ArrayList();
+		try {
+			String sourceFileName = files.getOriginalFilename(); 
+			String sourceFileNameExtension = FilenameUtils.getExtension(sourceFileName).toLowerCase(); 
+			File destinationFile; 
+			String destinationFileName;
+			do { 
+				destinationFileName =  RandomStringUtils.randomAlphanumeric(16) + "." + sourceFileNameExtension; 
+				destinationFile = new File(fileUrl + destinationFileName); 
+				// file 업로드와 디비 저장을 구분해야 하는 것 아닌지?
+				ComVO fileVO = new ComVO();
+				fileVO.setUnityId(destinationFileName);
+				fileVO.setName(sourceFileName);
+				// list.add(fileVO);
+				result += fileMapper.insertUnityId(fileVO);
+			} while (destinationFile.exists()); 
+			destinationFile.getParentFile().mkdirs();    
+			files.transferTo(destinationFile);
+			list.add(result);
+			list.add(destinationFileName);
+		} catch (IllegalStateException | IOException e) {
+			result = 0;
+			list.add(result);
+			System.out.println("오류1");
+			e.printStackTrace();
+		} catch (Exception e) {				
+			result = 0;
+			list.add(result);
+			System.out.println("오류2");
+			e.printStackTrace();
+		}
+		return list;
 	}
 	
 }

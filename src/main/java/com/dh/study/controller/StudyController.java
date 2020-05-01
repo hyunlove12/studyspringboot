@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.annotation.Auth;
 import com.dh.common.controller.ComController;
 import com.dh.study.service.StudyVO;
 import com.dh.study.serviceimpl.StudyServiceimpl;
@@ -129,8 +130,11 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 	 * @param subtitleId
 	 * @return
 	 */
-	@GetMapping("/studyprocess/{groupId}/{subtitleId}")
-	public String studyprocess(ModelMap model, @PathVariable("groupId") String groupId, @PathVariable("subtitleId") String subtitleId) {
+	@Auth(flag="user")
+	@GetMapping("/studyprocess/{subtitleId}")
+	public String studyprocess(ModelMap model,String groupId, @PathVariable("subtitleId") String subtitleId) {
+		//${groupId }-> 인터셉터에서 사용하기 위해 get방식으로
+		
 		// 그룹 정보
 		StudyVO vo = studyService.view(groupId);
 		model.addAttribute("vo",vo);	
@@ -142,6 +146,9 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 		List<StudyVO> list = new ArrayList<StudyVO>();
 		list = studyService.progressbymember(groupId, subtitleId);
 		model.addAttribute("list", list);
+		// 해당 페이지 권한
+		String groupRole = studyService.groupRole(vo);
+		model.addAttribute("groupRole", groupRole);
 		return "study/studyprocess";
 	} 	
 	
@@ -151,6 +158,7 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 	 * @param vo
 	 * @return
 	 */
+	@Auth(flag="user")
 	@PostMapping("/registprogress")
 	public String registprogress(ModelMap map, StudyVO vo) {
 		studyService.registprogress(vo);
@@ -163,8 +171,9 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 	 * @param groupId
 	 * @return
 	 */
-	@GetMapping("/createstudydetail/{groupId}")
-	public String createstudydetail(ModelMap model, @PathVariable("groupId") String groupId) {
+	@Auth(flag="admin")
+	@GetMapping("/createstudydetail")
+	public String createstudydetail(ModelMap model, String groupId) {
 		StudyVO vo = studyService.view(groupId);
 		model.addAttribute("vo",vo);		
 		List<StudyVO> sublist = new ArrayList<StudyVO>();
@@ -179,6 +188,7 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 	 * @param vo
 	 * @return
 	 */
+	@Auth(flag="user")
 	@PostMapping("/createstudydetail")
 	public String createstudydetail(ModelMap model, StudyVO vo) {
 		studyService.createstudydetail(vo);

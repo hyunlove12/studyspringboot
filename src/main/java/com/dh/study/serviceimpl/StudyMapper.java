@@ -64,5 +64,7 @@ public interface StudyMapper {
 	/* 댓글에 답글 달기 */
 	public int replygroup(StudyVO vo);
 	
+	/* 그룹 가입 여부 및 권한 확인 */
+	public StudyVO checkGroup(StudyVO vo);
 	
 }

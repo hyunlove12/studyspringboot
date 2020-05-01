@@ -65,18 +65,13 @@
 		          	<li class="dropdown">
 	                  <a href="#">그룹관리 <i class="icon-angle-down"></i></a>
 	                  <ul class="dropdown-menu">
-	                    <li><a href="about.html">가입그룹</a></li>
-	                    <li><a href="faq.html">FAQ</a></li>
+	                    <li><a href="${pageContext.request.contextPath }/studymanagement/joinstudylist">가입 그룹 목록</a></li>
+	                    <li><a href="${pageContext.request.contextPath }/studymanagement/list">그룹 가입 요청 메시지(받은 메시지) </a></li>
+	                    <li><a href="${pageContext.request.contextPath }/studymanagement/sendrequestlist">그룹 가입 요청(보낸 메시지)</a></li>
 	                  </ul>
-	                </li>	
+	                </li>	     
 	                <li class="dropdown">
-	                  <a href="${pageContext.request.contextPath }/studymanagement/list">요청 메시지 </a>                 
-	                </li>
-	                <li class="dropdown">
-	                  <a href="#">요청그룹 </a>                 
-	                </li>      
-	                <li class="dropdown">
-	                  <a href="#">내정보 </a>                 
+	                  <a href="${pageContext.request.contextPath }/">내정보 </a>                 
 	                </li>              
 				</sec:authorize>
               </ul>

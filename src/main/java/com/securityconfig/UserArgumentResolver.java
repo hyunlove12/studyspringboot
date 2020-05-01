@@ -1,6 +1,8 @@
 package com.securityconfig;
 
 
+import static com.securityconfig.SocialType.KAKAO;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,9 +22,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+
 import com.dh.login.serviceimpl.LoginServiceimpl;
 
-import static com.securityconfig.SocialType.KAKAO;
 @Component
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 

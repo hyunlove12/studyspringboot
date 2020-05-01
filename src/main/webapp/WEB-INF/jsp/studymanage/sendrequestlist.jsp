@@ -51,6 +51,7 @@
 									<col width="10%">
 									<col width="10%">
 									<col width="10%">
+									<col width="10%">
 								</colgroup>
 			                  <thead>
 			                    <tr>
@@ -67,16 +68,19 @@
 			                        요청자
 			                      </th>
 			                      <th>
+			                        승인현황
+			                      </th>
+			                      <th>
 			                        요청일
 			                      </th>
 			                      <th>
-			                        승인/거부
+			                        요청 취소
 			                      </th>
 			                    </tr>
 			                  </thead>
-			                  <tbody id="requestTable">
-			                  	<c:forEach var="r" items="${list }"  varStatus="i">
-				                    <tr class="requestlist" onclick="javascript:openContent(${i.index + 1 })">
+			                  <tbody>
+			                  	<c:forEach var="r" items="${sendrequestlist }"  varStatus="i">
+				                    <tr onclick="javascript:openContent(${i.index + 1 })">
 				                      <td>
 				                        ${i.index + 1 }
 				                      </td>
@@ -90,19 +94,19 @@
 				                        ${r.name }
 				                      </td>
 				                      <td>
+				                        ${r.confirmAt }
+				                      </td>
+				                      <td>
 				                        ${r.regDt }
 				                      </td>
 				                      <td>
-				                      	<c:if test="${r.confirmAt == '' or  empty r.confirmAt}">
-					                        <a href="javascript:openModal('${r.groupId }', '${r.id }');" class="requestConfirm btn btn-primary">승인 / 거부</a>
+				                      	<c:if test="${r.confirmAt == '대기 중'}">
+					                        <a href="javascript:openModal('${r.groupId }', '${r.id }');" class="requestConfirm btn btn-primary">요청 취소</a>
 				                      	</c:if>
-				                      	<c:if test="${r.confirmAt != '' and  !empty r.confirmAt}">
-					                        <a href="javascript:void();" class="requestConfirm btn btn-primary">승인 / 거부 내역 보기</a>
+				                      	<c:if test="${r.confirmAt != '대기 중'}">
+					                        취소불가능
 				                      	</c:if>
 				                      </td>
-				                    </tr>
-				                    <tr id="requestContent${i.index + 1 }" class="hide" >
-				                    	<td class="accordion-inner" colspan="6">${r.requestCont }</td>
 				                    </tr>
 			                    </c:forEach>      
 			                  </tbody>
@@ -152,7 +156,6 @@
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
   <script type="text/javascript">
        $(function(){
-    	   checkTable();
     	   
     	   var token = $("meta[name='_csrf']").attr("content");
     	   var header = $("meta[name='_csrf_header']").attr("content");
@@ -233,14 +236,6 @@
            $("#tempId").val(id);
     	   $("#myModal").modal("show");
   		   // setNoClick(event);   
-       }
-
-       function checkTable(id, class_, colsapn){
-			let requestListCount = $(".requestlist").length
-			if(requestListCount == 0) {
-				let element = "<tr><td colspan='6'>받은 요청이 없습니다.</td></tr>"
-				$("#requestTable").html(element);
-			}
        }
 	</script>
 

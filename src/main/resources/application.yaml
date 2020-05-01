@@ -73,10 +73,12 @@ server:
    accesslog:
     enabled: true
     
-    
+
 custom:
   upload:
-    path: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/img/
+    profilepath: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/profile/
+    # profilepath: D:/stsproject4.0/studyspringboot/src/main/resources/static/upload/profile/
+    studyimgpath: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/img/
   oauth2:
     kakao:
       client-id: 264f1be3f2a2472c78c3fed7a78f2abb
