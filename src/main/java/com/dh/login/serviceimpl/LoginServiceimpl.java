@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User;
@@ -95,6 +93,7 @@ public class LoginServiceimpl implements LoginService, UserDetailsService {
 		return loginMapper.mainlist(vo);
 	}
 	
+	/* oauth용 아이디 확인 */
 	public com.securityconfig.User findByEmail(String email) {
 		com.securityconfig.User user = new com.securityconfig.User();
 		user = loginMapper.findByEmail(email);
@@ -111,6 +110,18 @@ public class LoginServiceimpl implements LoginService, UserDetailsService {
 			boo = false;
 		}
 		return boo;
+	}
+	
+	/* 개인정보 확인을 위한 재로그인 */
+	public LoginVO me(LoginVO vo) {
+		LoginVO lvo = new LoginVO();
+		lvo = loginMapper.me(vo);
+		if(passwordEncoder.matches(vo.getPassword(), lvo.getPassword())) {
+			
+		} else {
+			lvo = null;
+		}
+		return lvo;
 	}
 	
 }

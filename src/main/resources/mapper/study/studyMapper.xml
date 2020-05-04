@@ -186,16 +186,14 @@
 	</select>
 	
 	<insert id="replygroup">
-		BEGIN
-			UPDATE TB_GROUP_QNA
-		   	   SET NEXT_REPLY_AT = 'Y'
-		 	 WHERE GROUP_ID = #{groupId }
-		   	   AND QNA_ID = #{qnaId }
-		   	   AND G_NO = 1;
-		   
-			INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, NEXT_REPLY_AT, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
-			VALUES (#{groupId }, #{qnaId }, 'N', #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 2, 2, 2, #{suserId });
-		 END;
+		UPDATE TB_GROUP_QNA
+	   	   SET NEXT_REPLY_AT = 'Y'
+	 	 WHERE GROUP_ID = #{groupId }
+	   	   AND QNA_ID = #{qnaId }
+	   	   AND G_NO = 1;
+	   
+		INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, NEXT_REPLY_AT, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
+		VALUES (#{groupId }, #{qnaId }, 'N', #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 2, 2, 2, #{suserId });
 	</insert>
 	
 	<select id="checkrequestjoin" resultType="String">

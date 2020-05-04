@@ -35,7 +35,7 @@
       <div class="container">
         <div class="row">
           <div class="span8">
-            <h4>회원가입</h4>
+            <h4>개인정보</h4>
 
             <div id="sendmessage">Your message has been sent. Thank you!</div>
             <div id="errormessage"></div>            
@@ -45,30 +45,28 @@
             	  <div class="row controls">
                     <div class="span4 control-group">
                       <label>ID</label>
-                      <input type="text" id="id" name="id" maxlength="100" class="span4">
-                    </div>
-                    <div class="span2 control-group">
-                      <input type="button"  id="idCheck" value="중복체크"  class="btn btn-primary noCheck">
+                      <input type="text" id="id" name="id" value="${lvo.id }" maxlength="100" class="span4" disabled="true" ㄴ>
                     </div>
                   </div>
                   <div class="row controls">
                     <div class="span4 control-group">
                       <label>email</label>
-                      <input type="text" id="email" name="email" maxlength="100" class="span4">
+                      <input type="text" id="email" value="${lvo.email }" name="email" maxlength="100" class="span4" >
                     </div>
                     <div class="span2 control-group">
-                      <input type="button"  id="emailCheck" value="이메일 인증"  class="btn btn-primary">
+                   	  <label> </label>
+                      <input type="button"  id="emailCheck" value="이메일 재 인증"  class="btn btn-primary">
                     </div>
                   </div>
             	  <div class="row controls">
                     <div class="span6 control-group">
                       <label>이름</label>
-                      <input type="text" id="name" name="name" maxlength="100" class="span6">
+                      <input type="text" id="name" value="${lvo.name }" name="name" maxlength="100" class="span6">
                     </div>
                   </div>
                   <div class="row controls">
                     <div class="span6 control-group">
-                      <label>비밀번호</label>
+                      <label>비밀번호 변경</label>
                       <input type="password" id="beforePassword" class="span6">
                     </div>
                   </div>
@@ -84,8 +82,17 @@
                       <textarea maxlength="5000" rows="4" class="span6"></textarea>
                     </div>
                   </div>
+                  <div class="row controls">
+                  	<div class="span3 control-group">
+                  	  <label>프로필 이미지 </label>
+	                  <input type="file" name="files" id="files" placeholder="프로필 이미지"  data-msg="Please enter a valid email" onchange="loadImg(this)"/>
+	                </div>
+	                <div class="span3 control-group">
+	                  <img id="fileupload" style="height:50px; width:50px;" src="${pageContext.request.contextPath }/upload/profile/${lvo.unityId }" alt="" class="reply img-circle" />
+                    </div>
+                  </div>
                   <div class="btn-toolbar">
-                    <input type="submit" value="회원가입" class="btn btn-primary">
+                    <input type="submit" value="수정" class="btn btn-primary">
                   </div>
                 </form>
                 
@@ -95,11 +102,10 @@
             <aside class="right-sidebar">
 
               <div class="widget">
-                <h5 class="widgetheading">회원가입 약관<span></span></h5>
+                <h5 class="widgetheading">개인정보수정<span></span></h5>
 
                 <ul class="contact-info">
-                  <li><label>회원가입 약관 입니다:</label> 회원 가입시 본 사이트의 약관에 동의한 것으로 간주합니다.</li>
-                  <li>연습 사이트입니다. 회원가입이나 카카오 로그인시 개인정보 유출이 일어날 수 있습니다. 가입시 가상의 데이터를 사용하고 카카오 로그인은 주의하여 사용해주세요!</li>
+                  <li><label>개인정보 수정페이지 입니다.</label></li>      
                 </ul>
 
               </div>

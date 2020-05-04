@@ -48,6 +48,7 @@
                       <input type="text" id="id" name="id" maxlength="100" class="span4">
                     </div>
                     <div class="span2 control-group">
+                      <label></label>
                       <input type="button"  id="idCheck" value="중복체크"  class="btn btn-primary noCheck">
                     </div>
                   </div>
@@ -57,6 +58,7 @@
                       <input type="text" id="email" name="email" maxlength="100" class="span4">
                     </div>
                     <div class="span2 control-group">
+                      <label></label>
                       <input type="button"  id="emailCheck" value="이메일 인증"  class="btn btn-primary">
                     </div>
                   </div>
@@ -90,7 +92,7 @@
 	                  <input type="file" name="files" id="files" placeholder="프로필 이미지"  data-msg="Please enter a valid email" onchange="loadImg(this)"/>
 	                </div>
 	                <div class="span3 control-group">
-	                  <img id="fileupload" class="img-circle"></img>
+	                  <img id="fileupload" style="height:50px; width:50px;" class="reply img-circle"></img>
                     </div>
                   </div>
                   <div class="btn-toolbar">

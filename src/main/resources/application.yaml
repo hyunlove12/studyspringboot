@@ -34,7 +34,8 @@ spring:
     # url: jdbc:mysql://203.245.44.21:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
     
     # url: jdbc:mysql://192.168.25.12:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
-    url: jdbc:mysql://175.125.92.167:3306/study?useUnicode=true&characterEncoding=UTF-8
+    # 오라클은 begin, end
+    url: jdbc:mysql://175.125.92.167:3306/study?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
     username: donghyun1224
     # password: 1234
     password: Test1234!

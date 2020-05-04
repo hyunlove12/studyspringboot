@@ -39,7 +39,7 @@
 
             <div id="sendmessage">Your message has been sent. Thank you!</div>
             <div id="errormessage"></div>
-            <form action="/login" method="post" role="form" class="contactForm">
+            <form action="/info/me" method="post" role="form" class="contactForm">
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
               <div class="row">
                 <div class="span8 form-group">
@@ -52,7 +52,6 @@
                 </div>
                 <div class="span8 form-group">
                   <div class="text-center"> 
-                    <button class="btn btn-theme btn-medium margintop10" type="button" id="kakaoLogin">카카오톡</button>
                     <button class="btn btn-theme btn-medium margintop10" type="submit">로그인</button>
                     <button class="btn btn-theme btn-medium margintop10" type="submit">ID 찾기</button>
                     <button class="btn btn-theme btn-medium margintop10" type="submit">비밀번호 찾기</button>
@@ -86,10 +85,12 @@
    <script type="text/javascript">
         $(function(){           
         	
-        	$("#kakaoLogin").click(function(){
-            	alert('카카오로그인');
-	   			location.href="/oauth2/authorization/kakao";
-	       	});
+        	if(${result } == -1) {
+				alert("id를 확인해 주세요!")
+           	} else if(${result } == -2) {
+				alert("비밀번호를 확인해 주세요!")
+           	} 
+        	
         	 
         	 
         	 

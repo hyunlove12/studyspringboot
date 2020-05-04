@@ -125,8 +125,8 @@
 									<p><a href="javascript:fn_del(${r.qnaId }, ${r.groupId })" class="align-right reply">원 댓글 삭제하기</a></p>
 				                    <c:if test="${r.nextReplyAt == 'N'}">
 				                    	<p><a href="javascript:fn_reply(${r.qnaId }, ${r.groupId })" class="align-right reply">답글달기</a></p>
+					                    <p><input name="content" id="re_${r.qnaId }" class="align-right" maxlength="200" type="text" placeholder="답글을 달아주세요." /></p>
 				                    </c:if>
-				                    <p><input name="content" id="re_${r.groupId }" class="align-right" maxlength="200" type="text" placeholder="답글을 달아주세요." /></p>
 			                    </c:if>
 			                    <c:if test="${groupRole == 'admin' and r.gNo == 2}">
 									<!-- align-right라 오른쪽 기준으로 먼저온 것이 보이는 것? -->
@@ -255,7 +255,7 @@
 	       });
 	    });
        function fn_reply(qnaId, groupId){
-           let content = $("#re_" + groupId).val();
+           let content = $("#re_" + qnaId).val();
     	   $.ajax({
 	   	        type : "post", //전송방식을 지정한다 (POST,GET)
 	   	        url : "${pageContext.request.contextPath }/study/replygroup",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.

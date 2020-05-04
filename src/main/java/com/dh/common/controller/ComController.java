@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -49,7 +50,10 @@ public abstract class ComController<S, V> extends AbstractController{
 	public String delete(HttpServletResponse response, HttpServletRequest req, ModelAndView model, V vo) {			
 		return "login/login";
 	}
-
 	
+	@GetMapping("/notauth")
+	public String notauth() {			
+		return "error/notauth";
+	}
 
 }

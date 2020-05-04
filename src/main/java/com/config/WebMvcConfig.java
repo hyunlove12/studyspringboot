@@ -20,6 +20,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			"/css/**", "/js/**", "/images/**", "/fonts/**", "/color/**", "/ico/**", "/img/**", "/upload/**"
 	};
 	
+	private static final String[] AUTH_LOCATIONS = {
+			"/study/**",
+			"/studymanagement/**"
+	};
+	
 	@Autowired
 	@Qualifier(value = "loginInterceptor")
 	private HandlerInterceptor interceptor;
@@ -29,6 +34,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor(interceptor)
 				.excludePathPatterns(RESOURCE_LOCATIONS);
 		registry.addInterceptor(authInterceptor())
+				.addPathPatterns(AUTH_LOCATIONS)
 				.excludePathPatterns(RESOURCE_LOCATIONS);
 	}
 	

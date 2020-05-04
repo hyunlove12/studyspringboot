@@ -71,7 +71,7 @@
 	                  </ul>
 	                </li>	     
 	                <li class="dropdown">
-	                  <a href="${pageContext.request.contextPath }/">내정보 </a>                 
+	                  <a href="${pageContext.request.contextPath }/info/relogin">내정보 </a>                 
 	                </li>              
 				</sec:authorize>
               </ul>

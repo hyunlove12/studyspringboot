@@ -3,11 +3,13 @@ package com.dh.login.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.dh.common.controller.ComController;
 import com.dh.login.service.LoginVO;
@@ -72,8 +75,7 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 	}
 	
 	@GetMapping("/loginSuccess")
-	public String loginSuccess(@SocialUser User user) {			
-		System.out.println(user.getEmail() + "email");
+	public String loginSuccess(@SocialUser User user) {	
 		return "login/main";
 	}
 	
@@ -89,5 +91,48 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 		boo = loginService.checkId(vo);
 		return boo; 
 	}
+	
+	/**
+	 * 
+	 * 개인 정보 확인 전 재 로그인 페이지
+	 * @param vo
+	 * @return
+	 */
+	@GetMapping("/info/relogin")
+	public String relogin(LoginVO vo, ModelAndView model, HttpServletRequest request) {
+		int result = 1;
+		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+		if(flashMap != null && flashMap.get("result") != null ) {
+			result = (int) flashMap.get("result");
+		}
+		model.addObject("result", result);
+		return "info/relogin";
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@PostMapping("/info/me")
+	public String me(LoginVO vo, ModelMap model, RedirectAttributes rttr) {
+		LoginVO lvo = new LoginVO();
+		// 재 로그인 
+		if(vo.getUsername().equals(vo.getSuserId())) {
+			lvo = loginService.me(vo);
+			if(lvo == null) {
+				rttr.addFlashAttribute("result",-2);
+				return "redirect:/info/relogin";
+			}
+			// model and view -> 리턴값이 모델엔 뷰가 되면서 뷰세팅, 모델 세팅 각각해줘야
+			model.addAttribute("lvo", lvo);
+		} else {
+			rttr.addFlashAttribute("result",-1);
+			return "redirect:/info/relogin";
+		}
+		return "info/me";
+	}
+	
 	
 }

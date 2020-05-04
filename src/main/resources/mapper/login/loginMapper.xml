@@ -16,10 +16,10 @@
     <!-- 유저 ID 비번 확인 -->
 	<select id="findByUsername" resultType="com.dh.login.service.LoginVO">
         SELECT ID
-			    , PASSWORD
-			    , NAME
-			    , EMAIL
-			    , REG_DT
+			 , PASSWORD
+			 , NAME
+		     , EMAIL
+			 , REG_DT
 		 FROM TB_MEMBER
 		WHERE ID = #{username }
     </select>
@@ -72,5 +72,16 @@
 	    SELECT COUNT(ID) AS idCheck 
 	      FROM TB_MEMBER 
 	     WHERE ID = #{id }
+	</select>
+	
+	<select id="me"  resultType="com.dh.login.service.LoginVO">
+		SELECT ID AS id
+			 , NAME AS name
+		     , EMAIL AS email
+		     , UNITY_ID AS unityId
+			 , REG_DT AS regDt
+			 , PASSWORD AS password
+		  FROM TB_MEMBER
+		 WHERE ID = #{username }
 	</select>
 </mapper>

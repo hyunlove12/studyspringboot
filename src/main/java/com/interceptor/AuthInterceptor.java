@@ -75,18 +75,18 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 		System.out.println(request.getRemoteAddr());
 		System.out.println(request.getRemoteHost());
 		System.out.println(request.getRemoteUser());
-		System.out.println(vo.getSuserId());
-		System.out.println(groupId);
 		System.out.println("호출!!");
 		if(vo1 != null && ("admin").equals(vo1.getGroupRole())) {
 			System.out.println("true");
 			return true;
-		} else if(("user").equals(vo1.getGroupRole())) {
+		} else if(vo1 != null && ("user").equals(vo1.getGroupRole())) {
 			if(("admin").equals(flag)) {
+				response.sendRedirect("/notauth");
 				return false;
 			}		
 			return true;
 		} else {
+			response.sendRedirect("/notauth");
 			System.out.println("false");
 			return false;
 		}

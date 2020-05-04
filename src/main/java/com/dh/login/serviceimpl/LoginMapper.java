@@ -24,4 +24,7 @@ public interface LoginMapper {
 	
 	/* id중복 체크 */
 	public String checkId(LoginVO vo);
+	
+	/* 개인정보 확인 */
+	public LoginVO me(LoginVO vo);
 }
