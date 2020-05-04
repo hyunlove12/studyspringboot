@@ -19,10 +19,10 @@
           <div class="span12">
             <div class="inner-heading">
               <ul class="breadcrumb">
-                <li><a href="index.html">Home</a> <i class="icon-angle-right"></i></li>
-                <li class="active">스터디 상세보기</li>
+                <li><a href="${pageContext.request.contextPath }/main">메인</a> <i class="icon-angle-right"></i></li>
+                <li class="active">소주제 생성</li>
               </ul>
-              <h2>스터디 상세보기</h2>
+              <h2>소주제 생성</h2>
             </div>
           </div>
         </div>
@@ -162,7 +162,7 @@
               <div class="marginbot30"></div>
               <h4>소주제등록</h4>
 
-              <form id="commentform" action="/study/createstudydetail" method="post" name="comment-form">
+              <form id="commentform" onsubmit="return fn_checkForm();" action="/study/createstudydetail" method="post" name="comment-form">
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
               <input type="hidden" value="${vo.groupId }" name="groupId"  id="groupId" />
                 <div class="row">
@@ -198,7 +198,19 @@
     <c:import url="/WEB-INF/jsp/includes/footer.jsp" /> 
   </div>
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
-
+	<script type="text/javascript">
+        function fn_checkForm(){
+    		if($("#subtitleNm").val() == '' ){
+    			alert('소주제를 적어주세요!');
+    			return false;
+    		}
+    		if($("#contents").val() == '' ){
+    			alert('설명을 적어주세요!');
+    			return false;
+    		}
+    		return true;
+    	}	        
+    </script>
 
 </body>
 

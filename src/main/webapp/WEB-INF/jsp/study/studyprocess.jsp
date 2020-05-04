@@ -19,7 +19,7 @@
           <div class="span12">
             <div class="inner-heading">
               <ul class="breadcrumb">
-                <li><a href="index.html">Home</a> <i class="icon-angle-right"></i></li>
+                <li><a href="${pageContext.request.contextPath }/main">메인</a> <i class="icon-angle-right"></i></li>
                 <li class="active">수행 현황 등록</li>
               </ul>
               <h2>수행 현황 등록</h2>
@@ -96,10 +96,10 @@
 
 			<!-- 댓글달기 -->
             <div class="comment-area">
-              <h4>2명 등록</h4>
+              <h4>${listCount }명 등록</h4>
               <c:forEach var="r" items="${list }">
 	              <div class="media">
-	                <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/img/avatar.png" alt="" class="img-circle" /></a>
+	                <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/upload/profile/${r.unityId }" alt="" class="img-circle" /></a>
 	                <div class="media-body">
 	                  <div class="media-content">
 	                    <h6><span>${r.regDt }</span> ${r.id }</h6>
@@ -148,13 +148,13 @@
               <div class="marginbot30"></div>
               <h4>수행현황 등록 / 수정</h4>
 
-              <form id="commentform" action="/study/registprogress" method="post" name="comment-form">
+              <form id="commentform" onsubmit="return fn_checkForm();" action="/study/registprogress" method="post" name="comment-form">
               	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
               	<input type="hidden" name="groupId" value="${vo.groupId}" />
               	<input type="hidden" name="subtitleId" value="${processVO.subtitleId }" />
                 <div class="row">
                   <div class="span6">
-                    <input id="progressing" name="progressing" type="text" placeholder="진행도(0 ~ 100)" />
+                    <input id="progressing" name="progressing" type="text" onKeyup="inNumber();" placeholder="진행도(0 ~ 100)" />
                   </div>
                   <div class="span6">
                     <input id="limitDate" name="limitDate" type="text" placeholder="완료 예상 일정" />
@@ -184,7 +184,29 @@
   </div>
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
 
-
+	<script type="text/javascript">
+        function fn_checkForm(){
+    		if($("#progressing").val() == '' ){
+    			alert('진행도를 적어주세요!');
+    			return false;
+    		}
+    		if($("#limitDate").val() == '' ){
+    			alert('완료예상 일정을 적어주세요!');
+    			return false;
+    		}
+    		if($("#progressSit").val() == '' ){
+    			alert('설명을 적어주세요!');
+    			return false;
+    		}
+    		return true;
+    	}	        
+        function inNumber(){
+       	  if(event.keyCode<48 || event.keyCode>57){
+           	 alert('숫자만 입력하세요!');
+       	     event.returnValue=false;
+       	  }
+       	}
+    </script>
 </body>
 
 </html>

@@ -19,10 +19,10 @@
           <div class="span12">
             <div class="inner-heading">
               <ul class="breadcrumb">
-                <li><a href="index.html">Home</a> <i class="icon-angle-right"></i></li>
-                <li class="active">그룹 만들기</li>
+                <li><a href="${pageContext.request.contextPath }/main">메인</a> <i class="icon-angle-right"></i></li>
+                <li class="active">회원가입</li>
               </ul>
-              <h2>그룹 만들기</h2>
+              <h2>회원가입</h2>
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@
             <div id="sendmessage">Your message has been sent. Thank you!</div>
             <div id="errormessage"></div>            
             
-            <form action="/join" method="post" enctype="multipart/form-data" role="form" accept-charset="UTF-8">                  
+            <form action="/join" onsubmit="return fn_checkForm();" method="post" enctype="multipart/form-data" role="form" accept-charset="UTF-8">                  
             	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             	  <div class="row controls">
                     <div class="span4 control-group">
@@ -124,6 +124,25 @@
   </div>
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
 	<script type="text/javascript">
+
+
+	function fn_checkForm(){
+		if($("#idCheck[class*='idChecked']").length == 0 ){
+			alert('아이디 중복을 체크하세요!');
+			return false;
+		}
+		if($("#email").val() == '' ){
+			alert('이메일을 입력해 주세요!');
+			return false;
+		}
+		if($("#name").val() == '' ){
+			alert('이름을 입력해 주세요!');
+			return false;
+		}
+		return true;
+	}	
+
+	
 	// bind, unbind, on, off, removeEventListener 등 이벤트 할당에 대한 공부...
 	let checkId = document.getElementById('idCheck');
 	let checkedEvent = function(){
@@ -136,6 +155,9 @@
    	//	checkId.removeEventListener('click', this.checkedEvent);
       // $(document).on('click',"#idCheck", noCheckEvent);
 	}
+
+
+	
 	// 동적 이벤트 할당
 	let noCheckEvent = function() {
 		if($("#id").val() == ''){

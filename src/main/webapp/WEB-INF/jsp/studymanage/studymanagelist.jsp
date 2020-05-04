@@ -19,11 +19,10 @@
           <div class="span12">
             <div class="inner-heading">
               <ul class="breadcrumb">
-                <li><a href="index.html">Home</a> <i class="icon-angle-right"></i></li>
-                <li><a href="#">Pages</a> <i class="icon-angle-right"></i></li>
-                <li class="active">GroupList</li>
+                <li><a href="${pageContext.request.contextPath }/main">메인</a> <i class="icon-angle-right"></i></li>
+                <li class="active">그룹 가입 요청(받은 메시지)</li>
               </ul>
-              <h2>스터디 그룹 요청 리스트</h2>
+              <h2>그룹 가입 요청(받은 메시지)</h2>
             </div>
           </div>
         </div>

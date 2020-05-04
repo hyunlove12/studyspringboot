@@ -19,10 +19,10 @@
           <div class="span12">
             <div class="inner-heading">
               <ul class="breadcrumb">
-                <li><a href="index.html">Home</a> <i class="icon-angle-right"></i></li>
-                <li class="active">그룹 만들기</li>
+                <li><a href="${pageContext.request.contextPath }/main">메인</a> <i class="icon-angle-right"></i></li>
+                <li class="active">개인정보 수정</li>
               </ul>
-              <h2>그룹 만들기</h2>
+              <h2>개인정보 수정</h2>
             </div>
           </div>
         </div>

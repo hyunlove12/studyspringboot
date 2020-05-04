@@ -19,7 +19,7 @@
           <div class="span12">
             <div class="inner-heading">
               <ul class="breadcrumb">
-                <li><a href="index.html">Home</a> <i class="icon-angle-right"></i></li>
+                <li><a href="${pageContext.request.contextPath }/main">메인</a> <i class="icon-angle-right"></i></li>
                 <li class="active">로그인</li>
               </ul>
               <h2>로그인</h2>
@@ -39,7 +39,7 @@
 
             <div id="sendmessage">Your message has been sent. Thank you!</div>
             <div id="errormessage"></div>
-            <form action="/login" method="post" role="form" class="contactForm">
+            <form action="/login" onsubmit="return fn_checkForm();" method="post" role="form" class="contactForm">
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
               <div class="row">
                 <div class="span8 form-group">
@@ -54,8 +54,8 @@
                   <div class="text-center"> 
                     <button class="btn btn-theme btn-medium margintop10" type="button" id="kakaoLogin">카카오톡</button>
                     <button class="btn btn-theme btn-medium margintop10" type="submit">로그인</button>
-                    <button class="btn btn-theme btn-medium margintop10" type="submit">ID 찾기</button>
-                    <button class="btn btn-theme btn-medium margintop10" type="submit">비밀번호 찾기</button>
+                    <button class="btn btn-theme btn-medium margintop10" type="button">ID 찾기</button>
+                    <button class="btn btn-theme btn-medium margintop10" type="button">비밀번호 찾기</button>
                   </div>
                 </div>
               </div>
@@ -92,9 +92,18 @@
 	   			location.href="/oauth2/authorization/kakao";
 	       	});
         	 
-        	 
-        	 
         });
+        function fn_checkForm(){
+    		if($("#username").val() == '' ){
+    			alert('ID를 입력해 주세요!');
+    			return false;
+    		}
+    		if($("#password").val() == '' ){
+    			alert('비밀번호를 입력해 주세요!');
+    			return false;
+    		}
+    		return true;
+    	}	
         
     </script>
 

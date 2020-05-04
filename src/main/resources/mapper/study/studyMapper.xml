@@ -106,16 +106,19 @@
 	</select>
 	
 	<select id="processview" resultType="com.dh.study.service.StudyVO">
-	    SELECT GROUP_ID AS groupId
- 		     , SUBTITLE_ID AS subtitleId
-		     , SUBTITLE_NM AS subtitleNm
-		     , SUBTITLE_CREATER AS subtitleCreater
-		     , CONTENTS AS contents
-		     , UNITY_GROUP_ID AS unityGroupId
-		     , REG_DT AS regDt
-	      FROM TB_GROUP_DETAIL
-		 WHERE GROUP_ID = #{groupId }
-		   AND SUBTITLE_ID = #{subtitleId }
+	    SELECT GD.GROUP_ID AS groupId
+ 		     , GD.SUBTITLE_ID AS subtitleId
+		     , GD.SUBTITLE_NM AS subtitleNm
+		     , GD.SUBTITLE_CREATER AS subtitleCreater
+		     , GD.CONTENTS AS contents
+		     , GD.UNITY_GROUP_ID AS unityGroupId
+		     , GD.REG_DT AS regDt
+		     , TM.UNITY_ID AS unityId
+	      FROM TB_GROUP_DETAIL GD
+	      LEFT OUTER JOIN TB_MEMBER TM
+	        ON GD.SUBTITLE_CREATER = TM.ID
+		 WHERE GD.GROUP_ID = #{groupId }
+		   AND GD.SUBTITLE_ID = #{subtitleId }
 	</select>
 	
 	<insert id="createstudydetail">

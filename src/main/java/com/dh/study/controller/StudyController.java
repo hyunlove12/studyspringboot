@@ -146,6 +146,7 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 		List<StudyVO> list = new ArrayList<StudyVO>();
 		list = studyService.progressbymember(groupId, subtitleId);
 		model.addAttribute("list", list);
+		model.addAttribute("listCount", list.size());
 		// 해당 페이지 권한
 		String groupRole = studyService.groupRole(vo);
 		model.addAttribute("groupRole", groupRole);
@@ -162,7 +163,7 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 	@PostMapping("/registprogress")
 	public String registprogress(ModelMap map, StudyVO vo) {
 		studyService.registprogress(vo);
-		return "redirect:/study/studyprocess/" + vo.getGroupId() + "/" + vo.getSubtitleId();
+		return "redirect:/study/studyprocess/" + vo.getSubtitleId() + "?groupId=" +  vo.getGroupId();
 	}
 	
 	/**

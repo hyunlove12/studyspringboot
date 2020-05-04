@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -19,7 +20,7 @@
           <div class="span12">
             <div class="inner-heading">
               <ul class="breadcrumb">
-                <li><a href="index.html">Home</a> <i class="icon-angle-right"></i></li>
+                <li><a href="${pageContext.request.contextPath }/main">메인</a> <i class="icon-angle-right"></i></li>
                 <li class="active">스터디 상세보기</li>
               </ul>
               <h2>스터디 상세보기</h2>
@@ -207,11 +208,18 @@
               	  <input type="hidden" name="groupId" value="${vo.groupId }"/>
                   <div class="row controls">
                     <div class="span12 control-group">
-                      <input name="content" class="span12" maxlength="100" type="text" placeholder="질문을 입력하세요" />
+                    <sec:authorize access="isAuthenticated()">	
+                      <input name="content" id="contentReply" class="span12" maxlength="100" type="text" placeholder="질문을 입력하세요" />
+                    </sec:authorize>
+                    <sec:authorize access="isAnonymous()">
+                      <input id="contentReply" disabled="true" class="span12" maxlength="100" type="text" placeholder="로그인 해주세요!" />
+                    </sec:authorize>
                     </div>
                   </div>
                   <div class="btn-toolbar">
-                    <button class="btn btn-theme btn-medium margintop10" type="submit">등록</button>
+                  	<sec:authorize access="isAuthenticated()">	
+                    	<button class="btn btn-theme btn-medium margintop10" id="submitReply" type="submit">등록</button>
+                    </sec:authorize>
                   </div>
                 </form>
               </div>
@@ -247,6 +255,16 @@
   </div>
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
   <script type="text/javascript">
+	  $(function(){           
+	  	
+	  	$("#submitReply").click(function(){
+		  	if($("#contentReply").val() == '') {
+				alert('댓글을 입력해주세요!');
+				return false;
+		  	}
+     	});
+	  	 
+	  });
 	  var token = $("meta[name='_csrf']").attr("content");
 	    var header = $("meta[name='_csrf_header']").attr("content");
 	    $(function() {
@@ -256,6 +274,10 @@
 	    });
        function fn_reply(qnaId, groupId){
            let content = $("#re_" + qnaId).val();
+           if(content == ''){
+				alert('내용을 적어주세요!');
+				return false;
+           }
     	   $.ajax({
 	   	        type : "post", //전송방식을 지정한다 (POST,GET)
 	   	        url : "${pageContext.request.contextPath }/study/replygroup",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.

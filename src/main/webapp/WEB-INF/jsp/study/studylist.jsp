@@ -19,9 +19,8 @@
           <div class="span12">
             <div class="inner-heading">
               <ul class="breadcrumb">
-                <li><a href="index.html">Home</a> <i class="icon-angle-right"></i></li>
-                <li><a href="#">Pages</a> <i class="icon-angle-right"></i></li>
-                <li class="active">GroupList</li>
+                <li><a href="${pageContext.request.contextPath }/main" >메인페이지</a> <i class="icon-angle-right"></i></li>
+                <li class="active">스터디 그룹 리스트</li>
               </ul>
               <h2>스터디 그룹 리스트</h2>
             </div>
@@ -36,9 +35,9 @@
           <div class="span12">
             <ul class="team-categ filter">
               <li class="all active"><a href="#">전체</a></li>
-              <li class="design"><a href="#" title="">개발</a></li>
+              <!-- <li class="design"><a href="#" title="">개발</a></li>
               <li class="marketing"><a href="#" title="">영어</a></li>
-              <li class="dev"><a href="#" title="">기타</a></li>
+              <li class="dev"><a href="#" title="">기타</a></li> -->
             </ul>
 
             <div class="clearfix"></div>
