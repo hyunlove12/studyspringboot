@@ -48,11 +48,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			//.mvcMatchers("/admin").hasRole("ADMIN") // admin은 ADMIN권한 필요
 			.anyRequest().authenticated() //그 외 어떠한 요청은 인증만 하면 된다.			
 			.and()
-			.oauth2Login()
+			.oauth2Login()		
 			.loginPage("/loginpage")
-			.successHandler(new LoginSuccessHandler("/main"));
+			.successHandler(new SocialLoginSuccessHandler("/sociallogin/main"));
+			//.defaultSuccessUrl("/sociallogin/main"); -> undefined
 			// undefined
-			// .defaultSuccessUrl("/loginSuccess", true);
+			//.defaultSuccessUrl("/loginSuccess", true);
 		
 		// .successForwardUrl("/main") -> 안적어주면 forarding이 안된다...
 		// 404도 무조건 로그인 페이지로 보낸다..?

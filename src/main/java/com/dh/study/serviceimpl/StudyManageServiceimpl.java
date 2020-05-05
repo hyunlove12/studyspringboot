@@ -25,7 +25,13 @@ public class StudyManageServiceimpl extends ComServiceimpl<StudyManageServiceimp
 	/* 그룹에 회원 가입 */
 	public int joinMember(StudyVO vo) {
 		int result = 0;
-		// 스크립트 값 조작에 대한 대책		
+		StudyVO vo1 = new StudyVO();
+		vo1 = studyManageMapper.currentMember(vo);
+		if( Integer.parseInt(vo1.getCurrentMember()) >=  Integer.parseInt(vo1.getTotal()) ) {
+			result = -100;
+			return result;
+		}
+		// 스크립트 값 조작에 대한 대책 필요
 		if(!("refuse").equals(vo.getGroupRole())) {
 			vo.setConfirmAt("Y");
 			result += studyManageMapper.joinMember(vo);			

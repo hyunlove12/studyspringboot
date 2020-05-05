@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.dh.common.service.ComVO;
+import com.securityconfig.SocialUser;
 
 @Controller
 public abstract class ComController<S, V> extends AbstractController{
@@ -54,6 +55,12 @@ public abstract class ComController<S, V> extends AbstractController{
 	@GetMapping("/notauth")
 	public String notauth() {			
 		return "error/notauth";
+	}
+	
+	@GetMapping("/sociallogin/main")
+	public String socialmain(@SocialUser com.securityconfig.User user) {		
+		System.out.println("소셜호출!");
+		return "login/main";
 	}
 
 }

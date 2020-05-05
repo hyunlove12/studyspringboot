@@ -27,7 +27,11 @@
 	
 	<insert id="joinMember">
 		INSERT TB_GROUP_MEMBER(ID, GROUP_ID, GROUP_ROLE, REG_DT) 
-		VALUES (#{id }, #{groupId }, #{groupRole }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
+		VALUES (#{id }, #{groupId }, #{groupRole }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL));
+		
+		UPDATE TB_STUDY_GROUP
+		   SET CURRENT_MEMBER = (CURRENT_MEMBER + 1)
+		 WHERE GROUP_ID = #{groupId };
 	</insert>
 	
 	<insert id="requestResult">
@@ -41,6 +45,13 @@
 		 WHERE ID = #{id }
 		   AND GROUP_ID = #{groupId }
 	</update>
+	
+	<select id="currentMember" resultType="com.dh.study.service.StudyVO">		
+		SELECT CURRENT_MEMBER AS currentMember
+		     , TOTAL AS total
+		  FROM TB_STUDY_GROUP 
+		 WHERE GROUP_ID = #{groupId }
+	</select>
 	
 	<select id="joinStudyList" resultType="com.dh.study.service.StudyVO">		
 		SELECT SG.GROUP_ID AS groupID

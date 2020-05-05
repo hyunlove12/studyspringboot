@@ -16,7 +16,7 @@
     
     <insert id="joinstudygroup">
 	    INSERT INTO TB_GROUP_MEMBER(ID, GROUP_ID, GROUP_ROLE, REG_DT) 
-	   VALUES( #{suserId }, #{groupId }, 'admin', (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL));
+	   VALUES( #{suserId }, #{groupId }, 'sadmin', (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL));
     </insert>
     
     <insert id="joinrequest">

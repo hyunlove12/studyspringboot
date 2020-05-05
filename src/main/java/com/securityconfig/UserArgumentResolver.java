@@ -5,6 +5,7 @@ import static com.securityconfig.SocialType.KAKAO;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -15,7 +16,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -25,7 +25,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.dh.login.serviceimpl.LoginServiceimpl;
 
-@Component
+
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
     private LoginServiceimpl userRepository;
@@ -56,7 +56,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
                 user = userRepository.findByEmail(convertUser.getEmail());
               //  if (user == null) { user = userRepository.save(convertUser); }
 
-                setRoleIfNotSame(user, authentication, map);
+                //setRoleIfNotSame(user, authentication, map);
                 session.setAttribute("user", user);
             } catch (ClassCastException e) {
                 return user;
@@ -77,14 +77,21 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     	user.setPrincipal(String.valueOf(map.get("id")));
     	user.setSocialType(socialType);
     	user.setCreatedDate(LocalDateTime.now());
+    	System.out.println(user.toString());
         return user;
     }
 
     private User getKaKaoUser(Map<String, Object> map) {
+    	Iterator mi = map.keySet().iterator();
+    	while(mi.hasNext()) {
+    		String key = mi.next().toString();
+    		String value = map.get(key).toString();
+    		System.out.println(key + "->" + value);
+    	}
         Map<String, String> propertyMap = (HashMap<String, String>) map.get("properties");
         User user = new User();
     	user.setName(propertyMap.get("nickname"));
-    	user.setEmail(String.valueOf(map.get("kaccount_email")));
+    	user.setEmail(String.valueOf(map.get("email")));
     	user.setPrincipal(String.valueOf(map.get("id")));
     	user.setSocialType(KAKAO);
     	user.setCreatedDate(LocalDateTime.now());

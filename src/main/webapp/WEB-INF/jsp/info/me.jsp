@@ -93,6 +93,7 @@
                   </div>
                   <div class="btn-toolbar">
                     <input type="submit" value="수정" class="btn btn-primary">
+                    <input type="button" value="탈퇴" class="btn btn-primary">
                   </div>
                 </form>
                 

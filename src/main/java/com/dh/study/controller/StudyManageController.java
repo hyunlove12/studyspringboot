@@ -90,9 +90,46 @@ public class StudyManageController extends ComController<StudyServiceimpl, Study
 			 } else {
 				 result = "가입 요청을 승인하였습니다.";				 
 			 }
+		 } else if(resultInsert == -100) { 
+			 result = "가입인원을 초과하였습니다.";
 		 } else {
 			 result = "가입 요청 승인 / 거부에 실패했습니다.";
 		 }
 		 return result;
 	 }
+	 
+	 /**
+	  * 
+	  * 그룹 탈퇴
+	  * @param vo
+	  * @return
+	  */
+	 @Auth(flag="user")
+	 @PostMapping("/leavegroup")
+	 public @ResponseBody String leavegroup(StudyVO vo) {
+		 String result = "";
+		 // 일반 관리자 및 일반 회원일 경우 -> 바로 탈퇴 -> 기존 게시글 삭제 여부 
+		 
+		 
+		
+	
+		 // 슈퍼 관리자일 경우 -> 1명일 경우 슈퍼관리자 지정 후 탈퇴 -> 기존 게시글 삭제 여부
+		 return result;
+	 }
+	 
+	 /**
+	  * 
+	  * 그룹 삭제
+	  * @param vo
+	  * @return
+	  */
+	 @Auth(flag="sadmin")
+	 @PostMapping("/deletegroup")
+	 public @ResponseBody String deletegroup(StudyVO vo) {
+		 String result = "";
+		 // 슈퍼 관리자만 삭제 가능
+		 // 1명일 경우 -> 
+		 return result;
+	 }
+	 
 }

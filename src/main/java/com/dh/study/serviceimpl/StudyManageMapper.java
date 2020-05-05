@@ -23,5 +23,7 @@ public interface StudyManageMapper {
 	
 	/* 가입 요청 보낸 메시지 */
 	public List<StudyVO> sendRequestList(StudyVO vo);
-	
+
+	/* 현재 가입 인원currentMember */
+	public StudyVO currentMember(StudyVO vo);
 }

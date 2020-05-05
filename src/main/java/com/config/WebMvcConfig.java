@@ -1,14 +1,19 @@
 package com.config;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.dh.login.serviceimpl.LoginServiceimpl;
 import com.interceptor.AuthInterceptor;
+import com.securityconfig.UserArgumentResolver;
 
 
 @Configuration
@@ -28,7 +33,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Autowired
 	@Qualifier(value = "loginInterceptor")
 	private HandlerInterceptor interceptor;
-
+	
+	@Autowired
+	LoginServiceimpl loginServiceimpl;
+	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(interceptor)
@@ -42,6 +50,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public AuthInterceptor authInterceptor() {
 		return new AuthInterceptor();
 	}
+	
+	@Bean
+	public HandlerMethodArgumentResolver userArgumentResolver() {
+		return new UserArgumentResolver(loginServiceimpl);
+	}
+	
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+		resolvers.add(userArgumentResolver());
+	}
+
 	
 	/*@Bean
 	public FilterRegistrationBean getFilterRegistrationBean() {

@@ -111,7 +111,7 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 	
 	/**
 	 * 
-	 * 
+	 * 재로그인 확인
 	 * @param vo
 	 * @return
 	 */
@@ -134,5 +134,19 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 		return "info/me";
 	}
 	
+	/**
+	 * 
+	 * 회원가입 탈퇴
+	 * @param vo
+	 * @return
+	 */
+	@PostMapping("/leave")
+	public String leave(LoginVO vo) {
+		// 회원가입 탈퇴
+		// 슈퍼관리자일 경우는?
+		
+		
+		return "info/me";
+	}
 	
 }

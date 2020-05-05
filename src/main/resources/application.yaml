@@ -66,9 +66,9 @@ logging:
 server:
   jsp-servlet: 
    init-parameters:
-    development: true
-    
+    development: true  
   error:
+   whitelabel:      enabled: false
    path: log/
   tomcat:
    accesslog:
@@ -82,7 +82,7 @@ custom:
     studyimgpath: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/img/
   oauth2:
     kakao:
-      client-id: 264f1be3f2a2472c78c3fed7a78f2abb
+      client-id: d7933554b3a9142e560fe23d9a5a1ad0
       
 
         
