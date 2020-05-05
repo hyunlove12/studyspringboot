@@ -65,7 +65,7 @@
             <div class="post-heading">
             	<h4 class="title">
 	            	<strong>목차</strong>
-	            	<c:if test="${groupRole == 'admin'}">
+	            	<c:if test="${groupRole == 'admin' or groupRole == 'sadmin'}">
 	            		<a href="${pageContext.request.contextPath }/study/createstudydetail/${vo.groupId}" class="align-right">등록하기</a>  
             		</c:if>
             	</h4>       	

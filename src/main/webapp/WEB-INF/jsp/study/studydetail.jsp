@@ -71,7 +71,7 @@
             <div class="post-heading">
             	<h4 class="title">
 	            	<strong>목차</strong>
-	            	<c:if test="${groupRole == 'admin'}">
+	            	<c:if test="${groupRole == 'admin' or groupRole == 'sadmin'}">
 	            		<a href="${pageContext.request.contextPath }/study/createstudydetail?groupId=${vo.groupId}" class="align-right">등록하기</a>  
 	            	</c:if>
             	</h4>       	
@@ -89,10 +89,10 @@
 		                  <div class="accordion-inner">
 			              <pre>${r.contents }
 			              </pre> 
-			              	<c:if test="${groupRole == 'admin' or groupRole == 'user'}">
+			              	<c:if test="${groupRole == 'admin' or groupRole == 'user' or groupRole == 'sadmin'}">
 		                    	<a href="/study/studyprocess/${r.subtitleId }?groupId=${groupId }" class="align-right">들어가기</a>
 		                    </c:if>
-		                    <c:if test="${groupRole == 'admin'}">
+		                    <c:if test="${groupRole == 'sadmin' || groupRole == 'sadmin'}">
 		                    	<a href="#" class="align-right">수정하기</a>
 		                  	</c:if>
 		                  </div>
@@ -121,7 +121,7 @@
 			                    <p>
 			                      ${r.content }
 			                    </p>
-								<c:if test="${groupRole == 'admin' and r.gNo == 1}">
+								<c:if test="${(groupRole == 'sadmin' or groupRole == 'admin') and r.gNo == 1}">
 									<!-- align-right라 오른쪽 기준으로 먼저온 것이 보이는 것? -->
 									<p><a href="javascript:fn_del(${r.qnaId }, ${r.groupId })" class="align-right reply">원 댓글 삭제하기</a></p>
 				                    <c:if test="${r.nextReplyAt == 'N'}">
@@ -129,7 +129,7 @@
 					                    <p><input name="content" id="re_${r.qnaId }" class="align-right" maxlength="200" type="text" placeholder="답글을 달아주세요." /></p>
 				                    </c:if>
 			                    </c:if>
-			                    <c:if test="${groupRole == 'admin' and r.gNo == 2}">
+			                    <c:if test="${(groupRole == 'sadmin' or groupRole == 'admin') and r.gNo == 2}">
 									<!-- align-right라 오른쪽 기준으로 먼저온 것이 보이는 것? -->
 				                    <p><a href="javascript:fn_del(${r.qnaId }, ${r.groupId })" class="align-right reply">삭제하기</a></p>
 			                    </c:if>

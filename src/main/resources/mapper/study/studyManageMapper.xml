@@ -16,7 +16,10 @@
 				     SELECT GROUP_ID
 					   FROM TB_GROUP_MEMBER GM
 					  WHERE GM.ID = #{suserId }
-					    AND GROUP_ROLE = 'admin'
+					    AND ( 
+					      	     GROUP_ROLE = 'admin'
+					      	  OR GROUP_ROLE = 'sadmin'
+				      	    )
                     ) GM
             ON GR.GROUP_ID = GM.GROUP_ID
           LEFT OUTER JOIN TB_STUDY_GROUP SG

@@ -180,10 +180,6 @@
 					alert('승인 여부를 확인하세요!');
 					return;
                }
-               alert($("#tempId").val());
-               alert($("#tempGroupId").val());
-               alert($("#confirmRole").val());
-               alert($("#confirmCont").val());
 	       		$.ajax({
 	    	        type : "post", //전송방식을 지정한다 (POST,GET)
 	    	        url : "${pageContext.request.contextPath }/studymanagement/joinMember",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
