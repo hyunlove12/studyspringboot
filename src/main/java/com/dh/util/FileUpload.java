@@ -118,4 +118,19 @@ public class FileUpload {
 		return list;
 	}
 	
+	// 기존 파일 삭제
+	public int delFile(String fileName, String fileUrl) {
+		int result = 0;	
+        File deleteFile = new File(fileUrl + fileName);
+        // 파일이 존재하는지 체크 존재할경우 true, 존재하지않을경우 false
+        if(deleteFile.exists()) {          
+            // 파일을 삭제합니다.
+            deleteFile.delete();           
+            System.out.println("파일을 삭제하였습니다.");           
+        } else {
+            System.out.println("파일이 존재하지 않습니다.");
+        }     
+		return result;
+	}
+	
 }

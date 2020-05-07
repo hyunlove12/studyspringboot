@@ -50,5 +50,4 @@ public interface StudyService {
 	
 	/* 답글에 댓글달기 */
 	public int replygroup(StudyVO vo);
-	
 }

@@ -124,4 +124,39 @@ public class LoginServiceimpl implements LoginService, UserDetailsService {
 		return lvo;
 	}
 	
+	/* 개인정보 수정 */
+	public boolean updateme(LoginVO vo, MultipartFile files) {
+		boolean boo = false;
+		int result = 0;
+		int fileResult = 0;	
+		String unityId = loginMapper.findUnityId(vo);
+		try {		
+			List list = new ArrayList();
+			if(files != null && !("").equals(files.getOriginalFilename())) {
+				System.out.println("호출!");
+				fileUpload.delFile(unityId, fileUrl);
+				list = fileUpload.fileSave(files, "", fileUrl, 0);				
+				fileResult = (int) list.get(0);
+				vo.setUnityId(list.get(1).toString());
+				if(fileResult == 0) {
+					throw new SQLException();
+				}
+			}
+			vo.encodePassword(passwordEncoder);
+			result += loginMapper.updateme(vo);
+			if (!("").equals(vo.getPassword()) && vo.getPassword() != null) {
+				result += loginMapper.updatePassword(vo);
+			}
+			if(result >= 3) {
+				boo = true;
+			}
+		} catch(Exception e) {
+			result = 0;
+			System.out.println("오류");
+			e.printStackTrace();
+		}
+		return boo;
+	}	
+	
+	
 }

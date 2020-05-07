@@ -5,23 +5,23 @@
     
     <insert id="join">
 		 INSERT INTO TB_MEMBER(ID, PASSWORD, NAME, EMAIL, UNITY_ID, REG_DT) 
-		VALUES(#{id }, #{password }, #{name }, #{email }, #{unityId }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))	
+		 VALUES(#{id }, #{password }, #{name }, #{email }, #{unityId }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))	
     </insert> 
     
     <insert id="roleRegist">    		   
 		 INSERT INTO TB_MEMBER_ROLE(ID, ROLE_NO) 
-		VALUES(#{id }, 'USER')
+		VALUES(#{id }, 'user')
     </insert>
     
     <!-- 유저 ID 비번 확인 -->
 	<select id="findByUsername" resultType="com.dh.login.service.LoginVO">
-        SELECT ID
+        SELECT ID AS id
 			 , PASSWORD
 			 , NAME
 		     , EMAIL
 			 , REG_DT
-		 FROM TB_MEMBER
-		WHERE ID = #{username }
+		  FROM TB_MEMBER
+		 WHERE ID = #{username }
     </select>
     
     <!-- 유저 권한 확인 -->
@@ -47,25 +47,29 @@
 		        , TGM.ID AS checkJoinId
 		 FROM TB_STUDY_GROUP SG
 		 LEFT OUTER JOIN TB_MEMBER M
-		   ON SG.GROUP_FOUNDER = M.ID  	     
+		   ON SG.GROUP_FOUNDER = M.ID  	  
+		  AND M.DEL_AT = 'N'   
          LEFT OUTER JOIN (
-							SELECT ID , GROUP_ID 
+							SELECT ID, GROUP_ID 
 	                          FROM TB_GROUP_MEMBER GM
 							 WHERE ID = #{suserId }
+							   AND DEL_AT = 'N'
 					    ) TGM
  	       ON SG.GROUP_ID = TGM.GROUP_ID
+ 	    WHERE SG.DEL_AT = 'N'
 		ORDER BY SG.REG_DT
 	    LIMIT 4
 	</select>
 	
 	<select id="findByEmail" resultType="com.dh.login.service.LoginVO">
-	    SELECT ID
+	    SELECT ID AS id
 			 , PASSWORD
 			 , NAME
 			 , EMAIL
 			 , REG_DT
 		 FROM TB_MEMBER
 		WHERE email = #{email }
+		  ADN DEL_AT = 'N'
 	</select>
 	
 	<select id="checkId" resultType="String">
@@ -83,5 +87,27 @@
 			 , PASSWORD AS password
 		  FROM TB_MEMBER
 		 WHERE ID = #{username }
+		   AND DEL_AT = 'N'
 	</select>
+	
+	<update id="updateme">
+		UPDATE TB_MEMBER
+	       SET NAME = #{name }
+		     , EMAIL = #{email }
+		     , UNITY_ID = #{unityId }
+	     WHERE Id = #{id }
+	</update>
+	
+	<select id="findUnityId" resultType="String">
+		SELECT UNITY_ID AS unityId 
+		  FROM TB_MEMBER
+		 WHERE ID = #{id }
+		   AND DEL_AT = 'N'
+	</select>
+	
+	<update id="updatePassword">
+		UPDATE TB_MEMBER
+	       SET PASSWORD = #{password }
+	     WHERE ID = #{id } 
+	</update>
 </mapper>

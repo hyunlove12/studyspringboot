@@ -26,4 +26,7 @@ public interface StudyManageMapper {
 
 	/* 현재 가입 인원currentMember */
 	public StudyVO currentMember(StudyVO vo);
+	
+	/* 그룹 삭제 */
+	public int deleteGroup(StudyVO vo);
 }

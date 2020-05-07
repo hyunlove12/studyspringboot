@@ -40,15 +40,18 @@
 							SELECT COUNT(ID) AS GROUP_COUNT
 							     , GROUP_ID
 							  FROM TB_GROUP_MEMBER
-							  GROUP BY GROUP_ID
+							 WHERE DEL_AT = 'N'
+							 GROUP BY GROUP_ID							
 		  					) GMS
 		     ON SG.GROUP_ID = GMS.GROUP_ID
            LEFT OUTER JOIN (
 							SELECT ID , GROUP_ID 
 	                          FROM TB_GROUP_MEMBER GM
 							 WHERE ID = #{suserId }
+							   AND DEL_AT = 'N'
 						   ) TGM
              ON SG.GROUP_ID = TGM.GROUP_ID
+          WHERE SG.DEL_AT = 'N'
 	</select>
     
 	<insert id="join">
@@ -90,7 +93,9 @@
 		  FROM TB_STUDY_GROUP SG
 		  LEFT OUTER JOIN TB_UNITY_GROUP UG
             ON SG.UNITY_GROUP_ID = UG.UNITY_GROUP_ID
+           AND UG.DEL_AT = 'N' 
 		 WHERE GROUP_ID = #{groupId }
+		   AND SG.DEL_AT = 'N'
 	</select>
 	
 	<select id="detailview" resultType="com.dh.study.service.StudyVO">
@@ -103,6 +108,7 @@
 			 , REG_DT AS regDt
 		  FROM TB_GROUP_DETAIL GD
          WHERE GROUP_ID = #{groupId }
+           AND GD.DEL_AT = 'N'
 	</select>
 	
 	<select id="processview" resultType="com.dh.study.service.StudyVO">
@@ -117,20 +123,22 @@
 	      FROM TB_GROUP_DETAIL GD
 	      LEFT OUTER JOIN TB_MEMBER TM
 	        ON GD.SUBTITLE_CREATER = TM.ID
+	       AND TM.DEL_AT = 'N'
 		 WHERE GD.GROUP_ID = #{groupId }
 		   AND GD.SUBTITLE_ID = #{subtitleId }
+		   AND GD.DEL_AT = 'N'
 	</select>
 	
 	<insert id="createstudydetail">
 		<selectKey resultType="string" keyProperty="subtitleId" order="BEFORE">
 		    SELECT MAX(IFNULL(GD.SUBTITLE_ID, 0)) + 1 
-			 FROM (SELECT 1 FROM DUAL) D
-			   LEFT OUTER JOIN TB_GROUP_DETAIL GD
+			  FROM (SELECT 1 FROM DUAL) D
+			  LEFT OUTER JOIN TB_GROUP_DETAIL GD
    			    ON 1 = 1
-              AND GD.GROUP_ID = #{groupId}   			    
+               AND GD.GROUP_ID = #{groupId}   			    
     	</selectKey>
-		INSERT INTO TB_GROUP_DETAIL(GROUP_ID, SUBTITLE_ID, SUBTITLE_NM, SUBTITLE_CREATER, CONTENTS, UNITY_GROUP_ID, REG_DT) 
-	   VALUES( #{groupId}, #{subtitleId}, #{subtitleNm}, #{suserId }, #{contents }, #{unityGroupId }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
+		INSERT INTO TB_GROUP_DETAIL(GROUP_ID, ID, SUBTITLE_ID, SUBTITLE_NM, SUBTITLE_CREATER, CONTENTS, UNITY_GROUP_ID, REG_DT) 
+	   VALUES( #{groupId}, #{suserId }, #{subtitleId}, #{subtitleNm}, #{suserId }, #{contents }, #{unityGroupId }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
 	</insert>
 	
 	<insert id="registprogress">
@@ -150,6 +158,7 @@
 		  FROM TB_PROGRESS_SIT
  		 WHERE GROUP_ID = #{groupId }
 		   AND SUBTITLE_ID = #{subtitleId }	
+		   AND DEL_AT = 'N'
 	</select>
 	
 	<insert id="registqna">
@@ -182,9 +191,12 @@
 		  LEFT OUTER JOIN TB_GROUP_MEMBER GM
 		    ON GQ.ID = GM.ID
 		   AND GQ.GROUP_ID = GM.GROUP_ID
-           LEFT OUTER JOIN TB_MEMBER TM
+		   AND GM.DEL_AT = 'N'
+          LEFT OUTER JOIN TB_MEMBER TM
 			ON GQ.ID = TM.ID
+		   AND TM.DEL_AT = 'N'
 		 WHERE GQ.GROUP_ID = #{groupId }
+		   AND GQ.DEL_AT = 'N'
 		 ORDER BY GQ.QNA_ID, GQ.G_NO
 	</select>
 	
@@ -211,6 +223,7 @@
 		  FROM TB_GROUP_MEMBER 
 		 WHERE GROUP_ID = #{groupId } 
 		   AND ID = #{suserId }
+		   AND DEL_AT = 'N'
 	</select>
 
 	<select id="checkGroup" resultType="com.dh.study.service.StudyVO">	
@@ -218,6 +231,7 @@
 		     , GROUP_ROLE AS groupRole
 		  FROM TB_GROUP_MEMBER 
 		 WHERE ID = #{suserId }
-		   AND GROUP_ID = #{groupId };
+		   AND GROUP_ID = #{groupId }
+		   AND DEL_AT = 'N'
 	</select>
 </mapper>

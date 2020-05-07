@@ -149,4 +149,16 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 		return "info/me";
 	}
 	
+	/**
+	 * 
+	 * 회원정보 업데이트 
+	 * @param vo
+	 * @return
+	 */
+	@PostMapping("/update/me")
+	public String updateme(LoginVO vo, @RequestPart MultipartFile files) {
+		loginService.updateme(vo, files);		
+		return "redirect:/main"; 
+	}
+	
 }

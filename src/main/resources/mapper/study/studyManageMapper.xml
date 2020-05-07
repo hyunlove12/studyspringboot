@@ -20,12 +20,16 @@
 					      	     GROUP_ROLE = 'admin'
 					      	  OR GROUP_ROLE = 'sadmin'
 				      	    )
+				        AND DEL_AT = 'N' 
                     ) GM
             ON GR.GROUP_ID = GM.GROUP_ID
           LEFT OUTER JOIN TB_STUDY_GROUP SG
 		    ON GR.GROUP_ID = SG.GROUP_ID   
+		   AND SG.DEL_AT = 'N'
 		  LEFT OUTER JOIN TB_MEMBER TM
-		    ON GR.ID = TM.ID           
+		    ON GR.ID = TM.ID
+		   AND TM.DEL_AT = 'N'
+		 WHERE GR.DEL_AT = 'N'           
     </select>
 	
 	<insert id="joinMember">
@@ -68,9 +72,11 @@
 		     , GM.ID AS id
 		     , GM.GROUP_ROLE AS groupRole
 		  FROM TB_STUDY_GROUP SG
-		  LEFT OUTER JOIN TB_GROUP_MEMBER GM
+		 INNER JOIN TB_GROUP_MEMBER GM
 		    ON SG.GROUP_Id = GM.GROUP_ID
 		   AND GM.ID = #{suserId }
+		   AND GM.DEL_AT = 'N'
+		 WHERE SG.DEL_AT = 'N'
 	</select>
 	
 	<select id="sendRequestList" resultType="com.dh.study.service.StudyVO">		
@@ -91,4 +97,42 @@
 		    ON GR.ID = TM.ID     
          WHERE GR.ID = #{suserId }
     </select>
+    
+    <update id="deleteGroup" >    
+		UPDATE TB_GROUP_QNA 
+		   SET DEL_AT = 'Y'
+		     , DEL_DT = (SELECT DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 YEAR), '%Y%m%d')  FROM DUAL)
+		 WHERE GROUP_ID = #{groupId };
+		  
+		UPDATE TB_STUDY_GROUP_REQUEST 
+		   SET DEL_AT = 'Y'
+		     , DEL_DT = (SELECT DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 YEAR), '%Y%m%d')  FROM DUAL)
+		 WHERE GROUP_ID = #{groupId }; 
+		  
+		UPDATE TB_STUDY_GROUP_REQUEST_RESULT 
+		   SET DEL_AT = 'Y'
+		     , DEL_DT = (SELECT DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 YEAR), '%Y%m%d')  FROM DUAL)
+		 WHERE GROUP_ID = #{groupId };
+		  
+		UPDATE TB_GROUP_DETAIL 
+		   SET DEL_AT = 'Y'
+		     , DEL_DT = (SELECT DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 YEAR), '%Y%m%d')  FROM DUAL)
+		 WHERE GROUP_ID = #{groupId };
+		  
+		UPDATE TB_GROUP_MEMBER 
+		   SET DEL_AT = 'Y'
+		     , DEL_DT = (SELECT DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 YEAR), '%Y%m%d')  FROM DUAL)
+		     , DEL_REASON = 'Y'
+		 WHERE GROUP_ID = #{groupId };
+		
+		UPDATE TB_PROGRESS_SIT 
+		   SET DEL_AT = 'Y'
+		     , DEL_DT = (SELECT DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 YEAR), '%Y%m%d')  FROM DUAL)
+		 WHERE GROUP_ID = #{groupId };
+		  
+		UPDATE TB_STUDY_GROUP 
+		   SET DEL_AT = 'Y'
+		     , DEL_DT = (SELECT DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 YEAR), '%Y%m%d')  FROM DUAL)
+		 WHERE GROUP_ID = #{groupId };    
+    </update>
 </mapper>

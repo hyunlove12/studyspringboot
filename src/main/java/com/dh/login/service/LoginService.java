@@ -18,4 +18,7 @@ public interface LoginService {
 	
 	/* 개인정보 확인 */
 	public LoginVO me(LoginVO vo);
+	
+	/* 개인정보 수정 */
+	public boolean updateme(LoginVO vo, MultipartFile files);
 }

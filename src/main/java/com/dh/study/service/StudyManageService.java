@@ -16,4 +16,6 @@ public interface StudyManageService {
 	/* 가입 요청 보낸 메시지 */
 	public List<StudyVO> sendRequestList(StudyVO vo);
 	
+	/* 그룹 삭제 */
+	public int deleteGroup(StudyVO vo);
 }

@@ -52,4 +52,9 @@ public class StudyManageServiceimpl extends ComServiceimpl<StudyManageServiceimp
 	public List<StudyVO> sendRequestList(StudyVO vo) {
 		return studyManageMapper.sendRequestList(vo);
 	}
+	
+	/* 그룹 삭제 */
+	public int deleteGroup(StudyVO vo) {
+		return studyManageMapper.deleteGroup(vo);
+	}
 }

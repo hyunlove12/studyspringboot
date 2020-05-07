@@ -40,18 +40,18 @@
             <div id="sendmessage">Your message has been sent. Thank you!</div>
             <div id="errormessage"></div>            
             
-            <form action="/join" method="post" role="form" accept-charset="UTF-8">                  
+            <form action="/update/me" enctype="multipart/form-data" onsubmit="return fn_checkForm();" method="post" role="form" accept-charset="UTF-8">                  
             	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             	  <div class="row controls">
                     <div class="span4 control-group">
                       <label>ID</label>
-                      <input type="text" id="id" name="id" value="${lvo.id }" maxlength="100" class="span4" disabled="true" ㄴ>
+                      <input type="text" id="id" name="id" value="${lvo.id }" maxlength="100" class="span4" readonly="true" >
                     </div>
                   </div>
                   <div class="row controls">
                     <div class="span4 control-group">
                       <label>email</label>
-                      <input type="text" id="email" value="${lvo.email }" name="email" maxlength="100" class="span4" >
+                      <input type="text" id="email" value="${lvo.email }" name="email" maxlength="100" class="span4" disabled="true">
                     </div>
                     <div class="span2 control-group">
                    	  <label> </label>
@@ -62,6 +62,12 @@
                     <div class="span6 control-group">
                       <label>이름</label>
                       <input type="text" id="name" value="${lvo.name }" name="name" maxlength="100" class="span6">
+                    </div>
+                  </div>
+                  <div class="row controls">
+                    <div class="span6 control-group">
+                      <label>기존 비밀번호</label>
+                      <input type="password" id="oldPassword" name="oldPassword" class="span6">
                     </div>
                   </div>
                   <div class="row controls">
@@ -121,60 +127,32 @@
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
 	<script type="text/javascript">
 	// bind, unbind, on, off, removeEventListener 등 이벤트 할당에 대한 공부...
-	let checkId = document.getElementById('idCheck');
-	let checkedEvent = function(){
-		alert('중복체크를 초기화합니다.');
-   		$("#idCheck").val('중복체크');
-   		$("#idCheck").removeClass('idChecked');
-   		$("#idCheck").addClass('noCheck');
-   		$("#id").attr('readonly', false);
-   		$("#idCheck").one('click', noCheckEvent);
-   	//	checkId.removeEventListener('click', this.checkedEvent);
-      // $(document).on('click',"#idCheck", noCheckEvent);
-	}
-	// 동적 이벤트 할당
-	let noCheckEvent = function() {
-		if($("#id").val() == ''){
-			alert('id를 입력해 주세요!');
-			$("#idCheck").one('click', noCheckEvent);
-			return
+	
+	function fn_checkForm(){
+		if($("#name").val() == '' ){
+			alert('이름을 입력해 주세요!');
+			return false;
 		}
-		// 스크립트 조작 방지에 대한 대책 필요?            	
-   		$.ajax({
-	        type : "get", //전송방식을 지정한다 (POST,GET)
-	        url : "${pageContext.request.contextPath }/join/checkId",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
-	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
-	        data : {
-	        	      "id" : $("#id").val()
-	        	     },
-	        error : function(data){
-				alert('요청에 실패했습니다.');
-	            console.log(data);
-	        },
-	        success : function(data){
-	            if(data == 'true') {
-	            	alert('사용가능한 ID입니다.');
-	            	$("#idCheck").removeClass('noCheck');
-	            	$("#idCheck").addClass('idChecked');
-					$("#id").attr('readonly', true);
-	            	$("#idCheck").val('체크 완료! - 초기화');
-		            $("#idCheck").one('click', checkedEvent);
-	    	    } else {
-					alert('중복 된 아이디 입니다.')
-					$("#idCheck").one('click', noCheckEvent);
-		    	}
-	      //      checkId.removeEventListener('click', this.noCheckEvent);
-	         //   $(document).on('click',"#idCheck", checkedEvent);
-	        }         
-	    });   
+		if($("#password").val() != '' ){
+			if($("#beforePassword").val() != $("#password").val()){
+				alert('비밀번호가 일치하지 않습니다.')
+				return false;
+			}
+		}
+		return true;
+	}	
+	
+	function loadImg(file){
+		if(file.files && file.files[0]) {
+			let render = new FileReader();
+			render.onload = function(e) {
+				$("#fileupload").attr("src", e.target.result);
+			}
+			render.readAsDataURL(file.files[0]);
+		}
 	}
-
-	let emailCheck = function(){
-		alert('준비중입니다.')
-	}
-	$("#idCheck").one('click', noCheckEvent);
-
-	$("#emailCheck").on('click', emailCheck);
+	
+	
 //	$(document).on('click',"#idCheck", noCheckEvent);	
 	
 	

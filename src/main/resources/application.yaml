@@ -35,10 +35,12 @@ spring:
     
     # url: jdbc:mysql://192.168.25.12:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
     # 오라클은 begin, end
-    url: jdbc:mysql://175.125.92.167:3306/study?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
-    username: donghyun1224
-    # password: 1234
-    password: Test1234!
+    # url: jdbc:mysql://175.125.92.167:3306/study?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    # username: donghyun1224
+    url: jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    username: webdb
+    password: webdb
+    # password: Test1234!
          
    devtools:
     livereload:
@@ -77,8 +79,9 @@ server:
 
 custom:
   upload:
-    profilepath: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/profile/
+    # profilepath: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/profile/
     # profilepath: D:/stsproject4.0/studyspringboot/src/main/resources/static/upload/profile/
+    profilepath: D:/temp/
     studyimgpath: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/img/
   oauth2:
     kakao:

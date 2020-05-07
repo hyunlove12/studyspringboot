@@ -127,8 +127,14 @@ public class StudyManageController extends ComController<StudyServiceimpl, Study
 	 @PostMapping("/deletegroup")
 	 public @ResponseBody String deletegroup(StudyVO vo) {
 		 String result = "";
+		 int mapperResult = 0;
 		 // 슈퍼 관리자만 삭제 가능
-		 // 1명일 경우 -> 
+		 mapperResult = studyManageService.deleteGroup(vo);
+		 if(mapperResult >= 0) {
+			 result = "삭제에 성공하였습니다.";
+		 } else {
+			 result = "삭제에 실패하였습니다.";
+		 }
 		 return result;
 	 }
 	 

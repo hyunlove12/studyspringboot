@@ -2,6 +2,8 @@ package com.dh.login.serviceimpl;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.dh.login.service.LoginVO;
 import com.dh.study.service.StudyVO;
 import com.securityconfig.User;
@@ -27,4 +29,13 @@ public interface LoginMapper {
 	
 	/* 개인정보 확인 */
 	public LoginVO me(LoginVO vo);
+	
+	/* 개인정보 수정 */
+	public int updateme(LoginVO vo);
+	
+	/* unityId찾기 */
+	public String findUnityId(LoginVO vo);
+	
+	/* 비밀번호 변경 */
+	public int updatePassword(LoginVO vo);
 }

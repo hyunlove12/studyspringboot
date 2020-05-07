@@ -81,9 +81,9 @@
 			                      </th>
 			                    </tr>
 			                  </thead>
-			                  <tbody>
+			                  <tbody id="joinList">
 			                  	<c:forEach var="r" items="${joinStudyList }"  varStatus="i">
-				                    <tr onclick="javascript:openContent(${i.index + 1 })">
+				                    <tr class="listGroup" onclick="javascript:openContent(${i.index + 1 })">
 				                      <td>
 				                        ${i.index + 1 }
 				                      </td>
@@ -103,13 +103,13 @@
 				                      	${r.regDt }
 				                      </td>
 				                      <td>
-				                      	<a href="javascript:void();" class="requestConfirm btn btn-primary">탈퇴</a>
+				                      	<a href="javascript:void();" class="outGroup btn btn-primary">탈퇴</a>
 				                      </td>
 				                      <td>
-				                      	<c:if test="${r.groupRole == 'admin'}">
-					                      	<a href="javascript:void();" class="requestConfirm btn btn-primary">그룹 삭제</a>
+				                      	<c:if test="${r.groupRole == 'sadmin'}">
+					                      	<a href="javascript:fn_delgroup('${r.groupId }');" class="delGroup btn btn-primary">그룹 삭제</a>
 				                      	</c:if>
-				                      	<c:if test="${r.groupRole != 'admin'}">
+				                      	<c:if test="${r.groupRole != 'sadmin'}">
 				                      		권한 없음
 				                      	</c:if>
 				                      </td>
@@ -210,7 +210,12 @@
 	    	    });
 	       	});
        		
-       		$(".requestConfirm").click(function(event) {
+       		$(".delGroup").click(function(event) {
+       			console.log(event);
+       			setNoClick(event);
+       		}); 
+       		
+       		$(".outGroup").click(function(event) {
        			console.log(event);
        			setNoClick(event);
        		}); 
@@ -242,6 +247,38 @@
     	   $("#myModal").modal("show");
   		   // setNoClick(event);   
        }
+       
+       
+       function fn_delgroup(groupId){
+    	   // setNoClick(this.event)
+           if(confirm('그룹을 삭제하게되면 그룹에 포함되어 있는 모든 자료가 삭제됩니다. 그래도 진행하시겠습니까?')){
+        	   $.ajax({
+	    	        type : "post", //전송방식을 지정한다 (POST,GET)
+	    	        url : "${pageContext.request.contextPath }/studymanagement/deletegroup",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
+	    	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
+	    	        data : {
+	    	        	      "groupId" : groupId
+	    	        	     },
+	    	        error : function(data){
+	    	          alert(data);
+	    	          //console.log(data);
+	    	        },
+	    	        success : function(data){
+	    	            alert(data);
+	    	            location.href = location.href;
+	    	        }         
+	    	    });
+           }
+  		   // setNoClick(event);   
+       }
+       
+       function checkTable(id, class_, colsapn){
+			let requestListCount = $(".listGroup").length
+			if(requestListCount == 0) {
+				let element = "<tr><td colspan='8'>가입한 그룹이 없습니다..</td></tr>"
+				$("#joinList").html(element);
+			}
+      }
 	</script>
 
 </body>
