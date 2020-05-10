@@ -99,7 +99,7 @@
               <h4>${listCount }명 등록</h4>
               <c:forEach var="r" items="${list }">
 	              <div class="media">
-	                <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/upload/profile/${r.unityId }" alt="" class="img-circle" /></a>
+	                <a href="#" class="pull-left"><img src="${pageContext.request.contextPath }/upload/profile/${r.unityId }" alt="" class="img-circle reply" /></a>
 	                <div class="media-body">
 	                  <div class="media-content">
 	                    <h6><span>${r.regDt }</span> ${r.id }</h6>

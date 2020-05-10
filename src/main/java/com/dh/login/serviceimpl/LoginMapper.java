@@ -2,9 +2,8 @@ package com.dh.login.serviceimpl;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.dh.login.service.LoginVO;
+import com.dh.mail.service.MailVO;
 import com.dh.study.service.StudyVO;
 import com.securityconfig.User;
 
@@ -38,4 +37,7 @@ public interface LoginMapper {
 	
 	/* 비밀번호 변경 */
 	public int updatePassword(LoginVO vo);
+	
+	/* 메일 확인 */
+	public Integer findMail(MailVO vo);
 }

@@ -110,4 +110,10 @@
 	       SET PASSWORD = #{password }
 	     WHERE ID = #{id } 
 	</update>
+	
+	<select id="findMail" resultType="Integer">
+		SELECT COUNT(*) AS count_ 
+		  FROM TB_MEMBER 
+		 WHERE EMAIL = #{email }
+	</select>
 </mapper>

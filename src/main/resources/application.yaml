@@ -3,6 +3,18 @@ application:
    title: boot-security
     
 spring:
+   mail: 
+    host: hyunlove12.cafe24.com
+    port: 25 
+    default-encoding: UTF-8 
+    username: 
+    password: 
+    properties:
+      starttls:
+        enable: false 
+      auth: false
+      
+      
    servlet:
     multipart: 
       max-file-size: 20240KB
@@ -22,10 +34,13 @@ spring:
      prefix: /WEB-INF/jsp/
      suffix: .jsp 
    datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    #driver-class-name: org.mariadb.jdbc.Driver
+     url: jdbc:log4jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
+     username: webdb
+     password: webdb
+     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    #driver-class-name: com.mysql.jdbc.Driver
  ## initialization-mode 옵션: never, always (어플리케이션 실행시 sql파일 실행할지 안할지 여부 선택)
-    initialization-mode: always
+    #initialization-mode: always
  ## sql 파일 경로
     #schema: classpath:init.sql
     # url: jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8
@@ -37,9 +52,10 @@ spring:
     # 오라클은 begin, end
     # url: jdbc:mysql://175.125.92.167:3306/study?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
     # username: donghyun1224
-    url: jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
-    username: webdb
-    password: webdb
+    #url: jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    #url: jdbc:log4jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
+    #username: webdb
+    #password: webdb
     # password: Test1234!
          
    devtools:
@@ -58,12 +74,12 @@ spring:
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
   
-logging:
-   file:
-    path: log/
-   level:
-    jdbc.sqlonly: DEBUG
-    org.springframework.web: DEBUG
+#logging:
+#    file:
+#     path: log/
+#    level:
+#     jdbc.sqlonly: DEBUG
+ #    org.springframework.web: DEBUG
      
 server:
   jsp-servlet: 
@@ -85,7 +101,22 @@ custom:
     studyimgpath: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/img/
   oauth2:
     kakao:
-      client-id: d7933554b3a9142e560fe23d9a5a1ad0
+      client-id: d7933554b3a9142e560fe23d9a5a1ad0S
       
+log:
+  config:
+    path: /log
+    filename: log    
+    
 
-        
+mail: 
+  host: mail.hyunlove12.com
+  port: 25 
+  protocol: smtp 
+  default-encoding: UTF-8 
+  username: 
+  password: 
+  smtp: 
+    start-tls-enable: true 
+    auth: true
+

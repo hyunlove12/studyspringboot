@@ -120,6 +120,35 @@
       </div>
     </section>
 
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+       <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+         <h3 id="myModalLabel">요청!</h3>
+       </div>
+       <form>
+	       <div class="modal-body">
+	       		<div class="span12">
+		       		<div class="row controls">
+				        <div class="span6 control-group">
+				          <label>해당 메일로 인증번호가 발송되었습니다.</label>
+				          <label>메일 확인 후 입력해주세요.</label>
+				          <label>해당메일이 도착하지 않았을 경우 스팸함을 확인 해 주시고,</label>
+				          <label>3분이 지나도 도착하지 않으면 재 요청을 클릭해주세요.</label>
+				      	  <input id="mailNo" type="text" placeholder="인증번호입력" class="btn btn-primary">
+				      	  <input id="timer" type="text" class="btn btn-primary">
+				        </div>
+			        </div>
+		        </div>
+	       </div>
+	       <div class="modal-footer">
+	         <input id="requestEmailNo" type="button" value="번호 재 요청" class="btn btn-primary">
+		     <input id="submitNo" type="button" value="인증" class="btn btn-primary">
+		     <input type="hidden" id="tempGroupId"/>	  
+	       </div>
+       </form>
+     </div>
+     
+     
     <c:import url="/WEB-INF/jsp/includes/footer.jsp" /> 
   </div>
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
@@ -196,12 +225,38 @@
 	}
 
 	let emailCheck = function(){
-		alert('준비중입니다.')
+		$("#emailNo").val('');
+		// 스크립트 조작 방지에 대한 대책 필요?            	
+   		$.ajax({
+	        type : "get", //전송방식을 지정한다 (POST,GET)
+	        url : "${pageContext.request.contextPath }/mail/requestNo",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
+	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
+	        data : {
+	        	      "id" : 1
+	        	     },
+	        error : function(data){
+				alert('요청에 실패했습니다.');
+	            console.log(data);
+	        },
+	        success : function(data){
+		        alert(data);
+	        	countDownTimer('timer');
+	    		$("#myModal").modal("show");
+	        }         
+	    });  
 	}
+
+
+
+	
 	$("#idCheck").one('click', noCheckEvent);
 
-	$("#emailCheck").on('click', emailCheck);
+	$("#emailCheck").one('click', emailCheck);
 
+
+
+
+	
 	function loadImg(file){
 		if(file.files && file.files[0]) {
 			let render = new FileReader();
@@ -260,7 +315,103 @@
        		$("#idCheck").addClass('noCheck');
        		$("#id").removeAttr('disabled');
        	})); */	 
-	    
+
+
+
+      	const countDownTimer1 = function (id, date) { 
+          	var _vDate = new Date(date); // 전달 받은 일자 
+          	var _second = 1000; 
+          	var _minute = _second * 60; 
+          	var _hour = _minute * 60; 
+          	var _day = _hour * 24; 
+          	var timer; 
+          	function showRemaining() { 
+              	var now = new Date(); 
+              	var distDt = _vDate - now; 
+              	if (distDt < 0) { 
+                  	clearInterval(timer); 
+                  	document.getElementById(id).value = '시간 만료!'; 
+                  	return; 
+                } 
+                var days = Math.floor(distDt / _day); 
+                var hours = Math.floor((distDt % _day) / _hour); 
+                var minutes = Math.floor((distDt % _hour) / _minute); 
+                var seconds = Math.floor((distDt % _minute) / _second); 
+                //document.getElementById(id).textContent = date.toLocaleString() + "까지 : "; 
+                document.getElementById(id).value = days + '일 '; 
+                document.getElementById(id).value += hours + '시간 '; 
+                document.getElementById(id).value += minutes + '분 '; 
+                document.getElementById(id).value += seconds + '초'; 
+            } 
+            timer = setInterval(showRemaining, 1000); 
+        } 
+
+       	const countDownTimer = function (id) { 
+          	var _second = 1000; 
+          	var _minute = _second * 60; 
+          	var _hour = _minute * 60; 
+          	var _day = _hour * 24; 
+          	var time = 300000;
+          	var timer; 
+          	function showRemaining() { 
+              	if (time < 0) { 
+                  	clearInterval(timer); 
+                  	document.getElementById(id).value = '시간 만료!'; 
+                  	return; 
+                } 
+                var minutes = Math.floor(time / _minute); 
+                var seconds = Math.floor((time % _minute) / _second); 
+                // += -> 계속 누적된다.
+                document.getElementById(id).value = minutes + '분 '; 
+                document.getElementById(id).value += seconds + '초'; 
+                time = time - 1000;
+            } 
+            timer = setInterval(showRemaining, 1000); 
+        } 
+        
+        $(function(){  
+	        var dateObj = new Date(); 
+	        dateObj.setDate(dateObj.getDate() + 1); 
+	    //    countDownTimer('timer', dateObj); // 내일까지 
+	  //      countDownTimer('timer', '04/01/2024 00:00 AM'); // 2024년 4월 1일까지, 시간을 표시하려면 01:00 AM과 같은 형식을 사용한다. 
+	  //      countDownTimer('timer', '04/01/2024'); // 2024년 4월 1일까지 
+	    //    countDownTimer('timer', '04/01/2024'); // 2024년 4월 1일까지
+
+		    $("#submitNo").click(function(){
+		    	$.ajax({
+			        type : "get", //전송방식을 지정한다 (POST,GET)
+			        url : "${pageContext.request.contextPath }/mail/confirmNo",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
+			        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
+			        data : {
+			        	      "mailNo" : $("#mailNo").val()
+			        	     },
+			        error : function(data){
+						alert('요청에 실패했습니다.');
+						$("#emailCheck").one('click', emailCheck);
+			            console.log(data);
+			        },
+			        success : function(data){
+				        alert(data);
+			    		if(data == '1'){
+			    			$("#emailCheck").one('click', reCheckEmail);
+			    			$("#emailCheck").val('인증완료 - 초기화');
+			    			$("#emailCheck").attr('readonly', true);
+					    } else {
+					    	$("#emailCheck").one('click', emailCheck);
+					    }
+			        }         
+			    });
+		    });
+
+        });    
+
+      const reCheckEmail = function() {
+    	  $("#emailCheck").attr('readonly', false);
+    	  $("#emailCheck").val('이메일 인증');
+    	  $("#emailCheck").one('click', emailCheck);
+      }
+
+           	
     </script>
 </body>
 
