@@ -47,7 +47,16 @@ public class MailController extends ComController<MailServiceimpl, MailVO>{
     
 	public MailController() {
 	}
-
+	
+	@GetMapping("/deleteNo")
+	public @ResponseBody String deleteNo(@ModelAttribute MailVO vo, Model model, SessionStatus status, HttpServletRequest request) {
+		String result = "";
+		HttpSession session = request.getSession();
+		session.removeAttribute("conMailNo");
+		session.invalidate();
+		return result;
+	}
+	
 	@GetMapping("/requestNo")
 	public @ResponseBody String requestNo(@ModelAttribute MailVO vo, Model model, SessionStatus status, HttpServletRequest request) {
 		Thread mainThread = Thread.currentThread();
@@ -62,6 +71,7 @@ public class MailController extends ComController<MailServiceimpl, MailVO>{
 		mailService.sendMail(vo);
 		result = "메일을 확인해 주세요!";
 		findResult = mailService.findMail(vo);
+		session.setAttribute("confirmMail", false);
 		if(findResult >= 1) {
 			MailServiceimpl.remove();
 			result = "이미 가입된 메일 입니다.";
@@ -94,6 +104,9 @@ public class MailController extends ComController<MailServiceimpl, MailVO>{
 		}
 		System.out.println("출력!" + conMailNo);
 		result = mailService.confirmNo(vo, conMailNo);    
+		if("1".equals(result)) {
+			session.setAttribute("confirmMail", true);			
+		}
 		//status.setComplete();
 		return result;
 	}

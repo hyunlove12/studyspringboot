@@ -1,5 +1,5 @@
 application:
-   version: v1.0.0
+   version: v2.0.0
    title: boot-security
     
 spring:
@@ -34,9 +34,12 @@ spring:
      prefix: /WEB-INF/jsp/
      suffix: .jsp 
    datasource:
-     url: jdbc:log4jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
-     username: webdb
-     password: webdb
+     url: jdbc:log4jdbc:mysql://175.125.92.167:3306/study?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
+     # url: jdbc:log4jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
+     username: donghyun1224
+     #username: webdb
+     #password: webdb
+     password: Test1234!
      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     #driver-class-name: com.mysql.jdbc.Driver
  ## initialization-mode 옵션: never, always (어플리케이션 실행시 sql파일 실행할지 안할지 여부 선택)
@@ -95,9 +98,9 @@ server:
 
 custom:
   upload:
-    # profilepath: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/profile/
+    profilepath: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/profile/
     # profilepath: D:/stsproject4.0/studyspringboot/src/main/resources/static/upload/profile/
-    profilepath: D:/temp/
+    # profilepath: D:/temp/
     studyimgpath: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/img/
   oauth2:
     kakao:
@@ -105,7 +108,7 @@ custom:
       
 log:
   config:
-    path: /log
+    path: /usr/local/tomcat/webapps/log/
     filename: log    
     
 

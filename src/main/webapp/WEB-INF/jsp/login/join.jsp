@@ -160,6 +160,10 @@
 			alert('아이디 중복을 체크하세요!');
 			return false;
 		}
+		if($("#emailCheck[class*='emailChecked']").length == 0 ){
+			alert('이메일을 인증해 주세요!');
+			return false;
+		}
 		if($("#email").val() == '' ){
 			alert('이메일을 입력해 주세요!');
 			return false;
@@ -225,14 +229,19 @@
 	}
 
 	let emailCheck = function(){
-		$("#emailNo").val('');
+		if($("#email").val() == ''){
+			alert('이메일은 입력해 주세요!');
+			$("#emailCheck").one('click', emailCheck);
+			return false;
+		}
+		// $("#emailNo").val('');
 		// 스크립트 조작 방지에 대한 대책 필요?            	
    		$.ajax({
 	        type : "get", //전송방식을 지정한다 (POST,GET)
 	        url : "${pageContext.request.contextPath }/mail/requestNo",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
 	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
 	        data : {
-	        	      "id" : 1
+	        	      "email" : $("#email").val() 
 	        	     },
 	        error : function(data){
 				alert('요청에 실패했습니다.');
@@ -255,7 +264,20 @@
 
 
 
-
+	function delete_no(){
+		$.ajax({
+	        type : "get", //전송방식을 지정한다 (POST,GET)
+	        url : "${pageContext.request.contextPath }/mail/deleteNo",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
+	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.  
+	        error : function(data){
+				alert('요청에 실패했습니다.');
+	            console.log(data);
+	        },
+	        success : function(data){
+	            
+	        }         
+	    });
+	}
 	
 	function loadImg(file){
 		if(file.files && file.files[0]) {
@@ -346,13 +368,16 @@
             timer = setInterval(showRemaining, 1000); 
         } 
 
+        
+       	var timer;
        	const countDownTimer = function (id) { 
+       		document.getElementById(id).value = '';
           	var _second = 1000; 
           	var _minute = _second * 60; 
           	var _hour = _minute * 60; 
           	var _day = _hour * 24; 
           	var time = 300000;
-          	var timer; 
+          //	var timer; 
           	function showRemaining() { 
               	if (time < 0) { 
                   	clearInterval(timer); 
@@ -391,22 +416,46 @@
 			            console.log(data);
 			        },
 			        success : function(data){
-				        alert(data);
 			    		if(data == '1'){
+					        alert('인증에 성공했습니다.');
 			    			$("#emailCheck").one('click', reCheckEmail);
+			    			$("#emailCheck").addClass('emailChecked');
 			    			$("#emailCheck").val('인증완료 - 초기화');
-			    			$("#emailCheck").attr('readonly', true);
+			    			// $("#emailCheck").attr('readonly', true);
+			    			$("#email").attr('readonly', true);
+			    			clearInterval(timer); 
+			    			$("#myModal").modal("hide");
 					    } else {
+					    	delete_no();
+					    	$("#email").attr('readonly', false);
+					    	$("#emailCheck").removeClass('emailChecked');
 					    	$("#emailCheck").one('click', emailCheck);
+					    	clearInterval(timer); 
+					    	$("#myModal").modal("hide");
 					    }
 			        }         
 			    });
 		    });
 
+
+		    $("#myModal").on("hidden.bs.modal", function () {
+		    	if($("#emailCheck[class*='emailChecked']").length == 0 ){
+		    		delete_no();
+		    		$("#emailCheck").removeClass('emailChecked');
+			    	clearInterval(timer); 
+			    	$("#email").attr('readonly', false);
+			    	$("#emailCheck").one('click', emailCheck);
+				} else {
+
+				}
+		   });
+
+			   
         });    
 
       const reCheckEmail = function() {
-    	  $("#emailCheck").attr('readonly', false);
+    	  // $("#emailCheck").attr('readonly', false);
+    	  $("#email").attr('readonly', false);
     	  $("#emailCheck").val('이메일 인증');
     	  $("#emailCheck").one('click', emailCheck);
       }

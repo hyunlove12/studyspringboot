@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -64,8 +65,20 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 	
 //	@RequestMapping(value="/save.do", produces="text/plain;charset=UTF-8")
 	@PostMapping(value="/join")
-	public String join(@RequestPart MultipartFile files, ModelAndView model, LoginVO vo, RedirectAttributes rttr) throws IOException {
-		loginService.join(vo, files);		
+	public String join(@RequestPart MultipartFile files, ModelAndView model, LoginVO vo, RedirectAttributes rttr, HttpServletRequest request) throws IOException {
+		System.out.println("회원 가입!");
+		HttpSession session = request.getSession();
+		if(session.getAttribute("confirmMail") != null) {
+			System.out.println("회원 가입!!");
+			System.out.println(session.getAttribute("confirmMail").toString());
+			if(Boolean.valueOf(session.getAttribute("confirmMail").toString())) {
+				loginService.join(vo, files);		
+				return "redirect:/main"; 
+			} else {				
+				System.out.println("이메일 인증 안됨!");
+				return "redirect:/main"; 
+			}
+		}
 		return "redirect:/main"; 
 	}
 	

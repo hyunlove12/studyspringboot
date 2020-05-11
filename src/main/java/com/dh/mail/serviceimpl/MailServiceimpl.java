@@ -54,7 +54,7 @@ public class MailServiceimpl extends ComServiceimpl<MailServiceimpl, MailMapper>
     	String result = "";
     	try {
     		// 5분간의 유효기간
-    		Thread.sleep(30000);
+    		Thread.sleep(300000);
     		MailServiceimpl.remove();
     		System.out.println("삭제!");
 		} catch (InterruptedException e) {
@@ -85,7 +85,7 @@ public class MailServiceimpl extends ComServiceimpl<MailServiceimpl, MailMapper>
     public String sendMail(MailVO vo) {
 		String result = "출력";
 		SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("hyunlove12@naver.com");
+        message.setTo(vo.getEmail());
         message.setSubject("스터디 관리 앱 인증번호입니다.");
         message.setText("아래의 번호를 입력해주세요! - " + vo.getConMailNo());
         message.setFrom("hyunlove12345@naver.com");

@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		//http 각각 설정해도 된다.
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.POST, "/join").permitAll()
-			.antMatchers("/css/**", "/js/**", "/images/**", "/fonts/**", "/color/**", "/ico/**", "/img/**", "/loginpage", "/login", "/mail/requestNo" ,"/mail/confirmNo").permitAll()
+			.antMatchers("/css/**", "/js/**", "/images/**", "/fonts/**", "/color/**", "/ico/**", "/img/**", "/loginpage", "/login", "/mail/requestNo" ,"/mail/confirmNo", "/mail/deleteNo").permitAll()
 			.mvcMatchers("/", "/info", "/account/**", "/join/**", "/main").permitAll()
 			//.mvcMatchers("/admin").hasRole("ADMIN") // admin은 ADMIN권한 필요
 			.anyRequest().authenticated() //그 외 어떠한 요청은 인증만 하면 된다.			
