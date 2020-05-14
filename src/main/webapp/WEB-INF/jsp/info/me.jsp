@@ -51,7 +51,7 @@
                   <div class="row controls">
                     <div class="span4 control-group">
                       <label>email</label>
-                      <input type="text" id="email" value="${lvo.email }" name="email" maxlength="100" class="span4" disabled="true">
+                      <input type="text" id="email" value="${lvo.email }" name="email" maxlength="100" class="span4" readonly="true">
                     </div>
                     <div class="span2 control-group">
                    	  <label> </label>

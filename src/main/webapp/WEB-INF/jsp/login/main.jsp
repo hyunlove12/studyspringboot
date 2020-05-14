@@ -146,7 +146,14 @@
   
   <script type="text/javascript">
         $(function(){           
-        	
+
+        	if('${suc }' == 'suc'){
+				alert('회원가입에 성공했습니다.')
+           	}
+        	if('${suc }' == 'fail'){
+				alert('회원가입에 실패했습니다.')
+           	}
+            	
         	var token = $("meta[name='_csrf']").attr("content");
       	    var header = $("meta[name='_csrf_header']").attr("content");
       	    $(function() {

@@ -133,7 +133,7 @@
 				          <label>해당 메일로 인증번호가 발송되었습니다.</label>
 				          <label>메일 확인 후 입력해주세요.</label>
 				          <label>해당메일이 도착하지 않았을 경우 스팸함을 확인 해 주시고,</label>
-				          <label>3분이 지나도 도착하지 않으면 재 요청을 클릭해주세요.</label>
+				          <label>5분이 지나도 도착하지 않으면 재 요청을 클릭해주세요.</label>
 				      	  <input id="mailNo" type="text" placeholder="인증번호입력" class="btn btn-primary">
 				      	  <input id="timer" type="text" class="btn btn-primary">
 				        </div>
@@ -248,7 +248,11 @@
 	            console.log(data);
 	        },
 	        success : function(data){
-		        alert(data);
+				if(data == '-1'){
+					$("#emailCheck").one('click', emailCheck);
+		        	alert('이미 가입 된 메일입니다.');
+		        	return false;
+				}
 	        	countDownTimer('timer');
 	    		$("#myModal").modal("show");
 	        }         

@@ -142,9 +142,9 @@ public class LoginServiceimpl implements LoginService, UserDetailsService {
 					throw new SQLException();
 				}
 			}
-			vo.encodePassword(passwordEncoder);
 			result += loginMapper.updateme(vo);
 			if (!("").equals(vo.getPassword()) && vo.getPassword() != null) {
+				vo.encodePassword(passwordEncoder);
 				result += loginMapper.updatePassword(vo);
 			}
 			if(result >= 3) {

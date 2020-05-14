@@ -17,10 +17,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         
-    	HttpSession session = request.getSession();
-    	if(request.getRequestURI().contains("/join") && request.getMethod().equals("POST")) {
-    		session.setAttribute("redirect", "redirect");
-    	}
+		/*
+		 * HttpSession session = request.getSession();
+		 * if(request.getRequestURI().contains("/join") &&
+		 * request.getMethod().equals("POST")) { session.setAttribute("redirect",
+		 * "redirect"); }
+		 */
     	
     	//LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
 		/*

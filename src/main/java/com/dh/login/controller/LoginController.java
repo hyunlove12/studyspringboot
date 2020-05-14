@@ -43,12 +43,16 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 	
 
 	@RequestMapping("/main") 
-	public ModelAndView welcome(ModelAndView mv, LoginVO vo) {		
+	public ModelAndView welcome(ModelAndView mv, LoginVO vo,  HttpServletRequest request) {		
 		
 		// 메인의 스터디 리스트
 		List<StudyVO> list = new ArrayList<StudyVO>();
 		list = loginService.mainlist(vo);
 		mv.addObject("list", list);
+		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+		if(flashMap != null && flashMap.get("success") != null ) {
+			mv.addObject("suc",  flashMap.get("success"));
+		}		
 		mv.setViewName("login/main");	
 		return mv; 
 	}
@@ -73,12 +77,15 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 			System.out.println(session.getAttribute("confirmMail").toString());
 			if(Boolean.valueOf(session.getAttribute("confirmMail").toString())) {
 				loginService.join(vo, files);		
-				return "redirect:/main"; 
+				rttr.addFlashAttribute("success", "suc");
+				return "redirect:/main";
 			} else {				
+				rttr.addFlashAttribute("success", "fail");
 				System.out.println("이메일 인증 안됨!");
 				return "redirect:/main"; 
 			}
 		}
+		rttr.addFlashAttribute("success", "fail");
 		return "redirect:/main"; 
 	}
 	

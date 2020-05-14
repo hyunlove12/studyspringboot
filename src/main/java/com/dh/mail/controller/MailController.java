@@ -53,7 +53,7 @@ public class MailController extends ComController<MailServiceimpl, MailVO>{
 		String result = "";
 		HttpSession session = request.getSession();
 		session.removeAttribute("conMailNo");
-		session.invalidate();
+		// session.invalidate();
 		return result;
 	}
 	
@@ -74,17 +74,20 @@ public class MailController extends ComController<MailServiceimpl, MailVO>{
 		session.setAttribute("confirmMail", false);
 		if(findResult >= 1) {
 			MailServiceimpl.remove();
-			result = "이미 가입된 메일 입니다.";
+			result = "-1";
 			return result;
 		}
 		mailService.emailResult().addCallback((asyncResult) -> {
+			// thread종료 후 session접근 불가?
+			// session invalidate -> 세선 무효화 -> 세션에 접근이 불가능해진다.(메모리에는 그대로 존재)
 			System.out.println("삭제!");
 			session.removeAttribute("conMailNo");
-			session.invalidate();
+			// session.invalidate();
 			System.out.println(model.getAttribute("conMailNo").toString());
 		}, (e) -> {
 			
 		});
+		System.out.println("요청 전송!");
 		return result;
 	}
 	
