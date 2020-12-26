@@ -19,7 +19,7 @@
           <div class="span12">
             <div class="inner-heading">
               <ul class="breadcrumb">
-                <li><a href="index.html">Home</a> <i class="icon-angle-right"></i></li>
+                <li><a href="${pageContext.request.contextPath }/main">메인</a> <i class="icon-angle-right"></i></li>
                 <li class="active">그룹 만들기</li>
               </ul>
               <h2>그룹 만들기</h2>
@@ -40,7 +40,7 @@
             <div id="sendmessage">Your message has been sent. Thank you!</div>
             <div id="errormessage"></div>
             
-            <form action="/study/createstudy" method="post" role="form" class="contactForm" enctype="multipart/form-data" accept-charset="UTF-8">
+            <form action="/study/createstudy" onsubmit="return fn_checkForm();" method="post" role="form" class="contactForm" enctype="multipart/form-data" accept-charset="UTF-8">
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
               <div class="row">
                 <div class="span4 form-group field">
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="span4 form-group">
-                  <input type="text" name="total" id="total" placeholder="가입 가능 인원"  data-msg="Please enter a valid email" />
+                  <input type="text" name="total" id="total"  onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="가입 가능 인원"  data-msg="Please enter a valid email" />
                   <div class="validation"></div>
                 </div>
                 <div class="span8 form-group">
@@ -96,7 +96,28 @@
     <c:import url="/WEB-INF/jsp/includes/footer.jsp" /> 
   </div>
   <a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
-
+	  <script type="text/javascript">
+        function fn_checkForm(){
+    		if($("#groupNm").val() == '' ){
+    			alert('그룹명을 적어주세요!');
+    			return false;
+    		}
+    		if($("#total").val() == '' ){
+    			alert('가입 가능인원을 적어주세요!');
+    			return false;
+    		}
+    		if($("#groupBrief").val() == '' ){
+    			alert('그룹에 대한 요약을 작성해 주세요!');
+    			return false;
+    		}
+    		if($("#groupExplain").val() == '' ){
+    			alert('그룹에 대한 설명을 작성해 주세요!');
+    			return false;
+    		}
+    		return true;
+    	}	
+        
+    </script>
 </body>
 
 </html>

@@ -16,7 +16,7 @@
     
     <insert id="joinstudygroup">
 	    INSERT INTO TB_GROUP_MEMBER(ID, GROUP_ID, GROUP_ROLE, REG_DT) 
-	   VALUES( #{suserId }, #{groupId }, 'admin', (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL));
+	   VALUES( #{suserId }, #{groupId }, 'sadmin', (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL));
     </insert>
     
     <insert id="joinrequest">
@@ -40,15 +40,18 @@
 							SELECT COUNT(ID) AS GROUP_COUNT
 							     , GROUP_ID
 							  FROM TB_GROUP_MEMBER
-							  GROUP BY GROUP_ID
+							 WHERE DEL_AT = 'N'
+							 GROUP BY GROUP_ID							
 		  					) GMS
 		     ON SG.GROUP_ID = GMS.GROUP_ID
            LEFT OUTER JOIN (
 							SELECT ID , GROUP_ID 
 	                          FROM TB_GROUP_MEMBER GM
 							 WHERE ID = #{suserId }
+							   AND DEL_AT = 'N'
 						   ) TGM
              ON SG.GROUP_ID = TGM.GROUP_ID
+          WHERE SG.DEL_AT = 'N'
 	</select>
     
 	<insert id="join">
@@ -90,7 +93,12 @@
 		  FROM TB_STUDY_GROUP SG
 		  LEFT OUTER JOIN TB_UNITY_GROUP UG
             ON SG.UNITY_GROUP_ID = UG.UNITY_GROUP_ID
+<<<<<<< HEAD
+=======
+           AND UG.DEL_AT = 'N' 
+>>>>>>> b450a2157c521835d2c384566a639fe61b18eeb4
 		 WHERE GROUP_ID = #{groupId }
+		   AND SG.DEL_AT = 'N'
 	</select>
 	
 	<select id="detailview" resultType="com.dh.study.service.StudyVO">
@@ -103,31 +111,37 @@
 			 , REG_DT AS regDt
 		  FROM TB_GROUP_DETAIL GD
          WHERE GROUP_ID = #{groupId }
+           AND GD.DEL_AT = 'N'
 	</select>
 	
 	<select id="processview" resultType="com.dh.study.service.StudyVO">
-	    SELECT GROUP_ID AS groupId
- 		     , SUBTITLE_ID AS subtitleId
-		     , SUBTITLE_NM AS subtitleNm
-		     , SUBTITLE_CREATER AS subtitleCreater
-		     , CONTENTS AS contents
-		     , UNITY_GROUP_ID AS unityGroupId
-		     , REG_DT AS regDt
-	      FROM TB_GROUP_DETAIL
-		 WHERE GROUP_ID = #{groupId }
-		   AND SUBTITLE_ID = #{subtitleId }
+	    SELECT GD.GROUP_ID AS groupId
+ 		     , GD.SUBTITLE_ID AS subtitleId
+		     , GD.SUBTITLE_NM AS subtitleNm
+		     , GD.SUBTITLE_CREATER AS subtitleCreater
+		     , GD.CONTENTS AS contents
+		     , GD.UNITY_GROUP_ID AS unityGroupId
+		     , GD.REG_DT AS regDt
+		     , TM.UNITY_ID AS unityId
+	      FROM TB_GROUP_DETAIL GD
+	      LEFT OUTER JOIN TB_MEMBER TM
+	        ON GD.SUBTITLE_CREATER = TM.ID
+	       AND TM.DEL_AT = 'N'
+		 WHERE GD.GROUP_ID = #{groupId }
+		   AND GD.SUBTITLE_ID = #{subtitleId }
+		   AND GD.DEL_AT = 'N'
 	</select>
 	
 	<insert id="createstudydetail">
 		<selectKey resultType="string" keyProperty="subtitleId" order="BEFORE">
 		    SELECT MAX(IFNULL(GD.SUBTITLE_ID, 0)) + 1 
-			 FROM (SELECT 1 FROM DUAL) D
-			   LEFT OUTER JOIN TB_GROUP_DETAIL GD
+			  FROM (SELECT 1 FROM DUAL) D
+			  LEFT OUTER JOIN TB_GROUP_DETAIL GD
    			    ON 1 = 1
-              AND GD.GROUP_ID = #{groupId}   			    
+               AND GD.GROUP_ID = #{groupId}   			    
     	</selectKey>
-		INSERT INTO TB_GROUP_DETAIL(GROUP_ID, SUBTITLE_ID, SUBTITLE_NM, SUBTITLE_CREATER, CONTENTS, UNITY_GROUP_ID, REG_DT) 
-	   VALUES( #{groupId}, #{subtitleId}, #{subtitleNm}, #{suserId }, #{contents }, #{unityGroupId }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
+		INSERT INTO TB_GROUP_DETAIL(GROUP_ID, ID, SUBTITLE_ID, SUBTITLE_NM, SUBTITLE_CREATER, CONTENTS, UNITY_GROUP_ID, REG_DT) 
+	   VALUES( #{groupId}, #{suserId }, #{subtitleId}, #{subtitleNm}, #{suserId }, #{contents }, #{unityGroupId }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))
 	</insert>
 	
 	<insert id="registprogress">
@@ -147,6 +161,7 @@
 		  FROM TB_PROGRESS_SIT
  		 WHERE GROUP_ID = #{groupId }
 		   AND SUBTITLE_ID = #{subtitleId }	
+		   AND DEL_AT = 'N'
 	</select>
 	
 	<insert id="registqna">
@@ -157,8 +172,8 @@
    			    ON 1 = 1
                AND GQ.GROUP_ID = #{groupId}   			    
     	</selectKey>
-		INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
-		VALUES(#{groupId }, #{qnaId }, #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 1, 1, 1, #{suserId })
+		INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, NEXT_REPLY_AT, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
+		VALUES(#{groupId }, #{qnaId }, 'N', #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 1, 1, 1, #{suserId })
 	</insert>
 	
 	<select id="groupreply" resultType="com.dh.study.service.StudyVO">	
@@ -172,18 +187,54 @@
 			 , GQ.O_NO AS oNo
 			 , GQ.DEPTH AS depth
 			 , GQ.ID AS id
+			 , GQ.NEXT_REPLY_AT nextReplyAt
 			 , GM.GROUP_ROLE AS groupRole 
+             , TM.UNITY_ID AS unityId
 		  FROM TB_GROUP_QNA GQ
 		  LEFT OUTER JOIN TB_GROUP_MEMBER GM
 		    ON GQ.ID = GM.ID
 		   AND GQ.GROUP_ID = GM.GROUP_ID
+		   AND GM.DEL_AT = 'N'
+          LEFT OUTER JOIN TB_MEMBER TM
+			ON GQ.ID = TM.ID
+		   AND TM.DEL_AT = 'N'
 		 WHERE GQ.GROUP_ID = #{groupId }
+		   AND GQ.DEL_AT = 'N'
 		 ORDER BY GQ.QNA_ID, GQ.G_NO
 	</select>
 	
 	<insert id="replygroup">
-		INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
-		VALUES(#{groupId }, #{qnaId }, #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 2, 2, 2, #{suserId })
+		UPDATE TB_GROUP_QNA
+	   	   SET NEXT_REPLY_AT = 'Y'
+	 	 WHERE GROUP_ID = #{groupId }
+	   	   AND QNA_ID = #{qnaId }
+	   	   AND G_NO = 1;
+	   
+		INSERT INTO TB_GROUP_QNA(GROUP_ID, QNA_ID, NEXT_REPLY_AT, TITLE, CONTENT, REG_DT, HIT, G_NO, O_NO, DEPTH, ID) 
+		VALUES (#{groupId }, #{qnaId }, 'N', #{title }, #{content }, (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL), 0, 2, 2, 2, #{suserId });
 	</insert>
 	
+	<select id="checkrequestjoin" resultType="String">
+		SELECT COUNT(ID) AS requestCount 
+		  FROM TB_STUDY_GROUP_REQUEST 
+		 WHERE ID = #{suserId } 
+		   AND GROUP_ID = #{groupId }	
+	</select>
+	
+	<select id="groupRole" resultType="String">
+		SELECT GROUP_ROLE AS groupRole 
+		  FROM TB_GROUP_MEMBER 
+		 WHERE GROUP_ID = #{groupId } 
+		   AND ID = #{suserId }
+		   AND DEL_AT = 'N'
+	</select>
+
+	<select id="checkGroup" resultType="com.dh.study.service.StudyVO">	
+		SELECT GROUP_Id AS groupId
+		     , GROUP_ROLE AS groupRole
+		  FROM TB_GROUP_MEMBER 
+		 WHERE ID = #{suserId }
+		   AND GROUP_ID = #{groupId }
+		   AND DEL_AT = 'N'
+	</select>
 </mapper>

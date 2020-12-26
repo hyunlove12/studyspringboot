@@ -176,14 +176,13 @@ img.img-polaroid {
 4. Header
 ==================================== */
 
-/* --- header -- */
+/* --- header  z-index: 2000; - Á¦°Å-- */
 
 header {
   background: #fff;
   margin: 0;
   padding: 0 0 20px;
   position: relative;
-  z-index: 2000;
   -webkit-box-shadow: 0 2px 4px -2px #ddd;
   -moz-box-shadow: 0 2px 4px -2px #ddd;
   box-shadow: 0 2px 4px -2px #ddd;
@@ -513,6 +512,7 @@ select.selectmenu {
   max-width: 100%;
   height: auto;
 }
+
 
 /* --- Call to action --- */
 
@@ -997,7 +997,7 @@ select.selectmenu {
 
 /* --- contact form  ---- */
 
-.contactForm input[type="text"], .contactForm input[type="email"]  {
+.contactForm input[type="text"], .contactForm input[type="email"], .contactForm input[type="password"]  {
   width: 100%;
   min-height: 40px;
   padding-left: 20px;
@@ -2769,3 +2769,4 @@ ul.the-icons {
 }
 
 /* Theme Styler :: End */
+

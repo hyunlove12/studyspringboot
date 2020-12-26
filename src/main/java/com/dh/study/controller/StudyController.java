@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.annotation.Auth;
 import com.dh.common.controller.ComController;
 import com.dh.study.service.StudyVO;
 import com.dh.study.serviceimpl.StudyServiceimpl;
@@ -113,6 +114,12 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 		List<StudyVO> replist = new ArrayList<StudyVO>();
 		replist = studyService.groupreply(groupId);
 		model.addObject("replist", replist);
+		// 댓글 개수
+		int repleCount = replist.size();
+		model.addObject("repleCount", repleCount);
+		// 해당 페이지 권한
+		String groupRole = studyService.groupRole(vo);
+		model.addObject("groupRole", groupRole);
 		return model;
 	}
 	
@@ -123,8 +130,11 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 	 * @param subtitleId
 	 * @return
 	 */
-	@GetMapping("/studyprocess/{groupId}/{subtitleId}")
-	public String studyprocess(ModelMap model, @PathVariable("groupId") String groupId, @PathVariable("subtitleId") String subtitleId) {
+	@Auth(flag="user")
+	@GetMapping("/studyprocess/{subtitleId}")
+	public String studyprocess(ModelMap model,String groupId, @PathVariable("subtitleId") String subtitleId) {
+		//${groupId }-> 인터셉터에서 사용하기 위해 get방식으로
+		
 		// 그룹 정보
 		StudyVO vo = studyService.view(groupId);
 		model.addAttribute("vo",vo);	
@@ -136,6 +146,10 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 		List<StudyVO> list = new ArrayList<StudyVO>();
 		list = studyService.progressbymember(groupId, subtitleId);
 		model.addAttribute("list", list);
+		model.addAttribute("listCount", list.size());
+		// 해당 페이지 권한
+		String groupRole = studyService.groupRole(vo);
+		model.addAttribute("groupRole", groupRole);
 		return "study/studyprocess";
 	} 	
 	
@@ -145,10 +159,11 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 	 * @param vo
 	 * @return
 	 */
+	@Auth(flag="user")
 	@PostMapping("/registprogress")
 	public String registprogress(ModelMap map, StudyVO vo) {
 		studyService.registprogress(vo);
-		return "redirect:/study/studyprocess/" + vo.getGroupId() + "/" + vo.getSubtitleId();
+		return "redirect:/study/studyprocess/" + vo.getSubtitleId() + "?groupId=" +  vo.getGroupId();
 	}
 	
 	/**
@@ -157,8 +172,9 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 	 * @param groupId
 	 * @return
 	 */
-	@GetMapping("/createstudydetail/{groupId}")
-	public String createstudydetail(ModelMap model, @PathVariable("groupId") String groupId) {
+	@Auth(flag="admin")
+	@GetMapping("/createstudydetail")
+	public String createstudydetail(ModelMap model, String groupId) {
 		StudyVO vo = studyService.view(groupId);
 		model.addAttribute("vo",vo);		
 		List<StudyVO> sublist = new ArrayList<StudyVO>();
@@ -173,6 +189,7 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 	 * @param vo
 	 * @return
 	 */
+	@Auth(flag="user")
 	@PostMapping("/createstudydetail")
 	public String createstudydetail(ModelMap model, StudyVO vo) {
 		studyService.createstudydetail(vo);
@@ -190,16 +207,51 @@ public class StudyController extends ComController<StudyServiceimpl, StudyVO>{
 		return "redirect:/study/view/" + vo.getGroupId();
 	}
 	
-	
-	 @RequestMapping("/joinrequest") 
-	 public @ResponseBody String  joinrequest(StudyVO vo) {
-		 int val = studyService.joinrequest(vo);
-		 String result = "";
-		 if(val > 0) {
-			 result = "가입요청이 성공적으로 전송되었습니다.";
-		 } else {
-			 result = "가입요청에 실패하였습니다. 관리자에게 문의바랍니다.";
-		 }
-		 return result;	 
+	/**
+	 * 그룹 가입 요청
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping("/joinrequest") 
+	public @ResponseBody String joinrequest(StudyVO vo) {
+		int val = studyService.joinrequest(vo);
+		String result = "";
+		if(val > 0) {
+				result = "가입요청이 성공적으로 전송되었습니다.";
+		} else {
+				result = "가입요청에 실패하였습니다. 관리자에게 문의바랍니다.";
+		}
+		return result;	 
+	}
+	 
+	 /**
+	  * 요청 중복 여부 확인
+	  * @param vo
+	  * @return
+	  */
+	 @GetMapping("/checkrequestjoin")
+	 public @ResponseBody Boolean checkrequestjoin(StudyVO vo) {
+		 Boolean boo = true;
+		 boo = studyService.checkrequestjoin(vo);
+		 return boo;
 	 }
+	 
+	 /**
+	  * 
+	  * 그룹 내 질문에 답글 달기
+	  * @param vo
+	  * @return
+	  */
+	 @PostMapping("/replygroup")
+	 public @ResponseBody String replygroup(StudyVO vo) {
+		 int resultInsert = studyService.replygroup(vo);
+		 String result = "";
+		 if(resultInsert > 0) {
+			 result = "답글을 달았습니다.";
+		 } else {
+			 result = "실패했습니다.";
+		 }
+		 return result;
+	 }
+	 
 }

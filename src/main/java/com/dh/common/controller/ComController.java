@@ -5,11 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.dh.common.service.ComVO;
+import com.securityconfig.SocialUser;
 
 @Controller
 public abstract class ComController<S, V> extends AbstractController{
@@ -49,7 +51,16 @@ public abstract class ComController<S, V> extends AbstractController{
 	public String delete(HttpServletResponse response, HttpServletRequest req, ModelAndView model, V vo) {			
 		return "login/login";
 	}
-
 	
+	@GetMapping("/notauth")
+	public String notauth() {			
+		return "error/notauth";
+	}
+	
+	@GetMapping("/sociallogin/main")
+	public String socialmain(@SocialUser com.securityconfig.User user) {		
+		System.out.println("소셜호출!");
+		return "login/main";
+	}
 
 }

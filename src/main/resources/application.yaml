@@ -1,29 +1,65 @@
 application:
-   version: v1.0.0
+   version: v2.0.0
    title: boot-security
     
 spring:
+   mail: 
+    host: hyunlove12.cafe24.com
+    port: 25 
+    default-encoding: UTF-8 
+    username: 
+    password: 
+    properties:
+      starttls:
+        enable: false 
+      auth: false
+      
+      
+   servlet:
+    multipart: 
+      max-file-size: 20240KB
+      max-request-size: 20240KB
+   security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 881218558153-ndr868i68rlofoo4l2gb488ksabi5q23.apps.googleusercontent.com
+            client-secret: kq6zIo0myJotHK5_0irhtYnW
+          facebook:
+            client-id: 465358593799840
+            client-secret: a37286e3dae00dcdce628f40dfe363f5
    mvc:
     view:
      prefix: /WEB-INF/jsp/
      suffix: .jsp 
    datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    #driver-class-name: org.mariadb.jdbc.Driver
+     url: jdbc:log4jdbc:mysql://175.125.92.167:3306/study?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
+     # url: jdbc:log4jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
+     username: donghyun1224
+     #username: webdb
+     #password: webdb
+     password: Test1234!
+     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    #driver-class-name: com.mysql.jdbc.Driver
  ## initialization-mode 옵션: never, always (어플리케이션 실행시 sql파일 실행할지 안할지 여부 선택)
-    initialization-mode: always
+    #initialization-mode: always
  ## sql 파일 경로
     #schema: classpath:init.sql
     # url: jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8
     # 운영 서버
     #url: jdbc:mariadb://203.245.44.21:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
     # url: jdbc:mysql://203.245.44.21:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
-    url: jdbc:mysql://192.168.25.12:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
-    username: donghyun1224
-   # username: webdb
-    #password: qweasd123
-    password: 1234
-   #  password: webdb
+    
+    # url: jdbc:mysql://192.168.25.12:3306/donghyun1224?useUnicode=true&characterEncoding=UTF-8
+    # 오라클은 begin, end
+    # url: jdbc:mysql://175.125.92.167:3306/study?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    # username: donghyun1224
+    #url: jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    #url: jdbc:log4jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
+    #username: webdb
+    #password: webdb
+    # password: Test1234!
          
    devtools:
     livereload:
@@ -41,19 +77,49 @@ spring:
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
   
-logging:
-   file:
-    path: log/
-   level:
-    jdbc.sqlonly: DEBUG
-    org.springframework.web: DEBUG
+#logging:
+#    file:
+#     path: log/
+#    level:
+#     jdbc.sqlonly: DEBUG
+ #    org.springframework.web: DEBUG
      
 server:
   jsp-servlet: 
    init-parameters:
-    development: true
+    development: true  
   error:
+   whitelabel:      enabled: false
    path: log/
   tomcat:
    accesslog:
     enabled: true
+    
+
+custom:
+  upload:
+    profilepath: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/profile/
+    # profilepath: D:/stsproject4.0/studyspringboot/src/main/resources/static/upload/profile/
+    # profilepath: D:/temp/
+    studyimgpath: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/upload/img/
+  oauth2:
+    kakao:
+      client-id: d7933554b3a9142e560fe23d9a5a1ad0S
+      
+log:
+  config:
+    path: /usr/local/tomcat/webapps/log/
+    filename: log    
+    
+
+mail: 
+  host: mail.hyunlove12.com
+  port: 25 
+  protocol: smtp 
+  default-encoding: UTF-8 
+  username: 
+  password: 
+  smtp: 
+    start-tls-enable: true 
+    auth: true
+

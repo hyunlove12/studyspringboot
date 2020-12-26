@@ -22,8 +22,31 @@ public class ComVO implements Serializable{
 	private String regDt = "";
 	private String unityGroupId = "";
 	private String unityId = "";
+	private String nickName = "";
+	private String delAt = ""; // 삭제 여부
+	private String delDt = ""; // 삭제 기한
 	private String suserId = this.currentUserName();
 	
+	
+	
+	public String getDelAt() {
+		return delAt;
+	}
+	public void setDelAt(String delAt) {
+		this.delAt = delAt;
+	}
+	public String getDelDt() {
+		return delDt;
+	}
+	public void setDelDt(String delDt) {
+		this.delDt = delDt;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
 	public String getUnityGroupId() {
 		return unityGroupId;
 	}

@@ -29,12 +29,12 @@
                   <p class="animated fadeInUp"> 나만의 스터디 그룹을 만들어서 사람들과 같이 공부하고 일정관리를 해보세요!</p>
                   <p class="animated fadeInUp"> 일정관리를 위한 캘린더, 엑셀다운 등 다양한 기능을 제공합니다.</p>
                   <p class="animated fadeInUp"> 학교 팀프로젝트로 더이상 스트레스 받지 마세요!</p>
-                  <a href="#" class="btn btn-success btn-large animated fadeInUp">
+                  <!-- <a href="#" class="btn btn-success btn-large animated fadeInUp">
 											<i class="icon-link"></i> Read more
-										</a>
-                  <a href="#" class="btn btn-theme btn-large animated fadeInUp">
+										</a> -->
+                  <!-- <a href="#" class="btn btn-theme btn-large animated fadeInUp">
 											<i class="icon-download"></i> Download
-										</a>
+										</a> -->
                 </div>
               </div>
             </div>
@@ -69,13 +69,15 @@
             		<input type="hidden" value=''  id="tempUserId"/>
             	</sec:authorize>
             	<sec:authorize access="isAuthenticated()">
-	            	<input type="hidden" value='<sec:authentication property="principal.username"/>'  id="tempUserId"/>
+	            	<%-- <input type="hidden" value='<sec:authentication property="principal.username"/>'  id="tempUserId"/> --%>
+	            	<!-- property="principal 객체 -->
+	            	<input type="hidden" value='${suserId }'  id="tempUserId"/>
 	            </sec:authorize>
 				<c:forEach items="${list }" var="r">
 					<div class="span3">
 		                <div class="pricing-box-wrap animated-fast flyIn">
 		                  <div class="pricing-heading">
-		                    <h3><strong>${r.groupNm }</strong></h3>
+		                    <h3><strong>${r.groupNm } </strong></h3>
 		                  </div>
 		                  <div class="pricing-terms">
 		                    <h6>${r.groupBrief }</h6>
@@ -144,7 +146,14 @@
   
   <script type="text/javascript">
         $(function(){           
-        	
+
+        	if('${suc }' == 'suc'){
+				alert('회원가입에 성공했습니다.')
+           	}
+        	if('${suc }' == 'fail'){
+				alert('회원가입에 실패했습니다.')
+           	}
+            	
         	var token = $("meta[name='_csrf']").attr("content");
       	    var header = $("meta[name='_csrf_header']").attr("content");
       	    $(function() {
@@ -152,11 +161,13 @@
       	           xhr.setRequestHeader(header, token);
       	       });
       	    });
+      	    
         	$("a.joinRequest").click(function(event) {
         		if($("#tempUserId").val() == "anonymousUser" || $("#tempUserId").val() == "" || $("#tempUserId").val() == null){
         			alert("로그인이 필요합니다!");
         			return;
         		}
+        		
        			var groupNm = $(this).attr("groupNm") + ' 가입요청';
        			var groupId = $(this).attr("groupId");
        			$("#tempGroupId").val(groupId);
@@ -164,24 +175,53 @@
        			$("#myModalLabel").append(groupNm);
        			$("#myModal").modal("show");
        		});
+
+       		let boo = true;
         	$("#requestbutton").click(function(){
-	       		$.ajax({
-	    	        type : "post", //전송방식을 지정한다 (POST,GET)
-	    	        url : "${pageContext.request.contextPath }/study/joinrequest",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
-	    	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
-	    	        data : {
-	    	        	      "groupId" : $("#tempGroupId").val()
-	    	        	    , "requestCont" : $("#message").val()
-	    	        	     },
-	    	        error : function(data){
-	    	          alert(data);
-	    	        },
-	    	        success : function(data){
-	    	            alert(data);
-	    	            $("#message").val("");
-	    	            $("#myModal").modal("hide");
-	    	        }         
+            	// 재선언이 되는것?
+            	// let boo = true;
+        		// 요청 여부 확인
+        		$.ajax({
+		    	        type : "get", //전송방식을 지정한다 (POST,GET)
+		    	        url : "${pageContext.request.contextPath }/study/checkrequestjoin",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
+		    	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
+		    	        data : {
+		    	        	      "groupId" : $("#tempGroupId").val()
+		    	        	     },
+		    	        error : function(data){
+			    	        alert('요청에 실패했습니다.');
+			    	        boo = false;
+		    	            console.log(data);
+		    	        },
+		    	        success : function(data){
+		    	            boo = data;
+		    	            // ajax라 밖에 선언하면 값이 이상하게 될 가능성
+		    	            if(boo == 'true') {
+		    	        		// 가입 요청
+		    		       		$.ajax({
+		    		    	        type : "post", //전송방식을 지정한다 (POST,GET)
+		    		    	        url : "${pageContext.request.contextPath }/study/joinrequest",//호출 URL을 설정한다. GET방식일경우 뒤에 파라티터를 붙여서 사용해도된다.
+		    		    	        dataType : "text",//호출한 페이지의 형식이다. xml,json,html,text등의 여러 방식을 사용할 수 있다.
+		    		    	        data : {
+		    		    	        	      "groupId" : $("#tempGroupId").val()
+		    		    	        	    , "requestCont" : $("#message").val()
+		    		    	        	     },
+		    		    	        error : function(data){
+		    		    	        	alert('요청에 실패했습니다.');
+		    		    	            console.log(data);
+		    		    	        },
+		    		    	        success : function(data){
+		    		    	            alert(data);
+		    		    	            $("#message").val("");
+		    		    	            $("#myModal").modal("hide");
+		    		    	        }         
+		    		    	    });
+		    	          	} else {
+		    					alert('이미 요청된 그룹 입니다!');	
+		    	          	}
+		    	        }         
 	    	    });
+	          		
 	       	});
         	 
         	 

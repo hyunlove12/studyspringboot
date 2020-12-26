@@ -138,12 +138,9 @@
 	}
 	
 	function connect() {		
-		// window.location.href = '<%=request.getContextPath() %>/createSession?userId=' + nickName;
 		 
-		 
-		 
-		 //var target = "ws://localhost:8080/echo/" + roomName + '/' + nickName;		 
-	     var target = "ws://203.245.44.21:8073/echo/" + roomName + '/' + nickName;		 
+		 var target = "ws://localhost:8080/echo/" + roomName + '/' + nickName;		 
+	     //var target = "ws://203.245.44.21:8073/echo/" + roomName + '/' + nickName;		 
 			 //?usr=홍길동"; //서버에서 파라미터를 	
 		 if ('WebSocket' in window) {			
 		     ws = new WebSocket(target);		     

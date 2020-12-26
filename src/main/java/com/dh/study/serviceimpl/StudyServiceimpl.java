@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +25,11 @@ public class StudyServiceimpl extends ComServiceimpl<StudyServiceimpl, StudyMapp
 	@Autowired
 	FileUpload fileUpload; 
 	
+<<<<<<< HEAD
+=======
+	@Value("${custom.upload.studyimgpath}") String fileUrl;
+	
+>>>>>>> b450a2157c521835d2c384566a639fe61b18eeb4
 	/* 스터디 리스트 */
 	public List<StudyVO> studylist(StudyVO vo) {
 		List<StudyVO> list = new ArrayList<StudyVO>();
@@ -47,8 +53,13 @@ public class StudyServiceimpl extends ComServiceimpl<StudyServiceimpl, StudyMapp
 			vo.setUnityGroupId(unityGroupId);
 			result += studyMapper.createstudy(vo);		
 			result += studyMapper.joinstudygroup(vo);
+<<<<<<< HEAD
 			if(files != null) {
 				fileResult = fileUpload.fileSave(files, unityGroupId);				
+=======
+			if(files != null && !files.isEmpty()) {
+				fileResult = fileUpload.fileSave(files, unityGroupId, fileUrl);				
+>>>>>>> b450a2157c521835d2c384566a639fe61b18eeb4
 				if(fileResult == 0) {
 					throw new Exception();
 				}
@@ -112,6 +123,28 @@ public class StudyServiceimpl extends ComServiceimpl<StudyServiceimpl, StudyMapp
 	/* 그룹 별 댓글 리스트 */
 	public List<StudyVO> groupreply(String groupId) {
 		return studyMapper.groupreply(groupId);
+	}
+	
+	/* 로그인 가입 요청 체크 */
+	public Boolean checkrequestjoin(StudyVO vo) {
+		String result =  studyMapper.checkrequestjoin(vo);
+		Boolean boo = true;
+		if("0".equals(result)) {
+			
+		} else {
+			boo = false;
+		}
+		return boo;
+	}
+	
+	/* 해당 그룹내 권한 체크 */
+	public String groupRole(StudyVO vo) {
+		return studyMapper.groupRole(vo);
+	}
+	
+	/* 답글에 댓글달기 */
+	public int replygroup(StudyVO vo) {
+		return studyMapper.replygroup(vo);
 	}
 	
 }

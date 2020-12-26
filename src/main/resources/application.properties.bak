@@ -2,14 +2,14 @@
 spring.mvc.view.prefix=/WEB-INF/jsp/
 spring.mvc.view.suffix=.jsp
 #dbConfig
-spring.datasource.driverClassName=org.mariadb.jdbc.Driver
+spring.datasource.driverClassName=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 #spring.datasource.driverClassName=net.sf.log4jdbc.DriverSpy
 
 #spring.datasource.url=jdbc:log4jdbc:mariadb://192.168.119.12:3306/WEB?useUnicode=true&characterEncoding=UTF-8
-spring.datasource.url=jdbc:mariadb://192.168.119.12:3306/WEB?useUnicode=true&characterEncoding=UTF-8
+spring.datasource.url=log4jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
 #spring.datasource.url=jdbc:mariadb://192.168.119.12:3306/WEB?useUnicode=true&characterEncoding=UTF-8
-spring.datasource.username=root
-spring.datasource.password=1234
+spring.datasource.username=webdb
+spring.datasource.password=webdb
 
 #server
 server.tomcat.accesslog.enabled=true
